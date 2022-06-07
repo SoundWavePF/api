@@ -64,6 +64,7 @@ module.exports = (sequelize: any, DataTypes:any)=>{
             type: DataTypes.STRING, validate: {isUrl: true}
         }
     }, {sequelize,
+        timestamps: false,
         modelName: 'User'
     })
     return User;
