@@ -1,1 +1,2 @@
-//Only model exports here
+export * from './User';
+export * from './Artist';
