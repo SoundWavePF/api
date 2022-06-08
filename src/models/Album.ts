@@ -22,8 +22,9 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         cover!: string;
         dzId!: number;
         static associate(models: any){
+            Album.belongsTo(models.Artist)
             Album.hasMany(models.Song)
-            Album.belongsTo(models.Artist, models.Genre)
+            Album.belongsTo(models.Genre)
         }
     }
     Album.init({
@@ -37,7 +38,6 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
         genre:{
             type: DataTypes.STRING

@@ -21,6 +21,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             dzId!: number;
             static associate(models: any){
                 Artist.belongsTo(models.User)
+                Artist.hasMany(models.Song)
                 Artist.hasMany(models.Album)
             }
 
