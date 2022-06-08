@@ -23,10 +23,13 @@ module.exports = (sequelize: any, DataTypes: any) => {
             reproductions!: number;
             duration!: number;
              static associate(models: any){
-                Song.belongsTo(models.Artist, models.Album)
-                Song.belongsToMany(models.User, {
-                through: 'Favorites'
-                })
+                 Song.belongsTo(models.Artist, models.Album)
+                 Song.belongsToMany(models.User, {
+                     through: 'Favorites'
+                 })
+                 Song.belongsToMany(models.Playlist, {
+                     through: 'Playlist_Song'
+                 })
             }
   };
   Song.init({
