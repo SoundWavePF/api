@@ -8,6 +8,7 @@ interface ArtistAttributes {
     name: string;
     plays: number;
     url_avatar: string;
+    dzId: number;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
@@ -17,6 +18,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             name!: string;
             plays!: number;
             url_avatar!: string;
+            dzId!: number;
             static associate(models: any){
                 Artist.belongsTo(models.User)
                 Artist.hasMany(models.Album)
@@ -28,6 +30,9 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
+        },
+        dzId:{
+            type: DataTypes.INTEGER,
         },
         name: {
             type: DataTypes.STRING,

@@ -2,31 +2,23 @@
 
 import {Model} from 'sequelize';
 
-
-interface AlbumAttributes {
+interface GenreAttributes {
     id: number;
     name: string;
-    genre: number;
-    release_date: number;
-    cover: string;
     dzId: number;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
-    class Album extends Model<AlbumAttributes>
-        implements AlbumAttributes{
+    class Genre extends Model<GenreAttributes>
+        implements GenreAttributes{
         id!: number;
         name!: string;
-        genre!: number;
-        release_date!: number;
-        cover!: string;
         dzId!: number;
         static associate(models: any){
-            Album.hasMany(models.Song)
-            Album.belongsTo(models.Artist, models.Genre)
+            Genre.hasMany(models.Album)
         }
     }
-    Album.init({
+    Genre.init({
         id:{
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -38,19 +30,10 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        genre:{
-            type: DataTypes.STRING
-        },
-        release_date:{
-            type: DataTypes.STRING
-        },
-        cover:{
-            type: DataTypes.STRING
         }
     }, {sequelize,
         timestamps: false,
-        modelName: 'Album'
+        modelName: 'Genre'
     });
-    return Album;
+    return Genre;
 }
