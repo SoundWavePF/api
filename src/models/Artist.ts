@@ -19,7 +19,9 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             url_avatar!: string;
             static associate(models: any){
                 Artist.belongsTo(models.User)
+                Artist.hasMany(models.Album)
             }
+
     }
     Artist.init({
         id:{
