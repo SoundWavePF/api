@@ -20,7 +20,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         release_date!: number;
         cover!: string;
         static associate(models: any){
-            // Album.hasMany(models.Song)
+            Album.hasMany(models.Song)
             Album.belongsTo(models.Artist)
         }
     }
