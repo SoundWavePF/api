@@ -29,7 +29,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
     Artist.init({
         id:{
             type: DataTypes.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         dzId:{
@@ -38,12 +38,6 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                is: {
-                    args: /^[A-Z a-z]+$/g,
-                    msg: 'Name contains invalid characters'
-                }
-            }
         },
         plays:{
             type: DataTypes.INTEGER

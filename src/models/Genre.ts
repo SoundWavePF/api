@@ -14,14 +14,15 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         id!: number;
         name!: string;
         dzId!: number;
-        static associate(models: any){
-            Genre.hasMany(models.Album)
-        }
+        // static associate(models: any){
+        //     // Genre.hasMany(models.Album, {foreignKey: 'genreId'})
+        //     // Genre.hasMany(models.Album)
+        // }
     }
     Genre.init({
         id:{
             type: DataTypes.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         dzId:{
@@ -29,7 +30,6 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
         }
     }, {sequelize,
         timestamps: false,
