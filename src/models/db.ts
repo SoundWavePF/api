@@ -1,15 +1,20 @@
 'use strict';
 
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const Sequelize = require('../../node_modules/sequelize');
+const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const db: any = {};
-let sequelize: any = new Sequelize(`postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:5432/${process.env.DB_NAME}`,
-    {
-        logging: false
-    }
-);
+
+const {
+    DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
+} = process.env;
+
+const sequelize: any = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+});
 
 fs
     .readdirSync(__dirname)

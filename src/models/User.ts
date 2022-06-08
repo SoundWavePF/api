@@ -23,6 +23,9 @@ module.exports = (sequelize: any, DataTypes:any)=>{
             url_avatar!: string;
             static associate(models: any){
                 User.hasOne(models.Artist)
+                User.belongsToMany(models.Song, {
+                through: 'Favorites'
+                })
             }
     }
     User.init({
