@@ -23,7 +23,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
     Playlist.init({
         id:{
             type: DataTypes.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         name: {
