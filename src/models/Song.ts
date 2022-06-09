@@ -9,7 +9,10 @@ interface SongAttributes {
     dzId: string;
     title: string;
     preview: string;
-    image: string;
+    cover_small: string;
+    cover_medium: string;
+    cover_big: string;
+    cover_xl: string;
     reproductions: number;
     duration: number;
 }
@@ -21,12 +24,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
             dzId!: string;
             title!: string;
             preview!: string;
-            image!: string;
+            cover_small!: string;
+            cover_medium!: string;
+            cover_big!: string;
+            cover_xl!: string;
             reproductions!: number;
             duration!: number;
              static associate(models: any){
                  Song.belongsTo(models.Artist)
                  Song.belongsTo(models.Album)
+                 Song.belongsTo(models.Genre)
                  Song.belongsToMany(models.User, {
                      through: 'Favorites'
                  })
@@ -50,9 +57,18 @@ module.exports = (sequelize: any, DataTypes: any) => {
     preview: {
       type: DataTypes.STRING,
     },
-     image: {
-        type: DataTypes.STRING,
-    },
+      cover_small:{
+          type: DataTypes.STRING
+      },
+      cover_medium:{
+          type: DataTypes.STRING
+      },
+      cover_big:{
+          type: DataTypes.STRING
+      },
+      cover_xl:{
+          type: DataTypes.STRING
+      },
     reproductions:{
         type: DataTypes.INTEGER,
     },
