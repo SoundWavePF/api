@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {seederRouter} from "./seeder";
+import {seederRouter} from "./seeder/seeder";
 
 export const routes = Router();
 

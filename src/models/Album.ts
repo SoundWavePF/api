@@ -6,10 +6,9 @@ import {Model} from 'sequelize';
 interface AlbumAttributes {
     id: number;
     name: string;
-    genre: string;
-    release_date: number;
+    release_date: string;
     cover: string;
-    dzId: number;
+    dzId: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
@@ -17,10 +16,9 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         implements AlbumAttributes{
         id!: number;
         name!: string;
-        genre!: string;
-        release_date!: number;
+        release_date!: string;
         cover!: string;
-        dzId!: number;
+        dzId!: string;
         static associate(models: any){
             Album.belongsTo(models.Artist)
             // Album.belongsTo(models.Genre)
@@ -39,9 +37,6 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         },
         name: {
             type: DataTypes.STRING,
-        },
-        genre:{
-            type: DataTypes.STRING
         },
         release_date:{
             type: DataTypes.STRING
