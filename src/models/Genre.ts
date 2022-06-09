@@ -17,6 +17,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         static associate(models: any){
             // Genre.hasMany(models.Album, {foreignKey: 'genreId'})
             Genre.hasMany(models.Album)
+            Genre.hasMany(models.Song)
         }
     }
     Genre.init({

@@ -7,7 +7,10 @@ interface AlbumAttributes {
     id: number;
     name: string;
     release_date: string;
-    cover: string;
+    cover_small: string;
+    cover_medium: string;
+    cover_big: string;
+    cover_xl: string;
     dzId: string;
 }
 
@@ -17,7 +20,10 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         id!: number;
         name!: string;
         release_date!: string;
-        cover!: string;
+        cover_small!: string;
+        cover_medium!: string;
+        cover_big!: string;
+        cover_xl!: string;
         dzId!: string;
         static associate(models: any){
             Album.belongsTo(models.Artist)
@@ -41,7 +47,16 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         release_date:{
             type: DataTypes.STRING
         },
-        cover:{
+        cover_small:{
+            type: DataTypes.STRING
+        },
+        cover_medium:{
+            type: DataTypes.STRING
+        },
+        cover_big:{
+            type: DataTypes.STRING
+        },
+        cover_xl:{
             type: DataTypes.STRING
         }
     }, {sequelize,

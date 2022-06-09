@@ -1,7 +1,7 @@
 import {Router} from "express";
-// import axios from '../../../node_modules/axios';
-// import artistSeeder from './artistSeed.json'
-// import genresSeeder from './genresSeed.json'
+import axios from '../../../node_modules/axios';
+import artistSeeder from './artistSeed.json'
+import genresSeeder from './genresSeed.json'
 import artistBase from './arrtists.json'
 import albumBase from './albumdata.json'
 import songBase from './songsdata.json'
@@ -26,7 +26,10 @@ seederRouter.get('/artists', async (_req, res)=>{
                     // let createdArtist = await db.Artist.create({
                         "dzId": artist.dzId,
                         "name": artist.name,
-                        "url_avatar": artist.url_avatar
+                        "url_small": artist.url_small,
+                        "url_medium": artist.url_medium,
+                        "url_big": artist.url_big,
+                        "url_xl": artist.url_xl
                     })
     })
     res.send(artistBase)
@@ -37,7 +40,10 @@ seederRouter.get('/artists', async (_req, res)=>{
     //             // let createdArtist = await db.Artist.create({
     //                 "dzId": artist.data.id,
     //                 "name": artist.data.name,
-    //                 "url_avatar": artist.data.picture_medium
+    //                 "url_small": artist.data.picture_small,
+    //                 "url_medium": artist.data.picture_medium,
+    //                 "url_big": artist.data.picture_big,
+    //                 "url_xl": artist.data.picture_xl
     //             })
     //             // console.log(artist.data.name)
     //             // let {data: AlbumFetch} = await axios.get(`https://api.deezer.com/artist/${artist.data.id}/albums`)
@@ -45,10 +51,10 @@ seederRouter.get('/artists', async (_req, res)=>{
     //         })
     //     })
     // );
-
+    //
     // const artistDb = await db.Artist.findAll()
     //
-    // res.send('ARTISTS')
+    // res.send(artistDb)
 
 })
 
@@ -59,7 +65,10 @@ seederRouter.get('/albums', async(_req, res)=>{
                 "dzId": albums.id,
                 "name": albums.title,
                 "release_date": albums.release_date,
-                "cover": albums.cover_xl
+                "cover_small": albums.cover_small,
+                "cover_medium": albums.cover_xl,
+                "cover_big": albums.cover_xl,
+                "cover_xl": albums.cover_xl
             })
             const artist = await db.Artist.findOne({where: {dzId: albumInfo.artistId}})
             artist.setAlbums(createdAlbum)
@@ -68,23 +77,31 @@ seederRouter.get('/albums', async(_req, res)=>{
             let filterSongs = songBase.filter(songInfo=> songInfo.albumId === String(albums.id) )
             filterSongs.map(songInfo=>songInfo.data.map(async(song)=>{
                 let stringId = String(song.id)
+                let genreString = String(albums.genre_id)
                 try{
                 const songDb = await db.Song.findOne({where:{dzId: stringId}})
                     artist.setSongs(songDb)
                     createdAlbum.setSongs(songDb)
-                    songDb.image = albums.cover_xl
+                    songDb.cover_small = albums.cover_small
+                    songDb.cover_medium = albums.cover_medium
+                    songDb.cover_big = albums.cover_big
+                    songDb.cover_xl = albums.cover_xl
                     await songDb.save()
+                    const genreDb = await db.Genre.findOne({where:{dzId: genreString}})
+                    genreDb.setAlbums(createdAlbum)
+                    genreDb.setSongs(songDb)
                 } catch (e) {
                     console.log(e)
                 }
+
+                // try{
+                //     const genreDb = await db.Genre.findOne({where:{dzId: genreString}})
+                //     genreDb.setAlbums(createdAlbum)
+                //     genreDb.setSongs(songDb)
+                // } catch (e) {
+                //     console.log(e)
+                // }
             }))
-            let genreString = String(albums.genre_id)
-            try{
-                const genreDb = await db.Genre.findOne({where:{dzId: genreString}})
-                genreDb.setAlbums(createdAlbum)
-            } catch (e) {
-                console.log(e)
-            }
         })
     })
     res.send(albumBase)
