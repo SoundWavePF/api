@@ -203,3 +203,86 @@ seederRouter.get('/songs', async(_req, res)=>{
     //     }))
 
 })
+
+seederRouter.get('/full', async(_req, res)=>{
+
+    try{
+        artistBase.map(async(artist)=>{
+            await db.Artist.create({
+                // let createdArtist = await db.Artist.create({
+                "dzId": artist.dzId,
+                "name": artist.name,
+                "url_small": artist.url_small,
+                "url_medium": artist.url_medium,
+                "url_big": artist.url_big,
+                "url_xl": artist.url_xl
+            })
+        })
+    } catch (e){
+        res.send({error: 'error in artist creation'})
+    }
+
+    try{
+        songBase.map((songs)=>{
+            songs.data.map(async(song)=>{
+                await db.Song.create({
+                    "dzId": song.id,
+                    "title": song.title,
+                    "preview": song.preview,
+                    "duration": song.duration
+                })
+            })
+        })
+
+        Object.entries(genresSeederObj).map(async([k,v]) => {
+            await db.Genre.create({
+                "dzId": k,
+                "name": v
+            })
+        });
+    } catch (e) {
+        res.send({error: 'error in song/genre creation'})
+    }
+
+    try{
+        albumBase.map(albumInfo =>{
+            albumInfo.data.map(async(albums)=>{
+                let createdAlbum = await db.Album.create({
+                    "dzId": albums.id,
+                    "name": albums.title,
+                    "release_date": albums.release_date,
+                    "cover_small": albums.cover_small,
+                    "cover_medium": albums.cover_xl,
+                    "cover_big": albums.cover_xl,
+                    "cover_xl": albums.cover_xl
+                })
+                const artist = await db.Artist.findOne({where: {dzId: albumInfo.artistId}})
+                artist.setAlbums(createdAlbum)
+
+                let filterSongs = songBase.filter(songInfo=> songInfo.albumId === String(albums.id) )
+                filterSongs.map(songInfo=>songInfo.data.map(async(song)=>{
+                    let stringId = String(song.id)
+                    let genreString = String(albums.genre_id)
+                    try{
+                        const songDb = await db.Song.findOne({where:{dzId: stringId}})
+                        artist.setSongs(songDb)
+                        createdAlbum.setSongs(songDb)
+                        songDb.cover_small = albums.cover_small
+                        songDb.cover_medium = albums.cover_medium
+                        songDb.cover_big = albums.cover_big
+                        songDb.cover_xl = albums.cover_xl
+                        await songDb.save()
+                        const genreDb = await db.Genre.findOne({where:{dzId: genreString}})
+                        genreDb.setAlbums(createdAlbum)
+                        genreDb.setSongs(songDb)
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }))
+            })
+        })
+    } catch (e) {
+        res.send({error: 'error in album creation'})
+    }
+    res.send('DONE')
+})

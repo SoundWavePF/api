@@ -38,7 +38,7 @@ favoriteRouter.post('/add/:idSong', async(req, res)=>{
         const user = await db.User.findOne({
             where: {id: userId}
         })
-        user.setSongs(song)
+        user.addSongs(song)
         res.send({message: `User: ${userId} liked Song: ${idSong}`})
     } catch (e) {
         res.send(e)
