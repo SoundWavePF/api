@@ -62,7 +62,7 @@ module.exports = (sequelize: any, DataTypes:any)=>{
             }
         },
         rol:{
-            type: DataTypes.ENUM('visitant, registered, admin')
+            type: DataTypes.ENUM('visitant', 'registered', 'admin'),
         },
         url_avatar: {
             type: DataTypes.STRING, validate: {isUrl: true}
