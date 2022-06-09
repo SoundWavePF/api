@@ -44,10 +44,20 @@ searchRouter.get('/', async(req, res)=>{
         ]
     })
 
+    const playlistSearch = await db.Playlist.findAll({
+        where: {
+            title: {
+                [Op.iLike]: `%${all}%`
+            }
+        },
+        include: db.Song
+    })
+
     const obj = {
         songData: SongSearch,
         albumData: albumSearch,
-        artistData: artistSearch
+        artistData: artistSearch,
+        playlistData: playlistSearch
     }
 
     res.send(obj)
@@ -77,10 +87,15 @@ searchRouter.get('/all', async(_req, res)=>{
         ]
     })
 
+    const playlistSearch = await db.Playlist.findAll({
+        include: db.Song
+    })
+
     const obj = {
         songData: SongSearch,
         albumData: albumSearch,
-        artistData: artistSearch
+        artistData: artistSearch,
+        playlistData: playlistSearch
     }
 
     res.send(obj)
