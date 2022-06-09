@@ -6,6 +6,7 @@ import {
 
 interface SongAttributes {
     id: number;
+    dzId: string;
     title: string;
     preview: string;
     image: string;
@@ -17,6 +18,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
   class Song extends Model<SongAttributes> 
     implements SongAttributes{
             id!: number;
+            dzId!: string;
             title!: string;
             preview!: string;
             image!: string;
@@ -36,28 +38,26 @@ module.exports = (sequelize: any, DataTypes: any) => {
   Song.init({
     id:{
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true
         },
+    dzId:{
+        type: DataTypes.STRING,
+      },
     title:{
         type: DataTypes.STRING,
-        allowNull: false,
         },
     preview: {
       type: DataTypes.STRING,
-      allowNull: false
     },
      image: {
         type: DataTypes.STRING,
-        allowNull: false
     },
     reproductions:{
         type: DataTypes.INTEGER,
-        allowNull: false,
     },
     duration:{
         type: DataTypes.INTEGER,
-        allowNull: false,
     }
   }, {
     sequelize,

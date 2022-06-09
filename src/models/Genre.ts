@@ -5,7 +5,7 @@ import {Model} from 'sequelize';
 interface GenreAttributes {
     id: number;
     name: string;
-    dzId: number;
+    dzId: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
@@ -13,15 +13,16 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         implements GenreAttributes{
         id!: number;
         name!: string;
-        dzId!: number;
+        dzId!: string;
         static associate(models: any){
+            // Genre.hasMany(models.Album, {foreignKey: 'genreId'})
             Genre.hasMany(models.Album)
         }
     }
     Genre.init({
         id:{
             type: DataTypes.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         dzId:{
@@ -29,7 +30,6 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
         }
     }, {sequelize,
         timestamps: false,

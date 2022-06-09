@@ -6,10 +6,9 @@ import {Model} from 'sequelize';
 interface AlbumAttributes {
     id: number;
     name: string;
-    genre: number;
-    release_date: number;
+    release_date: string;
     cover: string;
-    dzId: number;
+    dzId: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
@@ -17,20 +16,20 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         implements AlbumAttributes{
         id!: number;
         name!: string;
-        genre!: number;
-        release_date!: number;
+        release_date!: string;
         cover!: string;
-        dzId!: number;
+        dzId!: string;
         static associate(models: any){
             Album.belongsTo(models.Artist)
+            // Album.belongsTo(models.Genre)
             Album.hasMany(models.Song)
-            Album.belongsTo(models.Genre)
+            // Album.belongsTo(models.Genre, {foreignKey: 'id', targetKey:'genreId'})
         }
     }
     Album.init({
         id:{
             type: DataTypes.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         dzId:{
@@ -38,9 +37,6 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         },
         name: {
             type: DataTypes.STRING,
-        },
-        genre:{
-            type: DataTypes.STRING
         },
         release_date:{
             type: DataTypes.STRING
