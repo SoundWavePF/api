@@ -57,10 +57,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
   };
   Song.init({
     id:{
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-        },
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     dz_Id:{
         type: DataTypes.STRING,
       },
