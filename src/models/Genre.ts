@@ -3,35 +3,39 @@
 import {Model} from 'sequelize';
 
 interface GenreAttributes {
-    id: number;
+    id: string;
+    dz_Id: string;
     name: string;
-    dzId: string;
+    type: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
     class Genre extends Model<GenreAttributes>
         implements GenreAttributes{
-        id!: number;
+        id!: string; //uid
+        dz_Id!: string;
         name!: string;
-        dzId!: string;
+        type!:string
         static associate(models: any){
-            // Genre.hasMany(models.Album, {foreignKey: 'genreId'})
             Genre.hasMany(models.Album)
             Genre.hasMany(models.Song)
         }
     }
     Genre.init({
         id:{
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        dzId:{
+        dz_Id:{
             type: DataTypes.STRING
         },
         name: {
             type: DataTypes.STRING,
-        }
+        },
+        type: {
+            type: DataTypes.STRING,
+        },
     }, {sequelize,
         timestamps: false,
         modelName: 'Genre'

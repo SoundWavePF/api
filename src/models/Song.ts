@@ -5,8 +5,8 @@ import {
 } from 'sequelize';
 
 interface SongAttributes {
-    id: number;
-    dzId: string;
+    id: string;
+    dz_Id: string;
     title: string;
     artist: string;
     preview: string;
@@ -20,13 +20,14 @@ interface SongAttributes {
     artist_id_reference: string;
     genre_id_reference: string;
     album_id_reference: string;
+    type: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class Song extends Model<SongAttributes> 
     implements SongAttributes{
-            id!: number;
-            dzId!: string;
+            id!: string;
+            dz_Id!: string;
             title!: string;
             artist!: string;
             preview!: string;
@@ -37,6 +38,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
             duration!: number;
             genre!: string;
             album!: string;
+            type!: string;
             artist_id_reference!: string;
             genre_id_reference!: string;
             album_id_reference!: string;
@@ -59,7 +61,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         autoIncrement: true,
         primaryKey: true
         },
-    dzId:{
+    dz_Id:{
         type: DataTypes.STRING,
       },
     title:{
@@ -85,18 +87,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
         allowNull: false
     },
-      cover_small:{
-          type: DataTypes.STRING
-      },
-      cover_medium:{
-          type: DataTypes.STRING
-      },
-      cover_big:{
-          type: DataTypes.STRING
-      },
-      cover_xl:{
-          type: DataTypes.STRING
-      },
     reproductions:{
         type: DataTypes.INTEGER,
     },
@@ -111,6 +101,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
     album:{
       type: DataTypes.STRING,
       allowNull: false,
+      },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false
       },
     artist_id_reference:{
       type: DataTypes.INTEGER,

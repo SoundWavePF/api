@@ -4,14 +4,14 @@ import {Model} from 'sequelize';
 
 
 interface PlaylistAttributes {
-    id: number;
+    id: string;
     name: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
     class Playlist extends Model<PlaylistAttributes>
         implements PlaylistAttributes{
-        id!: number;
+        id!: string; //UID
         name!: string;
         static associate(models: any){
             Playlist.belongsTo(models.User)
@@ -22,8 +22,8 @@ module.exports = (sequelize:any, DataTypes:any)=>{
     }
     Playlist.init({
         id:{
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
         name: {
