@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {seederRouter} from "./seeder";
+import {seederRouter} from "./seeder/seeder";
 import {chargedbSongRouter} from "./chargedbSong";
 import {senddbSongRouter} from "./senddbSong";
 import {searchRouter} from "./search/search";
