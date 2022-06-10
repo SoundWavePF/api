@@ -29,12 +29,12 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                is: {
-                    args: /^[A-Z a-z]+$/g,
-                    msg: 'Name contains invalid characters'
-                }
-            }
+            // validate: {
+            //     is: {
+            //         args: /^[A-Z a-z]+$/g,
+            //         msg: 'Name contains invalid characters'
+            //     }
+            // }
         },
     }, {sequelize,
         timestamps: false,

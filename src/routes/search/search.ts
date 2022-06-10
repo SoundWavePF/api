@@ -7,15 +7,16 @@ export const searchRouter = Router();
 searchRouter.get('/', async(req, res)=>{
     const { all } = req.query;
     const albumSearch = await db.Album.findAll({
+        attributes :{exclude: ['ArtistId', 'GenreId']},
         where: {
             name: {
                 [Op.iLike]: `%${all}%`
             }
         },
-        include: [
-            db.Artist,
-            db.Song
-        ]
+        // include: [
+        //     db.Artist,
+        //     db.Song
+        // ]
     })
     const artistSearch = await db.Artist.findAll({
         where: {
@@ -23,34 +24,35 @@ searchRouter.get('/', async(req, res)=>{
                 [Op.iLike]: `%${all}%`
             }
         },
-        include: [
-            db.User,
-            db.Song,
-            db.Album
-        ]
+        // include: [
+        //     db.User,
+        //     db.Song,
+        //     db.Album
+        // ]
     })
 
     const SongSearch = await db.Song.findAll({
+        attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']},
         where: {
             title: {
                 [Op.iLike]: `%${all}%`
             }
         },
-        include: [
-            db.Artist,
-            db.Album,
-            db.User,
-            db.Playlist
-        ]
+        // include: [
+        //     db.Artist,
+        //     db.Album,
+        //     db.User,
+        //     db.Playlist
+        // ]
     })
 
     const playlistSearch = await db.Playlist.findAll({
         where: {
-            title: {
+            name: {
                 [Op.iLike]: `%${all}%`
             }
         },
-        include: db.Song
+        // include: db.Song
     })
 
     const obj = {
@@ -65,30 +67,32 @@ searchRouter.get('/', async(req, res)=>{
 
 searchRouter.get('/all', async(_req, res)=>{
     const albumSearch = await db.Album.findAll({
-        include: [
-            db.Artist,
-            db.Song
-        ]
+        attributes :{exclude: ['ArtistId', 'GenreId']},
+        // include: [
+        //     db.Artist,
+        //     db.Song
+        // ]
     })
     const artistSearch = await db.Artist.findAll({
-        include: [
-            db.User,
-            db.Song,
-            db.Album
-        ]
+        // include: [
+        //     db.User,
+        //     db.Song,
+        //     db.Album
+        // ]
     })
 
     const SongSearch = await db.Song.findAll({
-        include: [
-            db.Artist,
-            db.Album,
-            db.User,
-            db.Playlist
-        ]
+        attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']},
+        // include: [
+        //     db.Artist,
+        //     db.Album,
+        //     db.User,
+        //     db.Playlist
+        // ]
     })
 
     const playlistSearch = await db.Playlist.findAll({
-        include: db.Song
+        // include: db.Song
     })
 
     const obj = {
