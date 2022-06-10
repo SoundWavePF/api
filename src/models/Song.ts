@@ -6,6 +6,7 @@ import {
 
 interface SongAttributes {
     id: number;
+    dzId: string;
     title: string;
     artist: string;
     preview: string;
@@ -25,6 +26,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
   class Song extends Model<SongAttributes> 
     implements SongAttributes{
             id!: number;
+            dzId!: string;
             title!: string;
             artist!: string;
             preview!: string;
@@ -42,6 +44,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
                  Song.belongsTo(models.Artist)
                  Song.belongsTo(models.Genre)
                  Song.belongsTo(models.Album)
+                 Song.belongsTo(models.Genre)
                  Song.belongsToMany(models.User, {
                      through: 'Favorites'
                  })
@@ -53,12 +56,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
   Song.init({
     id:{
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true
         },
+    dzId:{
+        type: DataTypes.STRING,
+      },
     title:{
         type: DataTypes.STRING,
-        allowNull: false,
         },
     artist:{
         type: DataTypes.STRING,
@@ -80,9 +85,20 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
         allowNull: false
     },
+      cover_small:{
+          type: DataTypes.STRING
+      },
+      cover_medium:{
+          type: DataTypes.STRING
+      },
+      cover_big:{
+          type: DataTypes.STRING
+      },
+      cover_xl:{
+          type: DataTypes.STRING
+      },
     reproductions:{
         type: DataTypes.INTEGER,
-        allowNull: false,
     },
     duration:{
         type: DataTypes.INTEGER,

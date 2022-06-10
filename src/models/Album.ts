@@ -6,10 +6,12 @@ import {Model} from 'sequelize';
 interface AlbumAttributes {
     id: number;
     name: string;
-    genre: number;
-    release_date: number;
-    cover: string;
-    dzId: number;
+    release_date: string;
+    cover_small: string;
+    cover_medium: string;
+    cover_big: string;
+    cover_xl: string;
+    dzId: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
@@ -17,20 +19,23 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         implements AlbumAttributes{
         id!: number;
         name!: string;
-        genre!: number;
-        release_date!: number;
-        cover!: string;
-        dzId!: number;
+        release_date!: string;
+        cover_small!: string;
+        cover_medium!: string;
+        cover_big!: string;
+        cover_xl!: string;
+        dzId!: string;
         static associate(models: any){
             Album.belongsTo(models.Artist)
+            // Album.belongsTo(models.Genre)
             Album.hasMany(models.Song)
-            Album.belongsTo(models.Genre)
+            // Album.belongsTo(models.Genre, {foreignKey: 'id', targetKey:'genreId'})
         }
     }
     Album.init({
         id:{
             type: DataTypes.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         dzId:{
@@ -39,13 +44,19 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         name: {
             type: DataTypes.STRING,
         },
-        genre:{
-            type: DataTypes.STRING
-        },
         release_date:{
             type: DataTypes.STRING
         },
-        cover:{
+        cover_small:{
+            type: DataTypes.STRING
+        },
+        cover_medium:{
+            type: DataTypes.STRING
+        },
+        cover_big:{
+            type: DataTypes.STRING
+        },
+        cover_xl:{
             type: DataTypes.STRING
         }
     }, {sequelize,
