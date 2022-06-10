@@ -7,10 +7,18 @@ import {
 interface SongAttributes {
     id: number;
     title: string;
+    artist: string;
     preview: string;
-    image: string;
+    image_small: string;
+    image_medium: string;
+    image_big: string;
     reproductions: number;
     duration: number;
+    genre: string;
+    album: string;
+    artist_id_reference: string;
+    genre_id_reference: string;
+    album_id_reference: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -18,12 +26,21 @@ module.exports = (sequelize: any, DataTypes: any) => {
     implements SongAttributes{
             id!: number;
             title!: string;
+            artist!: string;
             preview!: string;
-            image!: string;
+            image_small!: string;
+            image_medium!: string;
+            image_big!: string;
             reproductions!: number;
             duration!: number;
+            genre!: string;
+            album!: string;
+            artist_id_reference!: string;
+            genre_id_reference!: string;
+            album_id_reference!: string;
              static associate(models: any){
                  Song.belongsTo(models.Artist)
+                 Song.belongsTo(models.Genre)
                  Song.belongsTo(models.Album)
                  Song.belongsToMany(models.User, {
                      through: 'Favorites'
@@ -43,11 +60,23 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
         allowNull: false,
         },
+    artist:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        },
     preview: {
       type: DataTypes.STRING,
       allowNull: false
     },
-     image: {
+     image_small: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+     image_medium: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+     image_big: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -58,7 +87,27 @@ module.exports = (sequelize: any, DataTypes: any) => {
     duration:{
         type: DataTypes.INTEGER,
         allowNull: false,
-    }
+    },
+    genre:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      },
+    album:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      },
+    artist_id_reference:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      },
+    genre_id_reference: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      },
+    album_id_reference: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      }
   }, {
     sequelize,
     timestamps: false,

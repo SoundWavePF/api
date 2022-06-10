@@ -16,6 +16,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         dzId!: number;
         static associate(models: any){
             Genre.hasMany(models.Album)
+            Genre.hasMany(models.Song)
         }
     }
     Genre.init({

@@ -1,6 +1,10 @@
 import {Router} from 'express';
-// import {exampleRouter} from './'
+import {seederRouter} from "./seeder";
+import {chargedbSongRouter} from "./chargedbSong";
+import {senddbSongRouter} from "./senddbSong";
 
 export const routes = Router();
 
-// routes.use('/example', exampleRouter)
+routes.use('/seeder', seederRouter)
+routes.use('/chargedbSong', chargedbSongRouter)
+routes.use('/senddbSong', senddbSongRouter)
