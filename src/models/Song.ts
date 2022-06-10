@@ -8,13 +8,18 @@ interface SongAttributes {
     id: number;
     dzId: string;
     title: string;
+    artist: string;
     preview: string;
-    cover_small: string;
-    cover_medium: string;
-    cover_big: string;
-    cover_xl: string;
+    image_small: string;
+    image_medium: string;
+    image_big: string;
     reproductions: number;
     duration: number;
+    genre: string;
+    album: string;
+    artist_id_reference: string;
+    genre_id_reference: string;
+    album_id_reference: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -23,15 +28,21 @@ module.exports = (sequelize: any, DataTypes: any) => {
             id!: number;
             dzId!: string;
             title!: string;
+            artist!: string;
             preview!: string;
-            cover_small!: string;
-            cover_medium!: string;
-            cover_big!: string;
-            cover_xl!: string;
+            image_small!: string;
+            image_medium!: string;
+            image_big!: string;
             reproductions!: number;
             duration!: number;
+            genre!: string;
+            album!: string;
+            artist_id_reference!: string;
+            genre_id_reference!: string;
+            album_id_reference!: string;
              static associate(models: any){
                  Song.belongsTo(models.Artist)
+                 Song.belongsTo(models.Genre)
                  Song.belongsTo(models.Album)
                  Song.belongsTo(models.Genre)
                  Song.belongsToMany(models.User, {
@@ -54,8 +65,25 @@ module.exports = (sequelize: any, DataTypes: any) => {
     title:{
         type: DataTypes.STRING,
         },
+    artist:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        },
     preview: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+     image_small: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+     image_medium: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+     image_big: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
       cover_small:{
           type: DataTypes.STRING
@@ -74,7 +102,28 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     duration:{
         type: DataTypes.INTEGER,
-    }
+        allowNull: false,
+    },
+    genre:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      },
+    album:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      },
+    artist_id_reference:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      },
+    genre_id_reference: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      },
+    album_id_reference: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      }
   }, {
     sequelize,
     timestamps: false,
