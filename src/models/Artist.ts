@@ -4,27 +4,25 @@ import {Model} from 'sequelize';
 
 
 interface ArtistAttributes {
-    id: number;
+    id: string;
+    dz_Id: string;
     name: string;
-    plays: number;
-    url_small: string;
-    url_medium: string;
-    url_big: string;
-    url_xl: string;
-    dzId: string;
+    image_small: string;
+    image_medium: string;
+    image_big: string;
+    type: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
     class Artist extends Model<ArtistAttributes>
         implements ArtistAttributes{
-            id!: number;
+            id!: string; //uid
+            dz_Id!: string;
             name!: string;
-            plays!: number;
-            url_small!: string;
-            url_medium!: string;
-            url_big!: string;
-            url_xl!: string;
-            dzId!: string;
+            image_small!: string; //cambiar url image
+            image_medium!: string;
+            image_big!: string;
+            type!: string;
             static associate(models: any){
                 Artist.belongsTo(models.User)
                 Artist.hasMany(models.Song)
@@ -34,31 +32,28 @@ module.exports = (sequelize:any, DataTypes:any)=>{
     }
     Artist.init({
         id:{
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        dzId:{
+        dz_Id:{
             type: DataTypes.STRING,
         },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        plays:{
-            type: DataTypes.INTEGER
-        },
-        url_small:{
+        image_small:{
             type: DataTypes.STRING, validate:{isUrl: true}
         },
-        url_medium:{
+        image_medium:{
             type: DataTypes.STRING, validate:{isUrl: true}
         },
-        url_big:{
+        image_big:{
             type: DataTypes.STRING, validate:{isUrl: true}
         },
-        url_xl:{
-            type: DataTypes.STRING, validate:{isUrl: true}
+        type:{
+            type: DataTypes.STRING,
         }
     }, {sequelize,
         timestamps: false,

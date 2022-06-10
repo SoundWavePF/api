@@ -4,23 +4,23 @@ import {Model} from 'sequelize';
 
 
 interface UserAttributes {
-    id: number;
+    id: string;
     username: string;
     email: string;
     password: string;
     rol: string;
-    url_avatar: string;
+    image_avatar: string;
 }
 
 module.exports = (sequelize: any, DataTypes:any)=>{
     class User extends Model<UserAttributes>
         implements UserAttributes {
-            id!: number;
+            id!: string;//UID
             username!: string;
             email!: string;
             password!: string;
             rol!: string;
-            url_avatar!: string;
+            image_avatar!: string; //image
             static associate(models: any){
                 User.hasOne(models.Artist)
                 User.hasMany(models.Playlist)
@@ -31,9 +31,8 @@ module.exports = (sequelize: any, DataTypes:any)=>{
     }
     User.init({
         id:{
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
         username:{

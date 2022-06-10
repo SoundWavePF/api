@@ -4,41 +4,40 @@ import {Model} from 'sequelize';
 
 
 interface AlbumAttributes {
-    id: number;
+    id: string;
+    dz_Id: string;
     name: string;
     release_date: string;
-    cover_small: string;
-    cover_medium: string;
-    cover_big: string;
-    cover_xl: string;
-    dzId: string;
+    image_small: string;
+    image_medium: string;
+    image_big: string;
+    type: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
     class Album extends Model<AlbumAttributes>
         implements AlbumAttributes{
-        id!: number;
-        name!: string;
+        id!: string; //UUID
+        dz_Id!: string;//dz_id
+        name!: string; //title
+        image_small!: string; //cambiar cover a image
+        image_medium!: string;
+        image_big!: string;
         release_date!: string;
-        cover_small!: string;
-        cover_medium!: string;
-        cover_big!: string;
-        cover_xl!: string;
-        dzId!: string;
+        type!: string;
         static associate(models: any){
             Album.belongsTo(models.Artist)
-            // Album.belongsTo(models.Genre)
+            Album.belongsTo(models.Genre)
             Album.hasMany(models.Song)
-            // Album.belongsTo(models.Genre, {foreignKey: 'id', targetKey:'genreId'})
         }
     }
     Album.init({
         id:{
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        dzId:{
+        dz_Id:{
             type: DataTypes.STRING
         },
         name: {
@@ -47,18 +46,18 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         release_date:{
             type: DataTypes.STRING
         },
-        cover_small:{
+        image_small:{
             type: DataTypes.STRING
         },
-        cover_medium:{
+        image_medium:{
             type: DataTypes.STRING
         },
-        cover_big:{
+        image_big:{
             type: DataTypes.STRING
         },
-        cover_xl:{
+        type:{
             type: DataTypes.STRING
-        }
+        },
     }, {sequelize,
         timestamps: false,
         modelName: 'Album'
