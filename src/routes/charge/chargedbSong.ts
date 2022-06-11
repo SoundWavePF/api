@@ -2,10 +2,10 @@ import {Router} from "express";
 import axios from 'axios';
 import idArtist from '../idArtist.json';
 import db from '../../models/db'
+const app = Router()
+const { Song, Artist } = db;
 
-export const chargedbSongRouter = Router()
-
-chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
+app.get('/dbsongs1', async (_req, res)=>{
     
     Promise.all(idArtist[0].map((id: any) => axios.get(`https://api.deezer.com/artist/${id}/top?limit=10`)))
         .then(songs => {
@@ -125,7 +125,7 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
     res.send('Songs')
 })
 
-chargedbSongRouter.get('/dbsongs2', async (_req, res)=>{
+app.get('/dbsongs2', async (_req, res)=>{
 Promise.all(idArtist[3].map((id: any) => axios.get(`https://api.deezer.com/artist/${id}/top?limit=10`)))
 .then(songs => {
     songs.map((song: any)=> { 
@@ -205,3 +205,9 @@ Promise.all(idArtist[4].map((id: any) => axios.get(`https://api.deezer.com/artis
 
 res.send('Songs')
 })
+
+app.get('/chargeSongJson', (_req, res) => {
+    Song.findAll().then((result: any) => res.send(result))
+})
+
+export default app;
