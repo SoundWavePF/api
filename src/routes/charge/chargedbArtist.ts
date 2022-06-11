@@ -1,5 +1,5 @@
 import {Router} from "express";
-import axios from 'axios';
+// import axios from 'axios';
 import artistJson from './artistDbSong.json';
 import db from '../../models/db'
 const { ArtistId, Artist, Song } = db;
@@ -19,9 +19,9 @@ app.get('/', async (_req, res)=>{
                                 "type": artist.type
                             }
                             })
-        res.send('Artist')
-        // return Artist.findAll().then((result: any) => res.send(result))
-    })
+                        })
+    res.send('Artist')
+    // return Artist.findAll().then((result: any) => res.send(result))
 })
 
 // funcion para guardar info de artistas en archivo.json

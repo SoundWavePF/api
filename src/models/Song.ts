@@ -43,10 +43,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
             genre_id_reference!: string;
             album_id_reference!: string;
              static associate(models: any){
-                 Song.belongsTo(models.Artist)
-                 Song.belongsTo(models.Genre)
                  Song.belongsTo(models.Album)
                  Song.belongsTo(models.Genre)
+                 Song.belongsToMany(models.Artist, {
+                  through: 'Contributors'
+                  })
                  Song.belongsToMany(models.User, {
                      through: 'Favorites'
                  })

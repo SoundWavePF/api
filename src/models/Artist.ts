@@ -25,8 +25,10 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             type!: string;
             static associate(models: any){
                 Artist.belongsTo(models.User)
-                Artist.hasMany(models.Song)
                 Artist.hasMany(models.Album)
+                Artist.belongsToMany(models.Song, {
+                    through: 'Contributors'
+                })
             }
 
     }
