@@ -1,7 +1,7 @@
 import {Router} from "express";
 import axios from 'axios';
-import idArtist from './idArtist.json';
-import db from '../models/db'
+import idArtist from '../idArtist.json';
+import db from '../../models/db'
 
 export const chargedbSongRouter = Router()
 
@@ -13,10 +13,13 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
                 song.data.data.map(async (song: any) => {
                     const songId: number = song.id
                     song.contributors.map(async (artist: any) => {
-                        await db.ArtistId.create({
+                        await db.ArtistId.findOrCreate({
+                            where: {"idArtist": artist.id, "id_song_reference": songId},
+                            defaults: {
                             "idArtist": artist.id,
                             "nameArtist": artist.name,
                             "id_song_reference": songId
+                            }
                         })
                     })
                         await db.Song.findOrCreate({
@@ -48,10 +51,13 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
             song.data.data.map(async (song: any) => {
                 const songId: number = song.id
                 song.contributors.map(async (artist: any) => {
-                    await db.ArtistId.create({
+                    await db.ArtistId.findOrCreate({
+                        where: {"idArtist": artist.id, "id_song_reference": songId},
+                        defaults: {
                         "idArtist": artist.id,
                         "nameArtist": artist.name,
                         "id_song_reference": songId
+                        }
                     })
                 })
                     await db.Song.findOrCreate({
@@ -83,10 +89,13 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
             song.data.data.map(async (song: any) => {
                 const songId: number = song.id
                 song.contributors.map(async (artist: any) => {
-                    await db.ArtistId.create({
+                    await db.ArtistId.findOrCreate({
+                        where: {"idArtist": artist.id, "id_song_reference": songId},
+                        defaults: {
                         "idArtist": artist.id,
                         "nameArtist": artist.name,
                         "id_song_reference": songId
+                        }
                     })
                 })
                     await db.Song.findOrCreate({
@@ -123,10 +132,13 @@ Promise.all(idArtist[3].map((id: any) => axios.get(`https://api.deezer.com/artis
         song.data.data.map(async (song: any) => {
             const songId: number = song.id
             song.contributors.map(async (artist: any) => {
-                await db.ArtistId.create({
+                await db.ArtistId.findOrCreate({
+                    where: {"idArtist": artist.id, "id_song_reference": songId},
+                    defaults: {
                     "idArtist": artist.id,
                     "nameArtist": artist.name,
                     "id_song_reference": songId
+                    }
                 })
             })
                 await db.Song.findOrCreate({
@@ -158,10 +170,13 @@ Promise.all(idArtist[4].map((id: any) => axios.get(`https://api.deezer.com/artis
         song.data.data.map(async (song: any) => {
             const songId: number = song.id
             song.contributors.map(async (artist: any) => {
-                await db.ArtistId.create({
+                await db.ArtistId.findOrCreate({
+                    where: {"idArtist": artist.id, "id_song_reference": songId},
+                    defaults: {
                     "idArtist": artist.id,
                     "nameArtist": artist.name,
                     "id_song_reference": songId
+                    }
                 })
             })
                 await db.Song.findOrCreate({
