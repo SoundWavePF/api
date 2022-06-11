@@ -5,7 +5,7 @@ import {Model} from 'sequelize';
 
 interface ArtistAttributes {
     id: string;
-    dz_Id: string;
+    dz_Id: number;
     name: string;
     image_small: string;
     image_medium: string;
@@ -17,7 +17,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
     class Artist extends Model<ArtistAttributes>
         implements ArtistAttributes{
             id!: string; //uid
-            dz_Id!: string;
+            dz_Id!: number;
             name!: string;
             image_small!: string; //cambiar url image
             image_medium!: string;
@@ -37,7 +37,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             primaryKey: true
         },
         dz_Id:{
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
         },
         name: {
             type: DataTypes.STRING,

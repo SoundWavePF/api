@@ -1,7 +1,7 @@
 import {Router} from "express";
 // import axios from 'axios';
 // import idArtist from './idArtist.json';
-import db from '../models/db'
+import db from '../../models/db'
 
 export const senddbSongRouter = Router()
 
