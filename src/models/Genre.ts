@@ -17,7 +17,9 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         name!: string;
         type!:string
         static associate(models: any){
-            Genre.hasMany(models.Album)
+            Genre.belongsToMany(models.Album, {
+                through: 'album_genre'
+            })
             Genre.hasMany(models.Song)
         }
     }
