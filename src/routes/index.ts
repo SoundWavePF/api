@@ -2,7 +2,7 @@ import {Router} from 'express';
 import {seederRouter} from "./seeder";
 import chargedbSong from "./charge/chargedbSong";
 import send from "./send/send";
-import {searchRouter, artistRouter, albumRouter, genreRouter} from "./search";
+import {searchRouter, artistRouter, albumRouter, genreRouter, topRouter} from "./search";
 import {favoriteRouter, playlistRouter} from './user';
 import chargedbArtist from "./charge/chargedbArtist";
 import link from "./link/link";
@@ -28,3 +28,4 @@ routes.use('/chargeGenre', chargeGenre)
 routes.use('/artist', artistRouter)
 routes.use('/album', albumRouter)
 routes.use('/genre', genreRouter)
+routes.use('/top', topRouter)
