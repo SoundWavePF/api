@@ -1,10 +1,9 @@
 import {Router} from 'express';
-import {seederRouter} from "./seeder/seeder";
+import {seederRouter} from "./seeder";
 import chargedbSong from "./charge/chargedbSong";
 import send from "./send/send";
-import {searchRouter} from "./search/search";
-import {favoriteRouter} from "./user/favorite";
-import {playlistRouter} from "./user/playlist";
+import {searchRouter, artistRouter, albumRouter, genreRouter} from "./search";
+import {favoriteRouter, playlistRouter} from './user';
 import chargedbArtist from "./charge/chargedbArtist";
 import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
@@ -26,3 +25,6 @@ routes.use('/chargeJson', chargeJson)
 routes.use('/charge', charge)
 routes.use('/chargeAlbum', chargeAlbum)
 routes.use('/chargeGenre', chargeGenre)
+routes.use('/artist', artistRouter)
+routes.use('/album', albumRouter)
+routes.use('/genre', genreRouter)
