@@ -1,0 +1,27 @@
+[
+    {
+        "dz_Id": 132,
+        "name": "Pop",
+        "type": "genre"
+    },
+    {
+        "dz_Id": 122,
+        "name": "Reggaeton",
+        "type": "genre"
+    },
+    {
+        "dz_Id": 67,
+        "name": "Salsa",
+        "type": "genre"
+    },
+    {
+        "dz_Id": 152,
+        "name": "Rock",
+        "type": "genre"
+    },
+    {
+        "dz_Id": 116,
+        "name": "Rap/Hip Hop",
+        "type": "genre"
+    }
+]

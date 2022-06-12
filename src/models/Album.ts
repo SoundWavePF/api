@@ -5,7 +5,7 @@ import {Model} from 'sequelize';
 
 interface AlbumAttributes {
     id: string;
-    dz_Id: string;
+    dz_Id: number;
     name: string;
     release_date: string;
     image_small: string;
@@ -18,7 +18,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
     class Album extends Model<AlbumAttributes>
         implements AlbumAttributes{
         id!: string; //UUID
-        dz_Id!: string;//dz_id
+        dz_Id!: number;//dz_id
         name!: string; //title
         image_small!: string; //cambiar cover a image
         image_medium!: string;
@@ -26,8 +26,12 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         release_date!: string;
         type!: string;
         static associate(models: any){
-            Album.belongsTo(models.Artist)
-            Album.belongsTo(models.Genre)
+            Album.belongsToMany(models.Artist, {
+                through: 'album_artist'
+            })
+            Album.belongsToMany(models.Genre, {
+                through: 'album_genre'
+            })
             Album.hasMany(models.Song)
         }
     }
@@ -38,10 +42,10 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             primaryKey: true
         },
         dz_Id:{
-            type: DataTypes.STRING
+            type: DataTypes.INTEGER
         },
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING
         },
         release_date:{
             type: DataTypes.STRING

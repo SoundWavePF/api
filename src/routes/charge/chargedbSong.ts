@@ -1,11 +1,11 @@
 import {Router} from "express";
 import axios from 'axios';
-import idArtist from '../idArtist.json';
+import idArtist from './idArtistGenre.json';
 import db from '../../models/db'
+const app = Router()
+const { Song, Artist, ArtistSong } = db;
 
-export const chargedbSongRouter = Router()
-
-chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
+app.get('/dbsongs1', async (_req, res)=>{
     
     Promise.all(idArtist[0].map((id: any) => axios.get(`https://api.deezer.com/artist/${id}/top?limit=10`)))
         .then(songs => {
@@ -13,7 +13,7 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
                 song.data.data.map(async (song: any) => {
                     const songId: number = song.id
                     song.contributors.map(async (artist: any) => {
-                        await db.ArtistId.findOrCreate({
+                        await ArtistSong.findOrCreate({
                             where: {"idArtist": artist.id, "id_song_reference": songId},
                             defaults: {
                             "idArtist": artist.id,
@@ -22,7 +22,7 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
                             }
                         })
                     })
-                        await db.Song.findOrCreate({
+                        await Song.findOrCreate({
                             where: {"dz_Id": song.id},
                             defaults: {
                                 "dz_Id": song.id,
@@ -51,7 +51,7 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
             song.data.data.map(async (song: any) => {
                 const songId: number = song.id
                 song.contributors.map(async (artist: any) => {
-                    await db.ArtistId.findOrCreate({
+                    await ArtistSong.findOrCreate({
                         where: {"idArtist": artist.id, "id_song_reference": songId},
                         defaults: {
                         "idArtist": artist.id,
@@ -60,7 +60,7 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
                         }
                     })
                 })
-                    await db.Song.findOrCreate({
+                    await Song.findOrCreate({
                         where: {"dz_Id": song.id},
                         defaults: {
                             "dz_Id": song.id,
@@ -72,11 +72,11 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
                             "image_big": song.album.cover_big,
                             "reproductions": 0,
                             "duration": song.duration,
-                            "genre": 'Pop',
+                            "genre": 'Reggaeton',
                             "album": song.album.title,
                             "type": song.type,
                             "artist_id_reference": song.artist.id,
-                            "genre_id_reference": 132,
+                            "genre_id_reference": 122,
                             "album_id_reference": song.album.id
                         }
                             })
@@ -89,7 +89,7 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
             song.data.data.map(async (song: any) => {
                 const songId: number = song.id
                 song.contributors.map(async (artist: any) => {
-                    await db.ArtistId.findOrCreate({
+                    await ArtistSong.findOrCreate({
                         where: {"idArtist": artist.id, "id_song_reference": songId},
                         defaults: {
                         "idArtist": artist.id,
@@ -98,7 +98,7 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
                         }
                     })
                 })
-                    await db.Song.findOrCreate({
+                    await Song.findOrCreate({
                         where: {"dz_Id": song.id},
                         defaults: {
                             "dz_Id": song.id,
@@ -110,11 +110,11 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
                             "image_big": song.album.cover_big,
                             "reproductions": 0,
                             "duration": song.duration,
-                            "genre": 'Pop',
+                            "genre": 'Salsa',
                             "album": song.album.title,
                             "type": song.type,
                             "artist_id_reference": song.artist.id,
-                            "genre_id_reference": 132,
+                            "genre_id_reference": 67,
                             "album_id_reference": song.album.id
                         }
                             })
@@ -125,14 +125,14 @@ chargedbSongRouter.get('/dbsongs1', async (_req, res)=>{
     res.send('Songs')
 })
 
-chargedbSongRouter.get('/dbsongs2', async (_req, res)=>{
+app.get('/dbsongs2', async (_req, res)=>{
 Promise.all(idArtist[3].map((id: any) => axios.get(`https://api.deezer.com/artist/${id}/top?limit=10`)))
 .then(songs => {
     songs.map((song: any)=> { 
         song.data.data.map(async (song: any) => {
             const songId: number = song.id
             song.contributors.map(async (artist: any) => {
-                await db.ArtistId.findOrCreate({
+                await ArtistSong.findOrCreate({
                     where: {"idArtist": artist.id, "id_song_reference": songId},
                     defaults: {
                     "idArtist": artist.id,
@@ -141,7 +141,7 @@ Promise.all(idArtist[3].map((id: any) => axios.get(`https://api.deezer.com/artis
                     }
                 })
             })
-                await db.Song.findOrCreate({
+                await Song.findOrCreate({
                     where: {"dz_Id": song.id},
                     defaults: {
                         "dz_Id": song.id,
@@ -153,11 +153,11 @@ Promise.all(idArtist[3].map((id: any) => axios.get(`https://api.deezer.com/artis
                         "image_big": song.album.cover_big,
                         "reproductions": 0,
                         "duration": song.duration,
-                        "genre": 'Pop',
+                        "genre": 'Rock',
                         "album": song.album.title,
                         "type": song.type,
                         "artist_id_reference": song.artist.id,
-                        "genre_id_reference": 132,
+                        "genre_id_reference": 152,
                         "album_id_reference": song.album.id
                     }
                     })
@@ -170,7 +170,7 @@ Promise.all(idArtist[4].map((id: any) => axios.get(`https://api.deezer.com/artis
         song.data.data.map(async (song: any) => {
             const songId: number = song.id
             song.contributors.map(async (artist: any) => {
-                await db.ArtistId.findOrCreate({
+                await ArtistSong.findOrCreate({
                     where: {"idArtist": artist.id, "id_song_reference": songId},
                     defaults: {
                     "idArtist": artist.id,
@@ -179,7 +179,7 @@ Promise.all(idArtist[4].map((id: any) => axios.get(`https://api.deezer.com/artis
                     }
                 })
             })
-                await db.Song.findOrCreate({
+                await Song.findOrCreate({
                     where: {"dz_Id": song.id},
                     defaults: {
                         "dz_Id": song.id,
@@ -191,11 +191,11 @@ Promise.all(idArtist[4].map((id: any) => axios.get(`https://api.deezer.com/artis
                         "image_big": song.album.cover_big,
                         "reproductions": 0,
                         "duration": song.duration,
-                        "genre": 'Pop',
+                        "genre": 'Rap/Hip Hop',
                         "album": song.album.title,
                         "type": song.type,
                         "artist_id_reference": song.artist.id,
-                        "genre_id_reference": 132,
+                        "genre_id_reference": 116,
                         "album_id_reference": song.album.id
                     }
                     })
@@ -205,3 +205,9 @@ Promise.all(idArtist[4].map((id: any) => axios.get(`https://api.deezer.com/artis
 
 res.send('Songs')
 })
+
+app.get('/chargeSongJson', (_req, res) => {
+    Song.findAll().then((result: any) => res.send(result))
+})
+
+export default app;
