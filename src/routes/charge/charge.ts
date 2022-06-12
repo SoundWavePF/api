@@ -8,6 +8,9 @@ import artistSong from './ArtistSongDb.json';
 const { Song, Artist, Album, Genre, AlbumGenre, ArtistAlbum, ArtistSong } = db;
 const app = Router()
 
+function getRandomInt(max:number) {
+    return Math.floor(Math.random() * max);
+}
 
 app.get('/', async (_req, res)=>{
     artist.map(async (artist: any) => {
@@ -34,7 +37,7 @@ app.get('/', async (_req, res)=>{
                 "image_small": song.image_small,
                 "image_medium": song.image_medium,
                 "image_big": song.image_big,
-                "reproductions": 0,
+                "reproductions": getRandomInt(1000),
                 "duration": song.duration,
                 "genre": song.genre,
                 "album": song.album,
