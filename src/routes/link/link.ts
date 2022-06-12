@@ -19,7 +19,6 @@ app.get('/albumGenre', async (_req, res)=>{
 
     const albumGenre = await AlbumGenre.findAll()
     albumGenre.map(async (genre: any) => {
-        console.log(genre)
         const albumDb = await Album.findOne({where : {dz_Id: genre.idAlbum}})
         const genreDb = await Genre.findOne({where : {dz_Id: genre.idGenre}})
         if (genreDb) await genreDb.addAlbum(albumDb)
