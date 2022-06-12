@@ -4,7 +4,7 @@ import {Model} from 'sequelize';
 
 interface GenreAttributes {
     id: string;
-    dz_Id: string;
+    dz_Id: number;
     name: string;
     type: string;
 }
@@ -13,7 +13,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
     class Genre extends Model<GenreAttributes>
         implements GenreAttributes{
         id!: string; //uid
-        dz_Id!: string;
+        dz_Id!: number;
         name!: string;
         type!:string
         static associate(models: any){
@@ -28,7 +28,7 @@ module.exports = (sequelize:any, DataTypes:any)=>{
             primaryKey: true
         },
         dz_Id:{
-            type: DataTypes.STRING
+            type: DataTypes.INTEGER
         },
         name: {
             type: DataTypes.STRING,

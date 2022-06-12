@@ -1,13 +1,13 @@
 import {Router} from "express";
 // import axios from 'axios';
-import artistJson from './artistDbSong.json';
+import artistApi from './artistApi.json';
 import db from '../../models/db'
 const { ArtistId, Artist, Song } = db;
 
 const app = Router()
 
 app.get('/', async (_req, res)=>{
-    artistJson.map(async (artist: any) => {
+    artistApi.map(async (artist: any) => {
                         await Artist.findOrCreate({
                             where: {"dz_Id": artist.dz_Id},
                             defaults: {

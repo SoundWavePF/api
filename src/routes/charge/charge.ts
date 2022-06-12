@@ -2,8 +2,8 @@ import {Router} from "express";
 import db from '../../models/db'
 import artist from './artistDb.json';
 import song from './songDb.json';
-import artistId from './artistId.json';
-const { ArtistId, Artist, Song } = db;
+import artistSong from './ArtistSongDb.json';
+const { ArtistSong, Artist, Song } = db;
 const app = Router()
 
 
@@ -43,9 +43,9 @@ app.get('/', async (_req, res)=>{
             }
         })
     })
-    artistId.map(async (artist: any) => {
-        await ArtistId.findOrCreate({
-            where: {"idArtist": artist.idArtist},
+    artistSong.map(async (artist: any) => {
+        await ArtistSong.findOrCreate({
+            where: {"idArtist": artist.idArtist, "id_song_reference": artist.id_song_reference},
             defaults: {
                 "idArtist": artist.idArtist,
                 "nameArtist": artist.nameArtist,
@@ -53,13 +53,15 @@ app.get('/', async (_req, res)=>{
             }
         })
     })
-    const artistIdDb = await ArtistId.findAll()
+    const artistIdDb = await ArtistSong.findAll()
     artistIdDb.map(async (artist: any) => {
         const artistDb = await Artist.findOne({where : {dz_Id: artist.idArtist}})
         const songDb = await Song.findOne({where : {dz_Id: artist.id_song_reference}})
         await songDb.addArtist(artistDb)
     })
     res.send('Artist')
+    // res.send(artistId)
+    // ArtistSong.findAll().then((result: any) => res.send(result))
 })
 
 export default app;

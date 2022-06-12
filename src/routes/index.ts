@@ -9,6 +9,8 @@ import chargedbArtist from "./charge/chargedbArtist";
 import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
+import chargeAlbum from "./charge/chargedbAlbum";
+import chargeGenre from './charge/chargedbGenre'
 
 export const routes = Router();
 
@@ -22,3 +24,5 @@ routes.use('/chargedbArtist', chargedbArtist)
 routes.use('/link', link)
 routes.use('/chargeJson', chargeJson)
 routes.use('/charge', charge)
+routes.use('/chargeAlbum', chargeAlbum)
+routes.use('/chargeGenre', chargeGenre)

@@ -3,32 +3,32 @@
 import {Model} from 'sequelize';
 
 
-interface ArtistAttributes {
+interface ArtistAlbumAttributes {
     idArtist: number;
     nameArtist: string;
-    id_song_reference: string;
+    idAlbum: number;
 }
 
 module.exports = (sequelize:any, DataTypes:any)=>{
-    class ArtistId extends Model<ArtistAttributes>
-        implements ArtistAttributes{
+    class ArtistAlbum extends Model<ArtistAlbumAttributes>
+        implements ArtistAlbumAttributes{
             idArtist!: number;
             nameArtist!: string;
-            id_song_reference!: string;
+            idAlbum!: number;
     }
-    ArtistId.init({
+    ArtistAlbum.init({
         idArtist:{
             type: DataTypes.INTEGER,
         },
         nameArtist:{
             type: DataTypes.STRING,
         },
-        id_song_reference:{
+        idAlbum:{
             type: DataTypes.INTEGER,
         },
     }, {sequelize,
         timestamps: false,
-        modelName: 'ArtistId'
+        modelName: 'ArtistAlbum'
     });
-    return ArtistId;
+    return ArtistAlbum;
 }
