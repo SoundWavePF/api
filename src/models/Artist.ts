@@ -5,7 +5,7 @@ import {Model} from 'sequelize';
 
 interface ArtistAttributes {
     id: string;
-    dz_Id: number;
+    dz_Id: string;
     name: string;
     image_small: string;
     image_medium: string;
