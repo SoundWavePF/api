@@ -4,8 +4,8 @@ import db from "./src/models/db";
 import express from "express";
 
 server.use(express.json())
-db.sequelize.sync({force: true}).then(()=>{
-// db.sequelize.sync().then(()=>{
+// db.sequelize.sync({force: true}).then(()=>{
+db.sequelize.sync().then(()=>{
     server.listen(process.env.PORT, ()=>{
         console.log(`Listening in port ${3001}`)})
 })
