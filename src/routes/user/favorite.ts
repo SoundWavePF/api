@@ -3,7 +3,7 @@ import db from '../../models/db'
 
 export const favoriteRouter = Router();
 
-favoriteRouter.get('/', async(req,res)=>{
+favoriteRouter.post('/', async(req,res)=>{
     const { userId } = req.body;
 
     try {

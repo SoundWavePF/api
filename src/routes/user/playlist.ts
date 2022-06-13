@@ -3,7 +3,7 @@ import db from '../../models/db'
 
 export const playlistRouter = Router();
 
-playlistRouter.get('/', async(req, res)=>{
+playlistRouter.post('/', async(req, res)=>{
     const { userId } = req.body;
     const userPlaylist = await db.Playlist.findAll({
         attributes :{exclude: ['UserId']},
