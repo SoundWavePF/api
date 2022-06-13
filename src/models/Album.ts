@@ -1,9 +1,9 @@
 'use strict'
 
-import {Model} from 'sequelize';
+import { Model } from 'sequelize';
 
 
-interface AlbumAttributes {
+export interface AlbumAttributes {
     id: string;
     dz_Id: number;
     name: string;
@@ -14,18 +14,18 @@ interface AlbumAttributes {
     type: string;
 }
 
-module.exports = (sequelize:any, DataTypes:any)=>{
+module.exports = (sequelize: any, DataTypes: any) => {
     class Album extends Model<AlbumAttributes>
-        implements AlbumAttributes{
-        id!: string; //UUID
-        dz_Id!: number;//dz_id
-        name!: string; //title
-        image_small!: string; //cambiar cover a image
+        implements AlbumAttributes {
+        id!: string;
+        dz_Id!: number;
+        name!: string;
+        image_small!: string;
         image_medium!: string;
         image_big!: string;
         release_date!: string;
         type!: string;
-        static associate(models: any){
+        static associate(models: any) {
             Album.belongsToMany(models.Artist, {
                 through: 'album_artist'
             })
@@ -36,33 +36,34 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         }
     }
     Album.init({
-        id:{
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        dz_Id:{
+        dz_Id: {
             type: DataTypes.INTEGER
         },
         name: {
             type: DataTypes.STRING
         },
-        release_date:{
+        release_date: {
             type: DataTypes.STRING
         },
-        image_small:{
+        image_small: {
             type: DataTypes.STRING
         },
-        image_medium:{
+        image_medium: {
             type: DataTypes.STRING
         },
-        image_big:{
+        image_big: {
             type: DataTypes.STRING
         },
-        type:{
+        type: {
             type: DataTypes.STRING
         },
-    }, {sequelize,
+    }, {
+        sequelize,
         timestamps: false,
         modelName: 'Album'
     });

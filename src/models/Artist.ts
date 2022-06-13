@@ -1,6 +1,6 @@
 'use strict'
 
-import {Model} from 'sequelize';
+import { Model } from 'sequelize';
 
 
 interface ArtistAttributes {
@@ -13,53 +13,53 @@ interface ArtistAttributes {
     type: string;
 }
 
-module.exports = (sequelize:any, DataTypes:any)=>{
+module.exports = (sequelize: any, DataTypes: any) => {
     class Artist extends Model<ArtistAttributes>
-        implements ArtistAttributes{
-            id!: string; //uid
-            dz_Id!: number;
-            name!: string;
-            image_small!: string; //cambiar url image
-            image_medium!: string;
-            image_big!: string;
-            type!: string;
-            static associate(models: any){
-                Artist.belongsTo(models.User)
-                Artist.belongsToMany(models.Album, {
-                    through: 'album_artist'
-                })
-                Artist.belongsToMany(models.Song, {
-                    through: 'Contributors'
-                })
-            }
-
+        implements ArtistAttributes {
+        id!: string; //uid
+        dz_Id!: number;
+        name!: string;
+        image_small!: string; //cambiar url image
+        image_medium!: string;
+        image_big!: string;
+        type!: string;
+        static associate(models: any) {
+            Artist.belongsTo(models.User)
+            Artist.belongsToMany(models.Album, {
+                through: 'album_artist'
+            })
+            Artist.belongsToMany(models.Song, {
+                through: 'Contributors'
+            })
+        }
     }
     Artist.init({
-        id:{
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        dz_Id:{
+        dz_Id: {
             type: DataTypes.INTEGER,
         },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        image_small:{
-            type: DataTypes.STRING, validate:{isUrl: true}
+        image_small: {
+            type: DataTypes.STRING,
         },
-        image_medium:{
-            type: DataTypes.STRING, validate:{isUrl: true}
+        image_medium: {
+            type: DataTypes.STRING,
         },
-        image_big:{
-            type: DataTypes.STRING, validate:{isUrl: true}
+        image_big: {
+            type: DataTypes.STRING,
         },
-        type:{
+        type: {
             type: DataTypes.STRING,
         }
-    }, {sequelize,
+    }, {
+        sequelize,
         timestamps: false,
         modelName: 'Artist'
     });

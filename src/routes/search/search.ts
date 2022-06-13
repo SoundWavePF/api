@@ -1,10 +1,10 @@
-import {Router} from 'express';
-import {Op} from 'sequelize'
+import { Router } from 'express';
+import { Op } from 'sequelize'
 import db from '../../models/db'
 
 export const searchRouter = Router();
 
-searchRouter.get('/', async(req, res)=>{
+searchRouter.get('/', async (req, res) => {
     const { all } = req.query;
     const albumSearch = await db.Album.findAll({
         where: {
@@ -63,7 +63,7 @@ searchRouter.get('/', async(req, res)=>{
     res.send(obj)
 })
 
-searchRouter.get('/all', async(_req, res)=>{
+searchRouter.get('/all', async (_req, res) => {
     const albumSearch = await db.Album.findAll({
         include: [
             db.Artist,

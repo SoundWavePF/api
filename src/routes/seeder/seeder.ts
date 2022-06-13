@@ -1,4 +1,4 @@
-import {Router} from "express";
+import { Router } from "express";
 import axios from '../../../node_modules/axios';
 import artistSeeder from './artistSeed.json'
 import genresSeeder from './genresSeed.json'
@@ -10,7 +10,7 @@ import db from '../../models/db'
 
 export const seederRouter = Router()
 
-const genresSeederObj: {[key: string]: any} = {
+const genresSeederObj: { [key: string]: any } = {
     113: "Dance",
     152: "Rock",
     116: "Rap/Hip Hop",
@@ -20,17 +20,17 @@ const genresSeederObj: {[key: string]: any} = {
     132: "Pop",
     106: "Electro"
 }
-seederRouter.get('/artists', async (_req, res)=>{
-    artistBase.map(async(artist)=>{
-                    await db.Artist.create({
-                    // let createdArtist = await db.Artist.create({
-                        "dzId": artist.dzId,
-                        "name": artist.name,
-                        "url_small": artist.url_small,
-                        "url_medium": artist.url_medium,
-                        "url_big": artist.url_big,
-                        "url_xl": artist.url_xl
-                    })
+seederRouter.get('/artists', async (_req, res) => {
+    artistBase.map(async (artist) => {
+        await db.Artist.create({
+            // let createdArtist = await db.Artist.create({
+            "dzId": artist.dzId,
+            "name": artist.name,
+            "url_small": artist.url_small,
+            "url_medium": artist.url_medium,
+            "url_big": artist.url_big,
+            "url_xl": artist.url_xl
+        })
     })
     res.send(artistBase)
     // axios.all(Object.keys(artistSeeder).map((id) => axios.get(`https://api.deezer.com/artist/${id}`)))
@@ -58,9 +58,9 @@ seederRouter.get('/artists', async (_req, res)=>{
 
 })
 
-seederRouter.get('/albums', async(_req, res)=>{
-    albumBase.map(albumInfo =>{
-        albumInfo.data.map(async(albums)=>{
+seederRouter.get('/albums', async (_req, res) => {
+    albumBase.map(albumInfo => {
+        albumInfo.data.map(async (albums) => {
             let createdAlbum = await db.Album.create({
                 "dzId": albums.id,
                 "name": albums.title,
@@ -70,16 +70,16 @@ seederRouter.get('/albums', async(_req, res)=>{
                 "cover_big": albums.cover_xl,
                 "cover_xl": albums.cover_xl
             })
-            const artist = await db.Artist.findOne({where: {dzId: albumInfo.artistId}})
+            const artist = await db.Artist.findOne({ where: { dzId: albumInfo.artistId } })
             artist.setAlbums(createdAlbum)
             // console.log(artist)
 
-            let filterSongs = songBase.filter(songInfo=> songInfo.albumId === String(albums.id) )
-            filterSongs.map(songInfo=>songInfo.data.map(async(song)=>{
+            let filterSongs = songBase.filter(songInfo => songInfo.albumId === String(albums.id))
+            filterSongs.map(songInfo => songInfo.data.map(async (song) => {
                 let stringId = String(song.id)
                 let genreString = String(albums.genre_id)
-                try{
-                const songDb = await db.Song.findOne({where:{dzId: stringId}})
+                try {
+                    const songDb = await db.Song.findOne({ where: { dzId: stringId } })
                     artist.setSongs(songDb)
                     createdAlbum.setSongs(songDb)
                     songDb.cover_small = albums.cover_small
@@ -87,7 +87,7 @@ seederRouter.get('/albums', async(_req, res)=>{
                     songDb.cover_big = albums.cover_big
                     songDb.cover_xl = albums.cover_xl
                     await songDb.save()
-                    const genreDb = await db.Genre.findOne({where:{dzId: genreString}})
+                    const genreDb = await db.Genre.findOne({ where: { dzId: genreString } })
                     genreDb.setAlbums(createdAlbum)
                     genreDb.setSongs(songDb)
                 } catch (e) {
@@ -113,48 +113,48 @@ seederRouter.get('/albums', async(_req, res)=>{
     //                 let albums = album.data.data.slice(0,2)
     //                 let obj = {artistId: artistDzId, data: albums}
     //                 genres.push(obj)
-                        // let albums = album.data.data.slice(0,2).map(async(album:{id:number, title:string, release_date:string, cover:string, genre_id:string, genres:object}) => {
+    // let albums = album.data.data.slice(0,2).map(async(album:{id:number, title:string, release_date:string, cover:string, genre_id:string, genres:object}) => {
 
-                        // let createdAlbum = await db.Album.create({
-                        //     "dzId": album.id,
-                        //     "name": album.title,
-                        //     "genre": genresSeederObj[album.genre_id],
-                        //     "release_date": album.release_date,
-                        //     "cover": album.cover
-                        // })
-                        // const artist = await db.Artist.findOne({where:{dzId: artistDzId}})
-                        // artist.setAlbums(createdAlbum)
-                        //
-                        // setTimeout(async ()=>{
-                        //     const {data:songFetch} = await axios.get(`https://api.deezer.com/album/${album.id}/tracks`)
-                        //     songFetch.data.map(async(song:any)=>{
-                        //         // console.log(song)
-                        //         const songCreated = await db.Song.create({
-                        //             "dzId": song.id,
-                        //             "title": song.title,
-                        //             "preview": song.preview,
-                        //             "image": album.cover,
-                        //             "duration": song.duration
-                        //         })
-                        //         artist.setSongs(songCreated)
-                        //         createdAlbum.setSongs(songCreated)
-                        //     })
-                        //     // console.log(songFetch.data)
-                        // }, 5000)
-                    // })
-        //         })
-        //         // console.log(genres)
-        //         res.send(genres)
-        //     })
-        // );
+    // let createdAlbum = await db.Album.create({
+    //     "dzId": album.id,
+    //     "name": album.title,
+    //     "genre": genresSeederObj[album.genre_id],
+    //     "release_date": album.release_date,
+    //     "cover": album.cover
+    // })
+    // const artist = await db.Artist.findOne({where:{dzId: artistDzId}})
+    // artist.setAlbums(createdAlbum)
+    //
+    // setTimeout(async ()=>{
+    //     const {data:songFetch} = await axios.get(`https://api.deezer.com/album/${album.id}/tracks`)
+    //     songFetch.data.map(async(song:any)=>{
+    //         // console.log(song)
+    //         const songCreated = await db.Song.create({
+    //             "dzId": song.id,
+    //             "title": song.title,
+    //             "preview": song.preview,
+    //             "image": album.cover,
+    //             "duration": song.duration
+    //         })
+    //         artist.setSongs(songCreated)
+    //         createdAlbum.setSongs(songCreated)
+    //     })
+    //     // console.log(songFetch.data)
+    // }, 5000)
+    // })
+    //         })
+    //         // console.log(genres)
+    //         res.send(genres)
+    //     })
+    // );
     // const artistDb = await db.Artist.findAll()
     // res.send(artistDb)
 })
 
-seederRouter.get('/songs', async(_req, res)=>{
+seederRouter.get('/songs', async (_req, res) => {
 
-    songBase.map((songs)=>{
-        songs.data.map(async(song)=>{
+    songBase.map((songs) => {
+        songs.data.map(async (song) => {
             await db.Song.create({
                 "dzId": song.id,
                 "title": song.title,
@@ -177,7 +177,7 @@ seederRouter.get('/songs', async(_req, res)=>{
     //         })
     //         res.send(allSongs)
     //     }))
-    const mapped = Object.entries(genresSeederObj).map(async([k,v]) => {
+    const mapped = Object.entries(genresSeederObj).map(async ([k, v]) => {
         const createdGenre = await db.Genre.create({
             "dzId": k,
             "name": v
@@ -204,10 +204,10 @@ seederRouter.get('/songs', async(_req, res)=>{
 
 })
 
-seederRouter.get('/full', async(_req, res)=>{
+seederRouter.get('/full', async (_req, res) => {
 
-    try{
-        artistBase.map(async(artist)=>{
+    try {
+        artistBase.map(async (artist) => {
             await db.Artist.create({
                 // let createdArtist = await db.Artist.create({
                 "dzId": artist.dzId,
@@ -218,13 +218,13 @@ seederRouter.get('/full', async(_req, res)=>{
                 "url_xl": artist.url_xl
             })
         })
-    } catch (e){
-        res.send({error: 'error in artist creation'})
+    } catch (e) {
+        res.send({ error: 'error in artist creation' })
     }
 
-    try{
-        songBase.map((songs)=>{
-            songs.data.map(async(song)=>{
+    try {
+        songBase.map((songs) => {
+            songs.data.map(async (song) => {
                 await db.Song.create({
                     "dzId": song.id,
                     "title": song.title,
@@ -234,19 +234,19 @@ seederRouter.get('/full', async(_req, res)=>{
             })
         })
 
-        Object.entries(genresSeederObj).map(async([k,v]) => {
+        Object.entries(genresSeederObj).map(async ([k, v]) => {
             await db.Genre.create({
                 "dzId": k,
                 "name": v
             })
         });
     } catch (e) {
-        res.send({error: 'error in song/genre creation'})
+        res.send({ error: 'error in song/genre creation' })
     }
 
-    try{
-        albumBase.map(albumInfo =>{
-            albumInfo.data.map(async(albums)=>{
+    try {
+        albumBase.map(albumInfo => {
+            albumInfo.data.map(async (albums) => {
                 let createdAlbum = await db.Album.create({
                     "dzId": albums.id,
                     "name": albums.title,
@@ -256,15 +256,15 @@ seederRouter.get('/full', async(_req, res)=>{
                     "cover_big": albums.cover_xl,
                     "cover_xl": albums.cover_xl
                 })
-                const artist = await db.Artist.findOne({where: {dzId: albumInfo.artistId}})
+                const artist = await db.Artist.findOne({ where: { dzId: albumInfo.artistId } })
                 artist.setAlbums(createdAlbum)
 
-                let filterSongs = songBase.filter(songInfo=> songInfo.albumId === String(albums.id) )
-                filterSongs.map(songInfo=>songInfo.data.map(async(song)=>{
+                let filterSongs = songBase.filter(songInfo => songInfo.albumId === String(albums.id))
+                filterSongs.map(songInfo => songInfo.data.map(async (song) => {
                     let stringId = String(song.id)
                     let genreString = String(albums.genre_id)
-                    try{
-                        const songDb = await db.Song.findOne({where:{dzId: stringId}})
+                    try {
+                        const songDb = await db.Song.findOne({ where: { dzId: stringId } })
                         artist.setSongs(songDb)
                         createdAlbum.setSongs(songDb)
                         songDb.cover_small = albums.cover_small
@@ -272,7 +272,7 @@ seederRouter.get('/full', async(_req, res)=>{
                         songDb.cover_big = albums.cover_big
                         songDb.cover_xl = albums.cover_xl
                         await songDb.save()
-                        const genreDb = await db.Genre.findOne({where:{dzId: genreString}})
+                        const genreDb = await db.Genre.findOne({ where: { dzId: genreString } })
                         genreDb.setAlbums(createdAlbum)
                         genreDb.setSongs(songDb)
                     } catch (e) {
@@ -282,7 +282,7 @@ seederRouter.get('/full', async(_req, res)=>{
             })
         })
     } catch (e) {
-        res.send({error: 'error in album creation'})
+        res.send({ error: 'error in album creation' })
     }
     res.send('DONE')
 })
