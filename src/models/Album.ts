@@ -3,7 +3,7 @@
 import { Model } from 'sequelize';
 
 
-export interface AlbumAttributes {
+interface AlbumAttributes {
     id: string;
     dz_Id: number;
     name: string;
