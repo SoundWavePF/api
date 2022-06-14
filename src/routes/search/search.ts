@@ -121,15 +121,15 @@ searchRouter.get('/all', async(_req, res)=>{
     } catch (e) {
         res.send({message: e})
     }
-    const playlistSearch = await db.playlist.findAll({
-        // include: db.song
-    })
+    // const playlistSearch = await db.playlist.findAll({
+    //     // include: db.song
+    // })
 
     const obj = {
         songData: songSearch,
         albumData: albumSearch,
         artistData: artistSearch,
-        playlistData: playlistSearch
+        // playlistData: playlistSearch
     }
 
     res.send(obj)
