@@ -12,6 +12,9 @@ const songApiAux: any = songApi
 const app = Router()
 const { song, album, artist, genre, artistSong, albumGenre, artistAlbum, songGenre } = db;
 
+function getRandomInt(max:number) {
+    return Math.floor(Math.random() * max);
+}
 
 app.get('/one', async (_req, res) => {
     albumApi.map(async (element: any) => {
@@ -32,13 +35,13 @@ app.get('/one', async (_req, res) => {
         await song.findOrCreate({
             where: { dz_Id: element.id },
             defaults: {
-                id_Id: element.id,
+                dz_Id: element.id,
                 name: element.name,
                 preview: element.preview,
                 image_small: element.image_small,
                 image_medium: element.image_medium,
                 image_big: element.image_big,
-                reproductions: 0,
+                reproductions: getRandomInt(1000),
                 duration: element.duration,
                 type: element.type,
             }

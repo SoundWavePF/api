@@ -26,12 +26,9 @@ Runs the app on development mode.\
 It restarts target node process when any of required files changes but shares Typescript compilation process between restarts
 
 ### `npm tsc`
-Emit JS for just the index.ts with the compiler defaults
+Emit JS for just the index with the compiler defaults
 
 ## Documentation
 
 ### Typescript
 https://www.typescriptlang.org/docs/
-
-### Sequelize - Typescript
-https://www.npmjs.com/package/sequelize-typescript
