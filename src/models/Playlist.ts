@@ -1,6 +1,6 @@
 'use strict'
 
-import {Model} from 'sequelize';
+import { Model } from 'sequelize';
 
 
 interface PlaylistAttributes {
@@ -8,20 +8,20 @@ interface PlaylistAttributes {
     name: string;
 }
 
-module.exports = (sequelize:any, DataTypes:any)=>{
+module.exports = (sequelize: any, DataTypes: any) => {
     class Playlist extends Model<PlaylistAttributes>
-        implements PlaylistAttributes{
+        implements PlaylistAttributes {
         id!: string; //UID
         name!: string;
-        static associate(models: any){
-            Playlist.belongsTo(models.User)
-            Playlist.belongsToMany(models.Song, {
-                through: 'Playlist_Song'
+        static associate(models: any) {
+            Playlist.belongsTo(models.user)
+            Playlist.belongsToMany(models.song, {
+                through: 'playlist_song'
             })
         }
     }
     Playlist.init({
-        id:{
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
@@ -36,9 +36,10 @@ module.exports = (sequelize:any, DataTypes:any)=>{
                 }
             }
         },
-    }, {sequelize,
+    }, {
+        sequelize,
         timestamps: false,
-        modelName: 'Playlist'
+        modelName: 'playlist'
     });
     return Playlist;
 }

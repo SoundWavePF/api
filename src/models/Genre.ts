@@ -23,10 +23,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
         image_big!: string;
         type!: string
         static associate(models: any) {
-            Genre.belongsToMany(models.Album, {
+            Genre.belongsToMany(models.album, {
                 through: 'album_genre'
             })
-            Genre.hasMany(models.Song)
+            Genre.hasMany(models.song)
         }
     }
     Genre.init({
@@ -56,7 +56,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }, {
         sequelize,
         timestamps: false,
-        modelName: 'Genre'
+        modelName: 'genre'
     });
     return Genre;
 }

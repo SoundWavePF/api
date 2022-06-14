@@ -4,49 +4,49 @@ import albumApi from './albumApi.json'
 import songApi from './songApi.json'
 import artistApi from './artistApi.json'
 import genreApi from './genreApi.json'
-import songAlbum from './idSongIdAlbum.json'
-import artistSong from './idArtistIdSong.json'
+import song_Album from './idSongIdAlbum.json'
+import artist_Song from './idArtistIdSong.json'
 import songGenreApi from './idSongIdGenre.json'
 
 const songApiAux: any = songApi
 const app = Router()
-const { Song, Album, Artist, Genre, ArtistSong, AlbumGenre, ArtistAlbum, SongGenre } = db;
+const { song, album, artist, genre, artistSong, albumGenre, artistAlbum, songGenre } = db;
 
 
 app.get('/one', async (_req, res) => {
-    albumApi.map(async (album: any) => {
-        await Album.findOrCreate({
-            where: { dz_Id: album.id },
+    albumApi.map(async (element: any) => {
+        await album.findOrCreate({
+            where: { dz_Id: element.id },
             defaults: {
-                dz_Id: album.id,
-                name: album.name,
-                release_date: album.release_date,
-                image_small: album.image_small,
-                image_medium: album.image_medium,
-                image_big: album.image_big,
-                type: album.type,
+                dz_Id: element.id,
+                name: element.name,
+                release_date: element.release_date,
+                image_small: element.image_small,
+                image_medium: element.image_medium,
+                image_big: element.image_big,
+                type: element.type,
             }
         })
     })
-    songApiAux.map(async (song: any) => {
-        await Song.findOrCreate({
-            where: { dz_Id: song.id },
+    songApiAux.map(async (element: any) => {
+        await song.findOrCreate({
+            where: { dz_Id: element.id },
             defaults: {
-                id_Id: song.id,
-                name: song.name,
-                preview: song.preview,
-                image_small: song.image_small,
-                image_medium: song.image_medium,
-                image_big: song.image_big,
+                id_Id: element.id,
+                name: element.name,
+                preview: element.preview,
+                image_small: element.image_small,
+                image_medium: element.image_medium,
+                image_big: element.image_big,
                 reproductions: 0,
-                duration: song.duration,
-                type: song.type,
+                duration: element.duration,
+                type: element.type,
             }
         })
     })
 
     songGenreApi.map(async (song: any) => {
-        await SongGenre.findOrCreate({
+        await songGenre.findOrCreate({
             where: { idSong: song.idSong, idGenre: song.idGenre },
             defaults: {
                 idSong: song.idSong,
@@ -54,16 +54,16 @@ app.get('/one', async (_req, res) => {
             }
         })
     })
-    genreApi.map(async (genre: any) => {
-        await Genre.findOrCreate({
-            where: { dz_Id: genre.id },
+    genreApi.map(async (element: any) => {
+        await genre.findOrCreate({
+            where: { dz_Id: element.id },
             defaults: {
-                dz_Id: genre.id,
-                name: genre.name,
-                image_small: genre.image_small,
-                image_medium: genre.image_medium,
-                image_big: genre.image_big,
-                type: genre.type,
+                dz_Id: element.id,
+                name: element.name,
+                image_small: element.image_small,
+                image_medium: element.image_medium,
+                image_big: element.image_big,
+                type: element.type,
             }
         })
     })
@@ -71,19 +71,19 @@ app.get('/one', async (_req, res) => {
     // relations
 
 
-    // song Genre
-    const songGenre = await SongGenre.findAll()
-    songGenre.map(async (song: any) => {
-        const songDb = await Song.findOne({ where: { dz_Id: song.idSong } })
-        const genreDb = await Genre.findOne({ where: { dz_Id: song.idGenre } })
+    // song genre
+    const song_Genre = await songGenre.findAll()
+    song_Genre.map(async (element: any) => {
+        const songDb = await song.findOne({ where: { dz_Id: element.idSong } })
+        const genreDb = await genre.findOne({ where: { dz_Id: element.idGenre } })
         genreDb.addSong(songDb)
     })
 
 
-    // song Album
-    songAlbum.map(async (element: any) => {
-        const songDb = await Song.findOne({ where: { dz_Id: element.idSong } })
-        const albumDb = await Album.findOne({ where: { dz_Id: element.idAlbum } })
+    // song album
+    song_Album.map(async (element: any) => {
+        const songDb = await song.findOne({ where: { dz_Id: element.idSong } })
+        const albumDb = await album.findOne({ where: { dz_Id: element.idAlbum } })
         albumDb.addSong(songDb)
     })
 
@@ -91,87 +91,87 @@ app.get('/one', async (_req, res) => {
 })
 
 app.get('/two', async (_req, res) => {
-    artistApi.map(async (artist: any) => {
-        await Artist.findOrCreate({
-            where: { dz_Id: artist.id },
+    artistApi.map(async (element: any) => {
+        await artist.findOrCreate({
+            where: { dz_Id: element.id },
             defaults: {
-                dz_Id: artist.id,
-                name: artist.name,
-                image_small: artist.image_small,
-                image_medium: artist.image_medium,
-                image_big: artist.image_big,
-                type: artist.type,
+                dz_Id: element.id,
+                name: element.name,
+                image_small: element.image_small,
+                image_medium: element.image_medium,
+                image_big: element.image_big,
+                type: element.type,
             }
         })
     })
 
-    artistSong.map(async (song: any) => {
-        await ArtistSong.findOrCreate({
-            where: { idSong: song.idSong, idArtist: song.idArtist },
+    artist_Song.map(async (element: any) => {
+        await artistSong.findOrCreate({
+            where: { idSong: element.idSong, idArtist: element.idArtist },
             defaults: {
-                idSong: song.idSong,
-                idArtist: song.idArtist
+                idSong: element.idSong,
+                idArtist: element.idArtist
             }
         })
     })
 
-    albumApi.map(async (album: any) => {
-        const albumId = album.id
-        album.genres.map(async (genre: any) => {
-            await AlbumGenre.findOrCreate({
-                where: { idAlbum: albumId, idGenre: genre.id },
+    albumApi.map(async (element: any) => {
+        const albumId = element.id
+        element.genres.map(async (element: any) => {
+            await albumGenre.findOrCreate({
+                where: { idAlbum: albumId, idGenre: element.id },
                 defaults: {
                     idAlbum: albumId,
-                    idGenre: genre.id
+                    idGenre: element.id
                 }
             })
         })
     })
-    albumApi.map(async (album: any) => {
-        const albumId = album.id
-        album.artists.map(async (artist: any) => {
-            await ArtistAlbum.findOrCreate({
-                where: { idArtist: artist.id, idAlbum: albumId },
+    albumApi.map(async (element: any) => {
+        const genreId = element.id
+        element.artists.map(async (e: any) => {
+            await artistAlbum.findOrCreate({
+                where: { idArtist: e.id, idAlbum: genreId },
                 defaults: {
-                    idArtist: artist.id,
-                    idAlbum: albumId
+                    idArtist: e.id,
+                    idAlbum: genreId
                 }
             })
         })
     })
 
-    // relations
+    // // relations
 
-    // song Album
-    songAlbum.map(async (element: any) => {
-        const songDb = await Song.findOne({ where: { dz_Id: element.idSong } })
-        const albumDb = await Album.findOne({ where: { dz_Id: element.idAlbum } })
+    // song album
+    song_Album.map(async (element: any) => {
+        const songDb = await song.findOne({ where: { dz_Id: element.idSong } })
+        const albumDb = await album.findOne({ where: { dz_Id: element.idAlbum } })
         albumDb.addSong(songDb)
     })
 
-    // song Artist
-    const artistSongDb = await ArtistSong.findAll()
-    artistSongDb.map(async (artist: any) => {
-        const songDb = await Song.findOne({ where: { dz_Id: artist.idSong } })
-        const artistDb = await Artist.findOne({ where: { dz_Id: artist.idArtist } })
+    // song artist
+    const artistSongDb = await artistSong.findAll()
+    artistSongDb.map(async (element: any) => {
+        const songDb = await song.findOne({ where: { dz_Id: element.idSong } })
+        const artistDb = await artist.findOne({ where: { dz_Id: element.idArtist } })
         songDb.addArtist(artistDb)
     })
 
 
     // albumGenre
-    const albumGenre = await AlbumGenre.findAll()
-    albumGenre.map(async (genre: any) => {
-        const albumDb = await Album.findOne({ where: { dz_Id: genre.idAlbum } })
-        const genreDb = await Genre.findOne({ where: { dz_Id: genre.idGenre } })
+    const albumGenreDb = await albumGenre.findAll()
+    albumGenreDb.map(async (element: any) => {
+        const albumDb = await album.findOne({ where: { dz_Id: element.idAlbum } })
+        const genreDb = await genre.findOne({ where: { dz_Id: element.idGenre } })
         albumDb.addGenre(genreDb)
     })
 
 
-    // artist Album
-    const artistAlbum = await ArtistAlbum.findAll()
-    artistAlbum.map(async (artist: any) => {
-        const artistDb = await Artist.findOne({ where: { dz_Id: artist.idArtist } })
-        const albumDb = await Album.findOne({ where: { dz_Id: artist.idAlbum } })
+    // artist album
+    const artistAlbumDb = await artistAlbum.findAll()
+    artistAlbumDb.map(async (element: any) => {
+        const artistDb = await artist.findOne({ where: { dz_Id: element.idArtist } })
+        const albumDb = await album.findOne({ where: { dz_Id: element.idAlbum } })
         artistDb.addAlbum(albumDb)
     })
 

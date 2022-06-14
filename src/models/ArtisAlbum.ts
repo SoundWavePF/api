@@ -24,7 +24,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }, {
         sequelize,
         timestamps: false,
-        modelName: 'ArtistAlbum'
+        modelName: 'artistAlbum'
     });
     return ArtistAlbum;
 }

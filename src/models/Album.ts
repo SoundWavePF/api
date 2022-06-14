@@ -26,13 +26,13 @@ module.exports = (sequelize: any, DataTypes: any) => {
         release_date!: string;
         type!: string;
         static associate(models: any) {
-            Album.belongsToMany(models.Artist, {
+            Album.belongsToMany(models.artist, {
                 through: 'album_artist'
             })
-            Album.belongsToMany(models.Genre, {
+            Album.belongsToMany(models.genre, {
                 through: 'album_genre'
             })
-            Album.hasMany(models.Song)
+            Album.hasMany(models.song)
         }
     }
     Album.init({
@@ -65,7 +65,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }, {
         sequelize,
         timestamps: false,
-        modelName: 'Album'
+        modelName: 'album'
     });
     return Album;
 }

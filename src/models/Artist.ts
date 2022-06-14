@@ -24,12 +24,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
         image_big!: string;
         type!: string;
         static associate(models: any) {
-            Artist.belongsTo(models.User)
-            Artist.belongsToMany(models.Album, {
+            Artist.belongsTo(models.user)
+            Artist.belongsToMany(models.album, {
                 through: 'album_artist'
             })
-            Artist.belongsToMany(models.Song, {
-                through: 'Contributors'
+            Artist.belongsToMany(models.song, {
+                through: 'contributors'
             })
         }
     }
@@ -61,7 +61,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }, {
         sequelize,
         timestamps: false,
-        modelName: 'Artist'
+        modelName: 'artist'
     });
     return Artist;
 }
