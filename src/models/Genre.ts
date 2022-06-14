@@ -13,7 +13,7 @@ interface GenreAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-    class Genre extends Model<GenreAttributes>
+    class genre extends Model<GenreAttributes>
         implements GenreAttributes {
         id!: string; //uid
         dz_Id!: number;
@@ -23,13 +23,13 @@ module.exports = (sequelize: any, DataTypes: any) => {
         image_big!: string;
         type!: string
         static associate(models: any) {
-            Genre.belongsToMany(models.album, {
+            genre.belongsToMany(models.album, {
                 through: 'album_genre'
             })
-            Genre.hasMany(models.song)
+            genre.hasMany(models.song)
         }
     }
-    Genre.init({
+    genre.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -58,5 +58,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
         timestamps: false,
         modelName: 'genre'
     });
-    return Genre;
+    return genre;
 }

@@ -18,7 +18,7 @@ interface SongAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Song extends Model<SongAttributes>
+  class song extends Model<SongAttributes>
     implements SongAttributes {
     id!: string;
     dz_Id!: number;
@@ -31,20 +31,20 @@ module.exports = (sequelize: any, DataTypes: any) => {
     duration!: number;
     type!: string;
     static associate(models: any) {
-      Song.belongsTo(models.album)
-      Song.belongsTo(models.genre)
-      Song.belongsToMany(models.artist, {
+      song.belongsTo(models.album)
+      song.belongsTo(models.genre)
+      song.belongsToMany(models.artist, {
         through: 'contributors'
       })
-      Song.belongsToMany(models.user, {
+      song.belongsToMany(models.user, {
         through: 'favorites'
       })
-      Song.belongsToMany(models.playlist, {
+      song.belongsToMany(models.playlist, {
         through: 'playlist_song'
       })
     }
   };
-  Song.init({
+  song.init({
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -88,5 +88,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
     timestamps: false,
     modelName: 'song',
   });
-  return Song;
+  return song;
 };

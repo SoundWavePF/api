@@ -15,7 +15,7 @@ interface AlbumAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-    class Album extends Model<AlbumAttributes>
+    class album extends Model<AlbumAttributes>
         implements AlbumAttributes {
         id!: string;
         dz_Id!: number;
@@ -26,16 +26,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
         release_date!: string;
         type!: string;
         static associate(models: any) {
-            Album.belongsToMany(models.artist, {
+            album.belongsToMany(models.artist, {
                 through: 'album_artist'
             })
-            Album.belongsToMany(models.genre, {
+            album.belongsToMany(models.genre, {
                 through: 'album_genre'
             })
-            Album.hasMany(models.song)
+            album.hasMany(models.song)
         }
     }
-    Album.init({
+    album.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -67,5 +67,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
         timestamps: false,
         modelName: 'album'
     });
-    return Album;
+    return album;
 }

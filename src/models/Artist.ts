@@ -14,26 +14,26 @@ interface ArtistAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-    class Artist extends Model<ArtistAttributes>
+    class artist extends Model<ArtistAttributes>
         implements ArtistAttributes {
         id!: string; //uid
         dz_Id!: number;
         name!: string;
-        image_small!: string; //cambiar url image
+        image_small!: string;
         image_medium!: string;
         image_big!: string;
         type!: string;
         static associate(models: any) {
-            Artist.belongsTo(models.user)
-            Artist.belongsToMany(models.album, {
+            artist.belongsTo(models.user)
+            artist.belongsToMany(models.album, {
                 through: 'album_artist'
             })
-            Artist.belongsToMany(models.song, {
+            artist.belongsToMany(models.song, {
                 through: 'contributors'
             })
         }
     }
-    Artist.init({
+    artist.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -63,5 +63,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
         timestamps: false,
         modelName: 'artist'
     });
-    return Artist;
+    return artist;
 }
