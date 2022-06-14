@@ -11,20 +11,20 @@ interface PlaylistAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-    class Playlist extends Model<PlaylistAttributes>
+    class playlist extends Model<PlaylistAttributes>
         implements PlaylistAttributes {
         id!: string; //UID
         name!: string;
         image_playlist!: string;
         type!: string;
         static associate(models: any) {
-            Playlist.belongsTo(models.user)
-            Playlist.belongsToMany(models.song, {
+            playlist.belongsTo(models.user)
+            playlist.belongsToMany(models.song, {
                 through: 'playlist_song'
             })
         }
     }
-    Playlist.init({
+    playlist.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -46,5 +46,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
         timestamps: false,
         modelName: 'playlist'
     });
-    return Playlist;
+    return playlist;
 }

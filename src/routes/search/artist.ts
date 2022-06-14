@@ -6,9 +6,9 @@ export const artistRouter = Router();
 
 artistRouter.get('/all', async(_req, res)=>{
     try{
-        const artistsOnDb = await db.Artist.findAll({
+        const artistsOnDb = await db.artist.findAll({
             attributes: {exclude: ['UserId']},
-            include: [{model: db.Album, attributes :{exclude: ['ArtistId', 'GenreId']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
+            include: [{model: db.album, attributes :{exclude: ['ArtistId', 'GenreId']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
         })
         res.send(artistsOnDb)
     } catch (e) {
@@ -20,10 +20,10 @@ artistRouter.get('/all', async(_req, res)=>{
 artistRouter.get('/:artistId', async(req, res)=>{
     const { artistId } = req.params;
     try{
-        const artist = await db.Artist.findOne({
+        const artist = await db.artist.findOne({
             attributes: {exclude: ['UserId']},
             where: {id: artistId},
-            include: [{model: db.Album, attributes :{exclude: ['ArtistId', 'GenreId']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
+            include: [{model: db.album, attributes :{exclude: ['ArtistId', 'GenreId']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
         })
         res.send(artist)
     } catch (e) {
@@ -34,10 +34,10 @@ artistRouter.get('/:artistId', async(req, res)=>{
 artistRouter.get('/:artistId/top', async(req, res)=>{
     const { artistId } = req.params;
     try{
-        const artist = await db.Artist.findOne({
+        const artist = await db.artist.findOne({
             where: {id: artistId},
             attributes: {exclude: ['UserId']},
-            include: [{model: db.Album, attributes :{exclude: ['ArtistId', 'GenreId']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
+            include: [{model: db.album, attributes :{exclude: ['ArtistId', 'GenreId']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
         })
         const artistTopSongs = artist.Songs.sort((a:Song, b:Song) => b.reproductions - a.reproductions)
         if(artistTopSongs.length >= 10)

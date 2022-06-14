@@ -11,7 +11,7 @@ searchRouter.get('/', async (req, res) => {
     let artistSearch!: ArtistDatum[];
     let songSearch!: SongDatum[];
     try {
-        albumSearch = await db.Album.findAll({
+        albumSearch = await db.album.findAll({
             attributes: {exclude: ['ArtistId', 'GenreId']},
             where: {
                 name: {
@@ -19,15 +19,15 @@ searchRouter.get('/', async (req, res) => {
                 }
             },
             // include: [
-            //     db.Artist,
-            //     db.Song
+            //     db.artist,
+            //     db.song
             // ]
         })
     } catch (e) {
         res.send({message: e})
     }
     try{
-        artistSearch = await db.Artist.findAll({
+        artistSearch = await db.artist.findAll({
             attributes: {exclude: ['UserId']},
             where: {
                 name: {
@@ -36,15 +36,15 @@ searchRouter.get('/', async (req, res) => {
             },
             // include: [
             //     db.User,
-            //     db.Song,
-            //     db.Album
+            //     db.song,
+            //     db.album
             // ]
         })
     } catch (e) {
         res.send({message: e})
     }
     try {
-        songSearch = await db.Song.findAll({
+        songSearch = await db.song.findAll({
             attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']},
             where: {
                 title: {
@@ -52,22 +52,22 @@ searchRouter.get('/', async (req, res) => {
                 }
             },
             include: [
-                {model: db.Artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'UserId']}},
-                //     db.Album,
+                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'UserId']}},
+                //     db.album,
                 //     db.User,
-                //     db.Playlist
+                //     db.playlist
             ]
         })
     } catch (e) {
         res.send({message: e})
     }
-    // const playlistSearch = await db.Playlist.findAll({
+    // const playlistSearch = await db.playlist.findAll({
     //     where: {
     //         name: {
     //             [Op.iLike]: `%${all}%`
     //         }
     //     },
-    //     // include: db.Song
+    //     // include: db.song
     // })
 
     const obj:SearchResult = {
@@ -85,11 +85,11 @@ searchRouter.get('/all', async(_req, res)=>{
     let artistSearch!: ArtistDatum[];
     let songSearch!: SongDatum[];
     try{
-        albumSearch = await db.Album.findAll({
+        albumSearch = await db.album.findAll({
             attributes :{exclude: ['ArtistId', 'GenreId']},
             // include: [
-            //     db.Artist,
-            //     db.Song
+            //     db.artist,
+            //     db.song
             // ]
         })
     }
@@ -97,39 +97,39 @@ searchRouter.get('/all', async(_req, res)=>{
         res.send({message: e})
     }
     try{
-        artistSearch = await db.Artist.findAll({
+        artistSearch = await db.artist.findAll({
             attributes: {exclude: ['UserId']},
             // include: [
             //     db.User,
-            //     db.Song,
-            //     db.Album
+            //     db.song,
+            //     db.album
             // ]
         })
     } catch (e) {
         res.send({message: e})
     }
     try{
-        songSearch = await db.Song.findAll({
+        songSearch = await db.song.findAll({
             attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']},
             include: [
-                {model: db.Artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'UserId']}},
-                // db.Album,
+                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'UserId']}},
+                // db.album,
                 // db.User,
-                // db.Playlist
+                // db.playlist
             ]
         })
     } catch (e) {
         res.send({message: e})
     }
-    // const playlistSearch = await db.Playlist.findAll({
-    //     // include: db.Song
-    // })
+    const playlistSearch = await db.playlist.findAll({
+        // include: db.song
+    })
 
     const obj = {
         songData: songSearch,
         albumData: albumSearch,
         artistData: artistSearch,
-        // playlistData: playlistSearch
+        playlistData: playlistSearch
     }
 
     res.send(obj)

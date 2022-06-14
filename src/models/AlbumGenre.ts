@@ -9,12 +9,12 @@ interface AlbumGenreAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-    class AlbumGenre extends Model<AlbumGenreAttributes>
+    class albumGenre extends Model<AlbumGenreAttributes>
         implements AlbumGenreAttributes {
         idAlbum!: number;
         idGenre!: number;
     }
-    AlbumGenre.init({
+    albumGenre.init({
         idAlbum: {
             type: DataTypes.INTEGER,
         },
@@ -26,5 +26,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
         timestamps: false,
         modelName: 'albumGenre'
     });
-    return AlbumGenre;
+    return albumGenre;
 }

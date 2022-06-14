@@ -13,7 +13,7 @@ interface UserAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-    class User extends Model<UserAttributes>
+    class user extends Model<UserAttributes>
         implements UserAttributes {
         id!: string;//UID
         username!: string;
@@ -22,14 +22,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
         rol!: string;
         image_avatar!: string; //image
         static associate(models: any) {
-            User.hasOne(models.artist)
-            User.hasMany(models.playlist)
-            User.belongsToMany(models.song, {
+            user.hasOne(models.artist)
+            user.hasMany(models.playlist)
+            user.belongsToMany(models.song, {
                 through: 'favorites'
             })
         }
     }
-    User.init({
+    user.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -72,5 +72,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
         timestamps: false,
         modelName: 'user'
     })
-    return User;
+    return user;
 }
