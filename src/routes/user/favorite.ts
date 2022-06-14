@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import db from '../../models/db'
 
 export const favoriteRouter = Router();
@@ -11,7 +11,7 @@ favoriteRouter.post('/', async(req,res)=>{
             where:{id: userId},
             include: [{model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}, include: db.Genre, }]
         })
-        if(user===null){
+        if (user === null) {
             res.send(`No user with Id: ${userId}`)
             return
         }
@@ -26,38 +26,38 @@ favoriteRouter.post('/', async(req,res)=>{
 })
 
 
-favoriteRouter.post('/add/:idSong', async(req, res)=>{
+favoriteRouter.post('/add/:idSong', async (req, res) => {
     const { idSong } = req.params;
     const { userId } = req.body
 
     try {
         const song = await db.Song.findOne({
-            where: {id: idSong}
+            where: { id: idSong }
         })
         const user = await db.User.findOne({
-            where: {id: userId}
+            where: { id: userId }
         })
         user.addSongs(song)
-        res.send({message: `User: ${userId} liked Song: ${idSong}`})
+        res.send({ message: `User: ${userId} liked Song: ${idSong}` })
     } catch (e) {
         res.send(e)
     }
 })
 
 
-favoriteRouter.delete('/remove/:idSong', async(req, res)=>{
+favoriteRouter.delete('/remove/:idSong', async (req, res) => {
     const { idSong } = req.params;
     const { userId } = req.body
 
     try {
         const song = await db.Song.findOne({
-            where: {id: idSong}
+            where: { id: idSong }
         })
         const user = await db.User.findOne({
-            where: {id: userId}
+            where: { id: userId }
         })
         user.removeSongs(song)
-        res.send({message: `User: ${userId} disliked Song: ${idSong}`})
+        res.send({ message: `User: ${userId} disliked Song: ${idSong}` })
     } catch (e) {
         res.send(e)
     }

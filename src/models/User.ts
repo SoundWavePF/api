@@ -1,6 +1,6 @@
 'use strict'
 
-import {Model} from 'sequelize';
+import { Model } from 'sequelize';
 
 
 interface UserAttributes {
@@ -12,30 +12,30 @@ interface UserAttributes {
     image_avatar: string;
 }
 
-module.exports = (sequelize: any, DataTypes:any)=>{
+module.exports = (sequelize: any, DataTypes: any) => {
     class User extends Model<UserAttributes>
         implements UserAttributes {
-            id!: string;//UID
-            username!: string;
-            email!: string;
-            password!: string;
-            rol!: string;
-            image_avatar!: string; //image
-            static associate(models: any){
-                User.hasOne(models.Artist)
-                User.hasMany(models.Playlist)
-                User.belongsToMany(models.Song, {
+        id!: string;//UID
+        username!: string;
+        email!: string;
+        password!: string;
+        rol!: string;
+        image_avatar!: string; //image
+        static associate(models: any) {
+            User.hasOne(models.Artist)
+            User.hasMany(models.Playlist)
+            User.belongsToMany(models.Song, {
                 through: 'Favorites'
-                })
-            }
+            })
+        }
     }
     User.init({
-        id:{
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        username:{
+        username: {
             type: DataTypes.STRING,
             allowNull: false,
             // validate: {
@@ -49,10 +49,10 @@ module.exports = (sequelize: any, DataTypes:any)=>{
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                isEmail: {msg: "Invalid email"}
+                isEmail: { msg: "Invalid email" }
             }
         },
-        password:{
+        password: {
             type: DataTypes.STRING,
             allowNull: false,
             // validate: {
@@ -61,15 +61,16 @@ module.exports = (sequelize: any, DataTypes:any)=>{
             // }
         },
         rol:{
-            type: DataTypes.ENUM('user', 'admin'),
+            type: DataTypes.ENUM('user', 'artist', 'admin'),
             defaultValue: 'user'
         },
         image_avatar: {
-            type: DataTypes.STRING, validate: {isUrl: true}
+            type: DataTypes.STRING, validate: { isUrl: true }
         }
-    }, {sequelize,
+    }, {
+        sequelize,
         timestamps: false,
         modelName: 'User'
-    })
+    });
     return User;
 }

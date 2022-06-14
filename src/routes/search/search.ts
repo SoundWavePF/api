@@ -1,11 +1,11 @@
-import {Router} from 'express';
-import {Op} from 'sequelize'
+import { Router } from 'express';
+import { Op } from 'sequelize'
 import db from '../../models/db'
 import {SearchResult, SongDatum, AlbumDatum, ArtistDatum} from "../../interfaces";
 
 export const searchRouter = Router();
 
-searchRouter.get('/', async(req, res)=>{
+searchRouter.get('/', async (req, res) => {
     const { all } = req.query;
     let albumSearch!:AlbumDatum[];
     let artistSearch!: ArtistDatum[];

@@ -1,32 +1,28 @@
 'use strict'
 
-import {Model} from 'sequelize';
+import { Model } from 'sequelize';
 
 
 interface ArtistAlbumAttributes {
     idArtist: number;
-    nameArtist: string;
     idAlbum: number;
 }
 
-module.exports = (sequelize:any, DataTypes:any)=>{
+module.exports = (sequelize: any, DataTypes: any) => {
     class ArtistAlbum extends Model<ArtistAlbumAttributes>
-        implements ArtistAlbumAttributes{
-            idArtist!: number;
-            nameArtist!: string;
-            idAlbum!: number;
+        implements ArtistAlbumAttributes {
+        idArtist!: number;
+        idAlbum!: number;
     }
     ArtistAlbum.init({
-        idArtist:{
+        idArtist: {
             type: DataTypes.INTEGER,
         },
-        nameArtist:{
-            type: DataTypes.STRING,
-        },
-        idAlbum:{
+        idAlbum: {
             type: DataTypes.INTEGER,
         },
-    }, {sequelize,
+    }, {
+        sequelize,
         timestamps: false,
         modelName: 'ArtistAlbum'
     });

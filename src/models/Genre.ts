@@ -1,22 +1,28 @@
 'use strict'
 
-import {Model} from 'sequelize';
+import { Model } from 'sequelize';
 
 interface GenreAttributes {
     id: string;
     dz_Id: number;
     name: string;
+    image_small: string;
+    image_medium: string;
+    image_big: string;
     type: string;
 }
 
-module.exports = (sequelize:any, DataTypes:any)=>{
+module.exports = (sequelize: any, DataTypes: any) => {
     class Genre extends Model<GenreAttributes>
-        implements GenreAttributes{
+        implements GenreAttributes {
         id!: string; //uid
         dz_Id!: number;
         name!: string;
-        type!:string
-        static associate(models: any){
+        image_small!: string;
+        image_medium!: string;
+        image_big!: string;
+        type!: string
+        static associate(models: any) {
             Genre.belongsToMany(models.Album, {
                 through: 'album_genre'
             })
@@ -24,21 +30,31 @@ module.exports = (sequelize:any, DataTypes:any)=>{
         }
     }
     Genre.init({
-        id:{
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        dz_Id:{
+        dz_Id: {
             type: DataTypes.INTEGER
         },
         name: {
             type: DataTypes.STRING,
         },
+        image_small: {
+            type: DataTypes.STRING,
+        },
+        image_medium: {
+            type: DataTypes.STRING,
+        },
+        image_big: {
+            type: DataTypes.STRING,
+        },
         type: {
             type: DataTypes.STRING,
         },
-    }, {sequelize,
+    }, {
+        sequelize,
         timestamps: false,
         modelName: 'Genre'
     });
