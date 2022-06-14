@@ -3,19 +3,27 @@ import db from '../../models/db'
 
 export const favoriteRouter = Router();
 
+<<<<<<< HEAD
 favoriteRouter.get('/', async (req, res) => {
+=======
+favoriteRouter.post('/', async(req,res)=>{
+>>>>>>> development
     const { userId } = req.body;
 
     try {
         const user = await db.User.findOne({
+<<<<<<< HEAD
             where: { id: userId },
             include: [{ model: db.Song, include: db.Genre }]
+=======
+            where:{id: userId},
+            include: [{model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}, include: db.Genre, }]
+>>>>>>> development
         })
         if (user === null) {
             res.send(`No user with Id: ${userId}`)
             return
         }
-        console.log(user.songs)
         res.send({
             "id": user.id,
             "username": user.username,

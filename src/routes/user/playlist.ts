@@ -3,7 +3,38 @@ import db from '../../models/db'
 
 export const playlistRouter = Router();
 
+<<<<<<< HEAD
 playlistRouter.post('/create', async (req, res) => {
+=======
+playlistRouter.post('/', async(req, res)=>{
+    const { userId } = req.body;
+    const userPlaylist = await db.Playlist.findAll({
+        attributes :{exclude: ['UserId']},
+        where: {UserId: userId}
+    })
+    res.send(userPlaylist)
+})
+
+playlistRouter.get('/all', async(_req, res)=>{
+    const playlistOnDb = await db.Playlist.findAll({
+        attributes :{exclude: ['UserId']},
+        include: [{model: db.User, attributes: {exclude: ['email', 'password']}}]
+    })
+    res.send(playlistOnDb)
+})
+
+playlistRouter.get('/:playlistId', async(req, res)=>{
+    const { playlistId } = req.params;
+    const playlistOnDb = await db.Playlist.findOne({
+        attributes :{exclude: ['UserId']},
+        where: {id: playlistId},
+        include: [{model: db.User, attributes: {exclude: ['email', 'password']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
+    })
+    res.send(playlistOnDb)
+})
+
+playlistRouter.post('/create', async(req, res)=>{
+>>>>>>> development
     const { userId, playlistName } = req.body;
 
     try {
@@ -27,6 +58,7 @@ playlistRouter.post('/add', async (req, res) => {
         playlist.addSong(song)
         res.send({ message: `Song: ${song.title} has been added to Playlist: ${playlist.name}` })
     } catch (e) {
+        // console.log(e)
         res.send(e)
     }
 })

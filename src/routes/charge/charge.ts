@@ -12,6 +12,9 @@ const songApiAux: any = songApi
 const app = Router()
 const { Song, Album, Artist, Genre, ArtistSong, AlbumGenre, ArtistAlbum, SongGenre } = db;
 
+function getRandomInt(max:number) {
+    return Math.floor(Math.random() * max);
+}
 
 app.get('/one', async (_req, res) => {
     albumApi.map(async (album: any) => {
@@ -38,7 +41,7 @@ app.get('/one', async (_req, res) => {
                 image_small: song.image_small,
                 image_medium: song.image_medium,
                 image_big: song.image_big,
-                reproductions: 0,
+                reproductions: getRandomInt(1000),
                 duration: song.duration,
                 type: song.type,
             }
