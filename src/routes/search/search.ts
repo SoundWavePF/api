@@ -80,35 +80,6 @@ searchRouter.get('/', async (req, res) => {
     res.send(obj)
 })
 
-<<<<<<< HEAD
-searchRouter.get('/all', async (_req, res) => {
-    const albumSearch = await db.Album.findAll({
-        include: [
-            db.Artist,
-            db.Song
-        ]
-    })
-    const artistSearch = await db.Artist.findAll({
-        include: [
-            db.User,
-            db.Song,
-            db.Album
-        ]
-    })
-
-    const SongSearch = await db.Song.findAll({
-        include: [
-            db.Artist,
-            db.Album,
-            db.User,
-            db.Playlist
-        ]
-    })
-
-    const playlistSearch = await db.Playlist.findAll({
-        include: db.Song
-    })
-=======
 searchRouter.get('/all', async(_req, res)=>{
     let albumSearch!:AlbumDatum[];
     let artistSearch!: ArtistDatum[];
@@ -153,7 +124,6 @@ searchRouter.get('/all', async(_req, res)=>{
     // const playlistSearch = await db.Playlist.findAll({
     //     // include: db.Song
     // })
->>>>>>> development
 
     const obj = {
         songData: songSearch,

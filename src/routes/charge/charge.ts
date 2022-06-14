@@ -35,7 +35,7 @@ app.get('/one', async (_req, res) => {
         await Song.findOrCreate({
             where: { dz_Id: song.id },
             defaults: {
-                id_Id: song.id,
+                dz_Id: song.id,
                 name: song.name,
                 preview: song.preview,
                 image_small: song.image_small,

@@ -3,9 +3,6 @@ import db from '../../models/db'
 
 export const playlistRouter = Router();
 
-<<<<<<< HEAD
-playlistRouter.post('/create', async (req, res) => {
-=======
 playlistRouter.post('/', async(req, res)=>{
     const { userId } = req.body;
     const userPlaylist = await db.Playlist.findAll({
@@ -34,7 +31,6 @@ playlistRouter.get('/:playlistId', async(req, res)=>{
 })
 
 playlistRouter.post('/create', async(req, res)=>{
->>>>>>> development
     const { userId, playlistName } = req.body;
 
     try {
