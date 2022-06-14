@@ -22,10 +22,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
         rol!: string;
         image_avatar!: string; //image
         static associate(models: any) {
-            User.hasOne(models.Artist)
-            User.hasMany(models.Playlist)
-            User.belongsToMany(models.Song, {
-                through: 'Favorites'
+            User.hasOne(models.artist)
+            User.hasMany(models.playlist)
+            User.belongsToMany(models.song, {
+                through: 'favorites'
             })
         }
     }
@@ -70,7 +70,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }, {
         sequelize,
         timestamps: false,
-        modelName: 'User'
-    });
+        modelName: 'user'
+    })
     return User;
 }

@@ -31,16 +31,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
     duration!: number;
     type!: string;
     static associate(models: any) {
-      Song.belongsTo(models.Album)
-      Song.belongsTo(models.Genre)
-      Song.belongsToMany(models.Artist, {
-        through: 'Contributors'
+      Song.belongsTo(models.album)
+      Song.belongsTo(models.genre)
+      Song.belongsToMany(models.artist, {
+        through: 'contributors'
       })
-      Song.belongsToMany(models.User, {
-        through: 'Favorites'
+      Song.belongsToMany(models.user, {
+        through: 'favorites'
       })
-      Song.belongsToMany(models.Playlist, {
-        through: 'Playlist_Song'
+      Song.belongsToMany(models.playlist, {
+        through: 'playlist_song'
       })
     }
   };
@@ -86,7 +86,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
   }, {
     sequelize,
     timestamps: false,
-    modelName: 'Song',
+    modelName: 'song',
   });
   return Song;
 };
