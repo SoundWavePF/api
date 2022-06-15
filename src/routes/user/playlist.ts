@@ -4,20 +4,30 @@ import db from '../../models/db'
 export const playlistRouter = Router();
 
 playlistRouter.post('/', async(req, res)=>{
-    const { userId } = req.body;
-    const userPlaylist = await db.Playlist.findAll({
-        attributes :{exclude: ['UserId']},
-        where: {UserId: userId}
-    })
-    res.send(userPlaylist)
+    try{
+        const { userId } = req.body;
+        const userPlaylist = await db.Playlist.findAll({
+            attributes :{exclude: ['UserId']},
+            where: {UserId: userId}
+        })
+        res.send(userPlaylist)
+    } catch (e:any) {
+        res.send(e.message)
+    }
+
 })
 
 playlistRouter.get('/all', async(_req, res)=>{
-    const playlistOnDb = await db.Playlist.findAll({
-        attributes :{exclude: ['UserId']},
-        include: [{model: db.User, attributes: {exclude: ['email', 'password']}}]
-    })
-    res.send(playlistOnDb)
+    try{
+        const playlistOnDb = await db.Playlist.findAll({
+            attributes :{exclude: ['UserId']},
+            include: [{model: db.User, attributes: {exclude: ['email', 'password']}}]
+        })
+        res.send(playlistOnDb)
+    } catch (e:any) {
+        res.send(e.message)
+    }
+
 })
 
 playlistRouter.get('/:playlistId', async(req, res)=>{
