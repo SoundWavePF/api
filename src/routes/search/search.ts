@@ -24,7 +24,7 @@ searchRouter.get('/', async (req, res) => {
             // ]
         })
     } catch (e) {
-        res.send({message: e})
+        return res.send({message: e})
     }
     try{
         artistSearch = await db.artist.findAll({
@@ -41,7 +41,7 @@ searchRouter.get('/', async (req, res) => {
             // ]
         })
     } catch (e) {
-        res.send({message: e})
+        return res.send({message: e})
     }
     try {
         songSearch = await db.song.findAll({
@@ -59,7 +59,7 @@ searchRouter.get('/', async (req, res) => {
             ]
         })
     } catch (e) {
-        res.send({message: e})
+        return res.send({message: e})
     }
     // const playlistSearch = await db.playlist.findAll({
     //     where: {
@@ -77,7 +77,7 @@ searchRouter.get('/', async (req, res) => {
         // playlistData: playlistSearch
         }
 
-    res.send(obj)
+    return res.send(obj)
 })
 
 searchRouter.get('/all', async(_req, res)=>{
@@ -94,7 +94,7 @@ searchRouter.get('/all', async(_req, res)=>{
         })
     }
     catch (e) {
-        res.send({message: e})
+        return res.send({message: e})
     }
     try{
         artistSearch = await db.artist.findAll({
@@ -106,7 +106,7 @@ searchRouter.get('/all', async(_req, res)=>{
             // ]
         })
     } catch (e) {
-        res.send({message: e})
+        return res.send({message: e})
     }
     try{
         songSearch = await db.song.findAll({
@@ -119,7 +119,7 @@ searchRouter.get('/all', async(_req, res)=>{
             ]
         })
     } catch (e) {
-        res.send({message: e})
+        return res.send({message: e})
     }
     // const playlistSearch = await db.playlist.findAll({
     //     // include: db.song
@@ -132,5 +132,5 @@ searchRouter.get('/all', async(_req, res)=>{
         // playlistData: playlistSearch
     }
 
-    res.send(obj)
+    return res.send(obj)
 })
