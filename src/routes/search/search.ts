@@ -47,7 +47,7 @@ searchRouter.get('/', async (req, res) => {
         songSearch = await db.song.findAll({
             attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']},
             where: {
-                title: {
+                name: {
                     [Op.iLike]: `%${all}%`
                 }
             },
