@@ -3,39 +3,39 @@ import db from '../../models/db'
 
 export const playlistRouter = Router();
 
-playlistRouter.post('/', async(req, res)=>{
+playlistRouter.post('/', async (req, res) => {
     const { userId } = req.body;
-    const userPlaylist = await db.Playlist.findAll({
-        attributes :{exclude: ['UserId']},
-        where: {UserId: userId}
+    const userPlaylist = await db.playlist.findAll({
+        attributes: { exclude: ['userId'] },
+        where: { userId: userId }
     })
     res.send(userPlaylist)
 })
 
-playlistRouter.get('/all', async(_req, res)=>{
-    const playlistOnDb = await db.Playlist.findAll({
-        attributes :{exclude: ['UserId']},
-        include: [{model: db.User, attributes: {exclude: ['email', 'password']}}]
+playlistRouter.get('/all', async (_req, res) => {
+    const playlistOnDb = await db.playlist.findAll({
+        attributes: { exclude: ['userId'] },
+        include: [{ model: db.user, attributes: { exclude: ['email', 'password'] } }]
     })
     res.send(playlistOnDb)
 })
 
-playlistRouter.get('/:playlistId', async(req, res)=>{
+playlistRouter.get('/:playlistId', async (req, res) => {
     const { playlistId } = req.params;
-    const playlistOnDb = await db.Playlist.findOne({
-        attributes :{exclude: ['UserId']},
-        where: {id: playlistId},
-        include: [{model: db.User, attributes: {exclude: ['email', 'password']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
+    const playlistOnDb = await db.playlist.findOne({
+        attributes: { exclude: ['userId'] },
+        where: { id: playlistId },
+        include: [{ model: db.user, attributes: { exclude: ['email', 'password'] } }, { model: db.song, attributes: { exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId', 'artistId', 'genreId'] } }]
     })
     res.send(playlistOnDb)
 })
 
-playlistRouter.post('/create', async(req, res)=>{
+playlistRouter.post('/create', async (req, res) => {
     const { userId, playlistName } = req.body;
 
     try {
         const user = await db.User.findOne({ where: { id: userId } })
-        const playlistCreated = await db.Playlist.create({
+        const playlistCreated = await db.playlist.create({
             "name": playlistName
         })
         user.addPlaylists(playlistCreated)
@@ -49,8 +49,8 @@ playlistRouter.post('/create', async(req, res)=>{
 playlistRouter.post('/add', async (req, res) => {
     const { playlistId, songId } = req.body;
     try {
-        const playlist = await db.Playlist.findOne({ where: { id: playlistId } })
-        const song = await db.Song.findOne({ where: { id: songId } })
+        const playlist = await db.playlist.findOne({ where: { id: playlistId } })
+        const song = await db.song.findOne({ where: { id: songId } })
         playlist.addSong(song)
         res.send({ message: `Song: ${song.title} has been added to Playlist: ${playlist.name}` })
     } catch (e) {
@@ -62,8 +62,8 @@ playlistRouter.post('/add', async (req, res) => {
 playlistRouter.delete('/remove', async (req, res) => {
     const { playlistId, songId } = req.body;
     try {
-        const playlist = await db.Playlist.findOne({ where: { id: playlistId } })
-        const song = await db.Song.findOne({ where: { id: songId } })
+        const playlist = await db.playlist.findOne({ where: { id: playlistId } })
+        const song = await db.song.findOne({ where: { id: songId } })
         playlist.removeSongs(song)
         res.send({ message: `Song: ${songId} has been removed from Playlist: ${playlist.name}` })
     } catch (e) {
@@ -75,7 +75,7 @@ playlistRouter.delete('/remove', async (req, res) => {
 playlistRouter.delete('/delete', async (req, res) => {
     const { playlistId } = req.body;
     try {
-        await db.Playlist.destroy({ where: { id: playlistId } })
+        await db.playlist.destroy({ where: { id: playlistId } })
 
         res.send({ message: `Playlist with id: ${playlistId} has been deleted` })
     } catch (e) {

@@ -1,19 +1,19 @@
 import { Router } from "express";
 import db from '../../models/db'
 const app = Router()
-const { ArtistId, Artist, Song } = db;
+const { artistId, artist, song } = db;
 
 app.get('/song', async (_req, res) => {
-    return Song.findAll({
+    return song.findAll({
         attributes: {
             exclude:
                 [
                     'artist_id_reference',
                     'genre_id_reference',
                     'album_id_reference',
-                    "AlbumId",
-                    "ArtistId",
-                    "GenreId"
+                    "albumId",
+                    "artistId",
+                    "genreId"
                 ]
         }
     }).then((result: any) => res.send(result))
@@ -22,32 +22,32 @@ app.get('/song', async (_req, res) => {
 app.get('/artistSong/:id', async (req, res) => {
 
     const id = req.params.id
-    const artist = await Artist.findOne({
+    const artistDb = await artist.findOne({
         attributes: {
             exclude:
                 [
-                    'UserId', 'id'
+                    'userId', 'id'
                 ]
         },
         where: { dz_Id: id },
         include: {
-            model: Song,
+            model: song,
             attributes: {
                 exclude:
                     [
                         'artist_id_reference',
                         'genre_id_reference',
                         'album_id_reference',
-                        "AlbumId",
-                        "ArtistId",
-                        "GenreId",
+                        "albumId",
+                        "artistId",
+                        "genreId",
                     ]
             }
         }
     })
     const artistSend = {
-        ...artist.toJSON(),
-        Songs: artist.Songs.map((result: any) => {
+        ...artistDb.toJSON(),
+        songs: artist.songs.map((result: any) => {
             const { title, dz_Id } = result
             return {
                 dz_Id, title
