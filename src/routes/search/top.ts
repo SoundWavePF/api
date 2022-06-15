@@ -12,8 +12,8 @@ topRouter.get('/', async(_req, res)=>{
             include: [{model:db.artist, attributes: {exclude: ['image_small', 'image_medium', 'image_big', 'userId']}}]
         })
         let sorted = songs.sort((a: Song, b: Song) => b.reproductions - a.reproductions)
-        res.send(sorted)
+        return res.send(sorted)
     } catch (e) {
-        res.send({message: e})
+        return res.send({message: e})
     }
 })

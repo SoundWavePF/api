@@ -8,9 +8,9 @@ genreRouter.get('/all', async(_req, res)=>{
         const genre = await db.genre.findAll({
             include: [{model: db.album, attributes :{exclude: ['ArtistId', 'GenreId']}, include: db.artist}]
         })
-        res.send(genre)
+        return res.send(genre)
     } catch (e){
-        res.send({error: e})
+        return res.send({error: e})
     }
 })
 
@@ -22,8 +22,8 @@ genreRouter.get('/:genreId', async(req, res)=>{
             where: {id: genreId},
             include: [{model: db.album, attributes :{exclude: ['ArtistId', 'GenreId']}, include: db.artist}]
         })
-        res.send(genre)
+        return res.send(genre)
     } catch (e) {
-        res.send({error: e})
+        return res.send({error: e})
     }
 })

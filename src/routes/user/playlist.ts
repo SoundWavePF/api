@@ -10,9 +10,9 @@ playlistRouter.post('/', async(req, res)=>{
             attributes :{exclude: ['UserId']},
             where: {UserId: userId}
         })
-        res.send(userPlaylist)
+        return res.send(userPlaylist)
     } catch (e:any) {
-        res.send(e.message)
+        return res.send(e.message)
     }
 
 })
@@ -23,9 +23,9 @@ playlistRouter.get('/all', async(_req, res)=>{
             attributes :{exclude: ['UserId']},
             include: [{model: db.User, attributes: {exclude: ['email', 'password']}}]
         })
-        res.send(playlistOnDb)
+        return res.send(playlistOnDb)
     } catch (e:any) {
-        res.send(e.message)
+        return res.send(e.message)
     }
 
 })
@@ -38,9 +38,9 @@ playlistRouter.get('/:playlistId', async(req, res)=>{
             where: {id: playlistId},
             include: [{model: db.User, attributes: {exclude: ['email', 'password']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
         })
-        res.send(playlistOnDb)
+        return res.send(playlistOnDb)
     } catch (e:any) {
-        res.send(e.message)
+        return res.send(e.message)
     }
 
 })
@@ -55,9 +55,9 @@ playlistRouter.post('/create', async(req, res)=>{
         })
         user.addPlaylists(playlistCreated)
 
-        res.send({ message: `Playlist: ${playlistName} created by User: ${userId}` })
+        return res.send({ message: `Playlist: ${playlistName} created by User: ${userId}` })
     } catch (e:any) {
-        res.send(e.message)
+        return res.send(e.message)
     }
 })
 
@@ -67,10 +67,10 @@ playlistRouter.post('/add', async (req, res) => {
         const playlist = await db.Playlist.findOne({ where: { id: playlistId } })
         const song = await db.Song.findOne({ where: { id: songId } })
         playlist.addSong(song)
-        res.send({ message: `Song: ${song.title} has been added to Playlist: ${playlist.name}` })
+        return res.send({ message: `Song: ${song.title} has been added to Playlist: ${playlist.name}` })
     } catch (e) {
         // console.log(e)
-        res.send(e)
+        return res.send(e)
     }
 })
 
@@ -80,9 +80,9 @@ playlistRouter.delete('/remove', async (req, res) => {
         const playlist = await db.Playlist.findOne({ where: { id: playlistId } })
         const song = await db.Song.findOne({ where: { id: songId } })
         playlist.removeSongs(song)
-        res.send({ message: `Song: ${songId} has been removed from Playlist: ${playlist.name}` })
+        return res.send({ message: `Song: ${songId} has been removed from Playlist: ${playlist.name}` })
     } catch (e) {
-        res.send(e)
+        return res.send(e)
     }
 })
 
@@ -92,8 +92,8 @@ playlistRouter.delete('/delete', async (req, res) => {
     try {
         await db.Playlist.destroy({ where: { id: playlistId } })
 
-        res.send({ message: `Playlist with id: ${playlistId} has been deleted` })
+        return res.send({ message: `Playlist with id: ${playlistId} has been deleted` })
     } catch (e) {
-        res.send(e)
+        return res.send(e)
     }
 })
