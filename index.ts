@@ -6,7 +6,7 @@ import axios from "axios";
 
 server.use(express.json())
 
-let reload = true
+let reload = false;
 
 db.sequelize.sync({ force: reload }).then(() => {
     server.listen(process.env.PORT, async() => {
@@ -24,4 +24,4 @@ db.sequelize.sync({ force: reload }).then(() => {
             '██████╔╝██████╦╝  ╚█████╔╝██║░░██║███████╗██║░░██║░░░██║░░░███████╗██████╔╝\n' +
             '╚═════╝░╚═════╝░  ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═════╝░')
     })
-})
+});
