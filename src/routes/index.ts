@@ -7,6 +7,7 @@ import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
 import chargeTables from "./charge/chargeTables";
+import {adminRouter} from "./admin";
 
 export const routes = Router();
 
@@ -28,3 +29,4 @@ routes.use('/top', topRouter)
 routes.use('/register', registerRouter)
 routes.use('/login', loginRouter)
 routes.use('/update', updateRouter)
+routes.use('/admin', adminRouter)
