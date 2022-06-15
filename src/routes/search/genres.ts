@@ -6,7 +6,7 @@ export const genreRouter = Router();
 genreRouter.get('/all', async(_req, res)=>{
     try{
         const genre = await db.genre.findAll({
-            include: [{model: db.album, attributes :{exclude: ['ArtistId', 'GenreId']}, include: db.artist}]
+            include: [{model: db.album, attributes :{exclude: ['artistId', 'genreId']}, include: db.artist}]
         })
         return res.send(genre)
     } catch (e){
@@ -20,7 +20,7 @@ genreRouter.get('/:genreId', async(req, res)=>{
     try{
         const genre = await db.genre.findOne({
             where: {id: genreId},
-            include: [{model: db.album, attributes :{exclude: ['ArtistId', 'GenreId']}, include: db.artist}]
+            include: [{model: db.album, attributes :{exclude: ['artistId', 'genreId']}, include: db.artist}]
         })
         return res.send(genre)
     } catch (e) {

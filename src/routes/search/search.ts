@@ -12,7 +12,7 @@ searchRouter.get('/', async (req, res) => {
     let songSearch!: SongDatum[];
     try {
         albumSearch = await db.album.findAll({
-            attributes: {exclude: ['ArtistId', 'GenreId']},
+            // attributes: {exclude: ['ArtistId', 'GenreId']},
             where: {
                 name: {
                     [Op.iLike]: `%${all}%`
@@ -45,14 +45,14 @@ searchRouter.get('/', async (req, res) => {
     }
     try {
         songSearch = await db.song.findAll({
-            attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']},
+            attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference']},
             where: {
                 name: {
                     [Op.iLike]: `%${all}%`
                 }
             },
             include: [
-                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'UserId']}},
+                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'userId']}},
                 //     db.album,
                 //     db.User,
                 //     db.playlist
@@ -86,7 +86,7 @@ searchRouter.get('/all', async(_req, res)=>{
     let songSearch!: SongDatum[];
     try{
         albumSearch = await db.album.findAll({
-            attributes :{exclude: ['ArtistId', 'GenreId']},
+            // attributes :{exclude: ['ArtistId', 'GenreId']},
             // include: [
             //     db.artist,
             //     db.song
@@ -98,7 +98,7 @@ searchRouter.get('/all', async(_req, res)=>{
     }
     try{
         artistSearch = await db.artist.findAll({
-            attributes: {exclude: ['UserId']},
+            // attributes: {exclude: ['userId']},
             // include: [
             //     db.User,
             //     db.song,
@@ -110,9 +110,9 @@ searchRouter.get('/all', async(_req, res)=>{
     }
     try{
         songSearch = await db.song.findAll({
-            attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']},
+            attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference']},
             include: [
-                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'UserId']}},
+                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big']}},
                 // db.album,
                 // db.User,
                 // db.playlist
