@@ -37,7 +37,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         },
         username: {
             type: DataTypes.STRING,
-            allowNull: false,
+            // allowNull: false,
             // validate: {
             //     is: {
             //         args: /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/igm,

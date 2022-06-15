@@ -8,10 +8,11 @@ const basename = path.basename(__filename);
 const db: any = {};
 
 const {
-    DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
+    DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_REMOTE
 } = process.env;
 
-const sequelize: any = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+const localDB = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`;
+const sequelize: any = new Sequelize(localDB, {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
