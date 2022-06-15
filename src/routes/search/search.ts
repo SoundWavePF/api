@@ -71,9 +71,9 @@ searchRouter.get('/', async (req, res) => {
     // })
 
     const obj:SearchResult = {
-        songData: songSearch,
-        albumData: albumSearch,
-        artistData: artistSearch,
+        songData: songSearch.slice(0, 20),
+        albumData: albumSearch.slice(0, 20),
+        artistData: artistSearch.slice(0, 20),
         // playlistData: playlistSearch
         }
 
@@ -126,9 +126,9 @@ searchRouter.get('/all', async(_req, res)=>{
     // })
 
     const obj = {
-        songData: songSearch,
-        albumData: albumSearch,
-        artistData: artistSearch,
+        songData: songSearch.slice(0, 20),
+        albumData: albumSearch.slice(0, 20),
+        artistData: artistSearch.slice(0, 20),
         // playlistData: playlistSearch
     }
 
