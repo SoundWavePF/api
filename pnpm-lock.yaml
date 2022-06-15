@@ -4,6 +4,7 @@ specifiers:
   '@types/bcrypt': ^5.0.0
   '@types/express': ^4.17.13
   '@types/node': '*'
+  '@types/uuid': ^8.3.4
   '@types/validator': ^13.7.3
   axios: ^0.27.2
   bcrypt: ^5.0.1
@@ -22,8 +23,10 @@ specifiers:
   sequelize-typescript: ^2.1.3
   ts-node-dev: ^2.0.0
   typescript: ^4.7.3
+  uuid: ^8.3.2
 
 dependencies:
+  '@types/uuid': 8.3.4
   '@types/bcrypt': 5.0.0
   axios: 0.27.2
   bcrypt: 5.0.1
@@ -39,6 +42,7 @@ dependencies:
   reflect-metadata: 0.1.13
   sequelize: 6.20.1_pg-hstore@2.3.4+pg@8.7.3
   sequelize-typescript: 2.1.3_5uvmgmzvfvqoxd5k46i5xrfqpe
+  uuid: 8.3.2
 
 devDependencies:
   '@types/express': 4.17.13
@@ -182,6 +186,10 @@ packages:
   /@types/strip-json-comments/0.0.30:
     resolution: {integrity: sha512-7NQmHra/JILCd1QqpSzl8+mJRc8ZHz3uDm8YV1Ks9IhK0epEiTw8aIErbvH9PI+6XbqhyIQy3462nEsn7UVzjQ==}
     dev: true
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: false
 
   /@types/validator/13.7.3:
     resolution: {integrity: sha512-DNviAE5OUcZ5s+XEQHRhERLg8fOp8gSgvyJ4aaFASx5wwaObm+PBwTIMXiOFm1QrSee5oYwEAYb7LMzX2O88gA==}

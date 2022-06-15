@@ -9,7 +9,7 @@ favoriteRouter.post('/', async(req,res)=>{
     try {
         const user = await db.user.findOne({
             where:{id: userId},
-            include: [{model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}, include: db.genre, }]
+            include: [{model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference']}, include: db.genre}]
         })
         if (user === null) {
             return res.send(`No user with Id: ${userId}`)
@@ -17,7 +17,7 @@ favoriteRouter.post('/', async(req,res)=>{
         return res.send({
             "id": user.id,
             "username": user.username,
-            "liked_songs": user.Songs
+            "liked_songs": user.songs
         })
     } catch (e) {
         return res.send(e)
