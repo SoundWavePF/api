@@ -22,12 +22,17 @@ playlistRouter.get('/all', async(_req, res)=>{
 
 playlistRouter.get('/:playlistId', async(req, res)=>{
     const { playlistId } = req.params;
-    const playlistOnDb = await db.Playlist.findOne({
-        attributes :{exclude: ['UserId']},
-        where: {id: playlistId},
-        include: [{model: db.User, attributes: {exclude: ['email', 'password']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
-    })
-    res.send(playlistOnDb)
+    try{
+        const playlistOnDb = await db.Playlist.findOne({
+            attributes :{exclude: ['UserId']},
+            where: {id: playlistId},
+            include: [{model: db.User, attributes: {exclude: ['email', 'password']}}, {model: db.Song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'AlbumId', 'ArtistId', 'GenreId']}}]
+        })
+        res.send(playlistOnDb)
+    } catch (e:any) {
+        res.send(e.message)
+    }
+
 })
 
 playlistRouter.post('/create', async(req, res)=>{
@@ -41,8 +46,8 @@ playlistRouter.post('/create', async(req, res)=>{
         user.addPlaylists(playlistCreated)
 
         res.send({ message: `Playlist: ${playlistName} created by User: ${userId}` })
-    } catch (e) {
-        res.send(e)
+    } catch (e:any) {
+        res.send(e.message)
     }
 })
 
