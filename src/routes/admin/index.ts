@@ -76,3 +76,45 @@ adminRouter.post('/update', async(req,res)=>{
         return res.send({error: e.message})
     }
 })
+
+adminRouter.post('/accept', async(req,res)=>{
+    const { adminId, userId } = req.body;
+    try {
+        const admin = await db.user.findOne({where: {id: adminId}});
+        if(admin.rol=== 'admin') {
+            const user = await db.user.findOne({where: {id: userId}});
+            if(user.rol=== 'artist'){
+                return res.send({message: 'User is already an artist'});
+            }
+            user.rol = 'artist';
+            user.requested_artist = false;
+            await user.save();
+            return res.send({message: 'User accepted'});
+        }
+        return res.send({message: 'You are not an admin'});
+    } catch (e:any) {
+        return res.send({error: e.message})
+    }
+})
+
+adminRouter.post('deactivate', async(req,res)=>{
+    const { adminId, userId } = req.body;
+    try {
+        const admin = await db.user.findOne({where: {id: adminId}});
+        if (admin.rol === 'admin') {
+            const user = await db.user.findOne({where: {id: userId}});
+            if (user.rol === 'admin') {
+                return res.send({message: 'You cannot delete an admin'});
+            }
+            if(user.deactivated===true){
+                return res.send({message: 'User is already deactivated'});
+            }
+            user.deactivated = true;
+            await user.save();
+            return res.send({message: 'User deleted'});
+        }
+        return res.send({message: 'You are not an admin'});
+    } catch (e:any) {
+        return res.send({error: e.message})
+    }
+})
