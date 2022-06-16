@@ -12,7 +12,7 @@ loginRouter.use(passport.session());
 
 
 loginRouter.post('/userRegister', async (req, res) => {
-    // console.log(req.body)
+    console.log(req.body)
     const { name, username, email, image } = req.body;
     try {
         db.user.findOrCreate({

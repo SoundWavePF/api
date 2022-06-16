@@ -4,21 +4,23 @@ import db from '../../models/db'
 export const favoriteRouter = Router();
 
 favoriteRouter.post('/', async(req,res)=>{
-    const { userId } = req.body;
+    const { email } = req.body;
 
     try {
         const user = await db.user.findOne({
-            where:{id: userId},
-            include: [{model: db.song, include:[{model:db.artist, attributes: ['name']}, db.genre, {model: db.album, attributes: ['name']}], attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference']}}]
+            where:{email: email},
+            include: [{model: db.song,
+                        include: db.genre}]
         })
         if (user === null) {
-            return res.send(`No user with Id: ${userId}`)
+            return res.send(`No user with email: ${email}`)
         }
-        return res.send({
-            "id": user.id,
-            "username": user.username,
-            "liked_songs": user.songs
-        })
+        return res.send(user)
+        // return res.send({
+        //     // "id": user.id,
+        //     "username": user.username,
+        //     "liked_songs": user.songs
+        // })
     } catch (e) {
         return res.send(e)
     }
@@ -27,17 +29,17 @@ favoriteRouter.post('/', async(req,res)=>{
 
 favoriteRouter.post('/add/:idSong', async (req, res) => {
     const { idSong } = req.params;
-    const { userId } = req.body
+    const { email } = req.body
 
     try {
         const song = await db.song.findOne({
             where: { id: idSong }
         })
         const user = await db.user.findOne({
-            where: { id: userId }
+            where: { email: email }
         })
-        user.addSongs(song)
-        return res.send({ message: `user: ${userId} liked song: ${idSong}` })
+        user.addSong(song)
+        return res.send({ message: `user: ${email} liked song: ${idSong}` })
     } catch (e) {
         return res.send(e)
     }
@@ -46,17 +48,17 @@ favoriteRouter.post('/add/:idSong', async (req, res) => {
 
 favoriteRouter.delete('/remove/:idSong', async (req, res) => {
     const { idSong } = req.params;
-    const { userId } = req.body
+    const { email } = req.body
 
     try {
         const song = await db.song.findOne({
             where: { id: idSong }
         })
         const user = await db.user.findOne({
-            where: { id: userId }
+            where: { email: email }
         })
-        user.removeSongs(song)
-        return res.send({ message: `user: ${userId} disliked song: ${idSong}` })
+        user.removeSong(song)
+        return res.send({ message: `user: ${email} disliked song: ${idSong}` })
     } catch (e) {
         return res.send(e)
     }

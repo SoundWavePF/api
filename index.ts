@@ -8,8 +8,8 @@ server.use(express.json())
 
 let reload = false;
 
-db.sequelize.sync({ force: true }).then(() => {
-    // db.sequelize.sync().then(() => {
+// db.sequelize.sync({ force: true }).then(() => {
+    db.sequelize.sync().then(() => {
     server.listen(process.env.PORT, async () => {
         console.log(`Listening in port ${process.env.PORT}`)
         // if(reload){
