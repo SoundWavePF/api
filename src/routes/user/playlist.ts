@@ -5,10 +5,10 @@ export const playlistRouter = Router();
 
 playlistRouter.post('/', async(req, res)=>{
     try{
-        const { userId } = req.body;
+        const { email } = req.body;
         const userPlaylist = await db.playlist.findAll({
             attributes :{exclude: ['userId']},
-            where: {userId: userId}
+            where: {email: email}
         })
         return res.send(userPlaylist)
     } catch (e:any) {
@@ -46,16 +46,16 @@ playlistRouter.get('/:playlistId', async(req, res)=>{
 })
 
 playlistRouter.post('/create', async(req, res)=>{
-    const { userId, playlistName } = req.body;
+    const { email, playlistName } = req.body;
 
     try {
-        const user = await db.user.findOne({ where: { id: userId } })
+        const user = await db.user.findOne({ where: { email: email } })
         const playlistCreated = await db.playlist.create({
             "name": playlistName
         })
-        user.addPlaylists(playlistCreated)
+        user.addPlaylist(playlistCreated)
 
-        return res.send({ message: `playlist: ${playlistName} created by user: ${userId}` })
+        return res.send({ message: `playlist: ${playlistName} created by user: ${email}` })
     } catch (e:any) {
         return res.send(e.message)
     }
@@ -79,7 +79,7 @@ playlistRouter.delete('/remove', async (req, res) => {
     try {
         const playlist = await db.playlist.findOne({ where: { id: playlistId } })
         const song = await db.song.findOne({ where: { id: songId } })
-        playlist.removeSongs(song)
+        playlist.removeSong(song)
         return res.send({ message: `song: ${songId} has been removed from playlist: ${playlist.name}` })
     } catch (e) {
         return res.send(e)
