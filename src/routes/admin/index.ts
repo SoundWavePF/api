@@ -3,6 +3,28 @@ import db from '../../models/db';
 
 export const adminRouter = Router();
 
+adminRouter.post('/stats', async (req, res) => {
+    const {adminId} = req.body;
+    try {
+        const admin = await db.user.findOne({where: {id: adminId}});
+        if(admin.rol==='admin'){
+            const songStats = await db.sequelize.query(`SELECT COUNT(*) as totalSongs FROM songs`, {type: db.sequelize.QueryTypes.SELECT});
+            const songsPlayCount = await db.sequelize.query(`SELECT SUM(reproductions) as totalPlayCount FROM songs`, {type: db.sequelize.QueryTypes.SELECT});
+            const adminUsers = await db.sequelize.query(`SELECT COUNT(*) as totalAdminUsers FROM users WHERE rol='admin'`, {type: db.sequelize.QueryTypes.SELECT});
+            const regularUsers = await db.sequelize.query(`SELECT COUNT(*) as totalRegularUsers FROM users WHERE rol='user'`, {type: db.sequelize.QueryTypes.SELECT});
+            const totalUsers = await db.sequelize.query(`SELECT COUNT(*) as totalUsers FROM users`, {type: db.sequelize.QueryTypes.SELECT});
+            const albumStats = await db.sequelize.query(`SELECT COUNT(*) as totalAlbums FROM albums`, {type: db.sequelize.QueryTypes.SELECT});
+            const artistStats = await db.sequelize.query(`SELECT COUNT(*) as totalArtists FROM artists`, {type: db.sequelize.QueryTypes.SELECT});
+            const genreStats = await db.sequelize.query(`SELECT COUNT(*) as totalGenres FROM genres`, {type: db.sequelize.QueryTypes.SELECT});
+            const playlistStats = await db.sequelize.query(`SELECT COUNT(*) as totalPlaylists FROM playlists`, {type: db.sequelize.QueryTypes.SELECT});
+            return res.send({...songStats[0], ...adminUsers[0], ...regularUsers[0], ...totalUsers[0], ...albumStats[0], ...artistStats[0], ...genreStats[0], ...playlistStats[0], ...songsPlayCount[0]});
+        }
+        return res.send({message: 'You are not an admin'});
+    }catch (e:any) {
+        return res.send({message: e.message})
+    }
+})
+
 adminRouter.post('/users', async(req,res)=>{
     const { adminId } = req.body;
     try {
