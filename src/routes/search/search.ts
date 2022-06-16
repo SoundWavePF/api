@@ -52,14 +52,14 @@ searchRouter.get('/', async (req, res) => {
                 }
             },
             include: [
-                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big', 'userId']}},
-                //     db.album,
+                {model: db.artist, attributes: ['id', 'dz_Id', 'name']},
+                {model: db.album, attributes: ['name']}
                 //     db.User,
                 //     db.playlist
             ]
         })
-    } catch (e) {
-        return res.send({message: e})
+    } catch (e:any) {
+        return res.send({message: e.message})
     }
     // const playlistSearch = await db.playlist.findAll({
     //     where: {
@@ -71,9 +71,9 @@ searchRouter.get('/', async (req, res) => {
     // })
 
     const obj:SearchResult = {
-        songData: songSearch,
-        albumData: albumSearch,
-        artistData: artistSearch,
+        songData: songSearch.slice(0, 20),
+        albumData: albumSearch.slice(0, 20),
+        artistData: artistSearch.slice(0, 20),
         // playlistData: playlistSearch
         }
 
@@ -112,8 +112,8 @@ searchRouter.get('/all', async(_req, res)=>{
         songSearch = await db.song.findAll({
             attributes :{exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference']},
             include: [
-                {model: db.artist, attributes: {exclude:['image_small', 'image_medium', 'image_big']}},
-                // db.album,
+                {model: db.artist, attributes: ['id', 'dz_Id', 'name']},
+                {model: db.album, attributes: ['name']}
                 // db.User,
                 // db.playlist
             ]
@@ -126,9 +126,9 @@ searchRouter.get('/all', async(_req, res)=>{
     // })
 
     const obj = {
-        songData: songSearch,
-        albumData: albumSearch,
-        artistData: artistSearch,
+        songData: songSearch.slice(0, 20),
+        albumData: albumSearch.slice(0, 20),
+        artistData: artistSearch.slice(0, 20),
         // playlistData: playlistSearch
     }
 
