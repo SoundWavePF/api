@@ -23,7 +23,7 @@ albumRouter.get('/:albumId', async(req, res)=>{
         const albumsOnDb:AlbumResult = await db.album.findOne({
             attributes :{exclude: ['artistId', 'genreId']},
             where: {id: albumId},
-            include: [{model: db.artist, attributes: {exclude: ['userId']}}, db.genre, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId', 'artistId', 'genreId', 'userId']}}]
+            include: [{model: db.artist, attributes: {exclude: ['userId']}}, db.genre, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId', 'artistId', 'genreId', 'userId']}, include: [{model: db.album, attributes: ['name']}, {model:db.artist, attributes: ['name']}]}]
         })
         return res.send(albumsOnDb)
     } catch (e:any) {
