@@ -5,9 +5,9 @@ import { Model } from 'sequelize';
 
 interface UserAttributes {
     id: string;
+    name: string;
     username: string;
     email: string;
-    password: string;
     rol: string;
     image_avatar: string;
     requested_artist: boolean;
@@ -18,9 +18,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
     class user extends Model<UserAttributes>
         implements UserAttributes {
         id!: string;//UID
+        name!: string;
         username!: string;
         email!: string;
-        password!: string;
         rol!: string;
         image_avatar!: string;
         requested_artist!: boolean;
@@ -39,37 +39,22 @@ module.exports = (sequelize: any, DataTypes: any) => {
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
+        name: {
+            type: DataTypes.STRING,
+        },
         username: {
             type: DataTypes.STRING,
-            // allowNull: false,
-            // validate: {
-            //     is: {
-            //         args: /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/igm,
-            //         msg: 'Username contains invalid characters'
-            //     }
-            // }
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                isEmail: { msg: "Invalid email" }
-            }
         },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            // validate: {
-            //     is: /^(\S)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹])[a-zA-Z0-9~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]{8,16}$/,
-            //     msg: 'Invalid. It must not contain any whitespace, It must contain at least one uppercase, one lowercase and one numeric character. It must contain at least one special character. Length must be between 8 to 16 characters.'
-            // }
-        },
-        rol:{
+        rol: {
             type: DataTypes.ENUM('user', 'artist', 'admin'),
             defaultValue: 'user'
         },
         image_avatar: {
-            type: DataTypes.STRING, validate: { isUrl: true }
+            type: DataTypes.STRING,
         },
         requested_artist: {
             type: DataTypes.BOOLEAN,
