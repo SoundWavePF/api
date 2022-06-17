@@ -7,10 +7,11 @@ playlistRouter.post('/', async(req, res)=>{
     try{
         const { email } = req.body;
         console.log( req.body);
+        const user = await db.user.findOne({where: {email: email}});
         
         const userPlaylist = await db.playlist.findAll({
             attributes :{exclude: ['userId']},
-            where: {email: email}
+            where: {userId: user.id}
         })
         return res.send(userPlaylist)
     } catch (e:any) {
@@ -32,7 +33,7 @@ playlistRouter.get('/all', async(_req, res)=>{
 
 })
 
-playlistRouter.get('/:playlistId', async(req, res)=>{
+playlistRouter.post('/:playlistId', async(req, res)=>{
     const { playlistId } = req.params;
     try{
         const playlistOnDb = await db.playlist.findOne({
