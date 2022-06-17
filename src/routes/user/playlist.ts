@@ -31,7 +31,7 @@ playlistRouter.get('/all', async(_req, res)=>{
 
 })
 
-playlistRouter.get('/:playlistId', async(req, res)=>{
+playlistRouter.post('/:playlistId', async(req, res)=>{
     const { playlistId } = req.params;
     try{
         const playlistOnDb = await db.playlist.findOne({
