@@ -33,7 +33,7 @@ favoriteRouter.post('/add/:idSong', async (req, res) => {
 
     try {
         const song = await db.song.findOne({
-            where: { dz_Id: idSong },
+            where: { id: idSong },
             include: [{model: db.album}, {model: db.artist}]
         })
         const user = await db.user.findOne({
