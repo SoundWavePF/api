@@ -37,9 +37,9 @@ artistRouter.get('/:artistId/top', async(req, res)=>{
         const artist = await db.artist.findOne({
             where: {id: artistId},
             attributes: {exclude: ['userId']},
-            include: [{model: db.album, attributes :{exclude: ['artistId', 'genreId']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId']}}]
+            include: [{model: db.album, attributes :{exclude: ['artistId', 'genreId']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId']}, include: [{model: db.album, attributes: ['name']}, {model:db.artist, attributes: ['name']}]}]
         })
-        const artistTopSongs = artist.Songs.sort((a:Song, b:Song) => b.reproductions - a.reproductions)
+        const artistTopSongs = artist.songs.sort((a:Song, b:Song) => b.reproductions - a.reproductions)
         if(artistTopSongs.length >= 10)
             return res.send(artistTopSongs.slice(0, 10))
         else{
