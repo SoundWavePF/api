@@ -63,7 +63,7 @@ playlistRouter.post('/add', async (req, res) => {
     }
 })
 
-playlistRouter.delete('/remove', async (req, res) => {
+playlistRouter.post('/remove', async (req, res) => {
     const { playlistId, songId } = req.body;
     try {
         const playlist = await db.playlist.findOne({ where: { id: playlistId } })
@@ -76,7 +76,7 @@ playlistRouter.delete('/remove', async (req, res) => {
 })
 
 
-playlistRouter.delete('/delete', async (req, res) => {
+playlistRouter.post('/delete', async (req, res) => {
     const { playlistId } = req.body;
     try {
         await db.playlist.destroy({ where: { id: playlistId } })
