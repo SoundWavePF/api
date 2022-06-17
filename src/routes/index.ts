@@ -8,6 +8,7 @@ import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
 import chargeTables from "./charge/chargeTables";
 import {adminRouter} from "./admin";
+import {artistSongRouter, artistAlbumRouter, artistProfileRouter} from "./artist";
 
 export const routes = Router();
 
@@ -33,3 +34,6 @@ routes.use('/admin', adminRouter)
 routes.use('/requestArtistStatus', artistRequestRouter)
 routes.use('/deactivate', deactivateRouter)
 routes.use('/info', infoRouter)
+routes.use('/artistpanel/album', artistAlbumRouter)
+routes.use('/artistpanel/song', artistSongRouter)
+routes.use('/artistpanel/profile', artistProfileRouter)
