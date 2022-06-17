@@ -54,7 +54,7 @@ playlistRouter.post('/add', async (req, res) => {
     const { playlistId, songId } = req.body;
     try {
         const playlist = await db.playlist.findOne({ where: { id: playlistId } })
-        const song = await db.song.findOne({ where: { dz_Id: songId } })
+        const song = await db.song.findOne({ where: { id: songId } })
         playlist.addSong(song)
         return res.send({ message: `song: ${song.title} has been added to playlist: ${playlist.name}` })
     } catch (e:any) {
@@ -93,7 +93,7 @@ playlistRouter.post('/:playlistId', async(req, res)=>{
         const playlistOnDb = await db.playlist.findOne({
             attributes :{exclude: ['userId']},
             where: {id: playlistId},
-            include: [{model: db.user, attributes: {exclude: ['email', 'password']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId']}}]
+            include: [{model: db.user, attributes: {exclude: ['email', 'password']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId']}, include: [{model: db.album, attributes: ['name']}, {model:db.artist, attributes: ['name']}]}]
         })
         return res.send(playlistOnDb)
     } catch (e:any) {
