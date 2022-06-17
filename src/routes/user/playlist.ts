@@ -6,16 +6,14 @@ export const playlistRouter = Router();
 playlistRouter.post('/', async(req, res)=>{
     try{
         const { email } = req.body;
-        console.log( req.body);
         const user = await db.user.findOne({where: {email: email}});
-        
         const userPlaylist = await db.playlist.findAll({
             attributes :{exclude: ['userId']},
             where: {userId: user.id}
         })
         return res.send(userPlaylist)
     } catch (e:any) {
-        return res.send(e.message)
+        return res.send({message: e.message})
     }
 
 })
@@ -28,7 +26,7 @@ playlistRouter.get('/all', async(_req, res)=>{
         })
         return res.send(playlistOnDb)
     } catch (e:any) {
-        return res.send(e.message)
+        return res.send({message:e.message})
     }
 
 })
@@ -43,7 +41,7 @@ playlistRouter.post('/:playlistId', async(req, res)=>{
         })
         return res.send(playlistOnDb)
     } catch (e:any) {
-        return res.send(e.message)
+        return res.send({message:e.message})
     }
 
 })
@@ -60,7 +58,7 @@ playlistRouter.post('/create', async(req, res)=>{
 
         return res.send({ message: `playlist: ${playlistName} created by user: ${email}` })
     } catch (e:any) {
-        return res.send(e.message)
+        return res.send({message:e.message})
     }
 })
 
@@ -71,9 +69,8 @@ playlistRouter.post('/add', async (req, res) => {
         const song = await db.song.findOne({ where: { dz_Id: songId } })
         playlist.addSong(song)
         return res.send({ message: `song: ${song.title} has been added to playlist: ${playlist.name}` })
-    } catch (e) {
-        // console.log(e)
-        return res.send(e)
+    } catch (e:any) {
+        return res.send({ message: e.message })
     }
 })
 
@@ -84,8 +81,8 @@ playlistRouter.delete('/remove', async (req, res) => {
         const song = await db.song.findOne({ where: { id: songId } })
         playlist.removeSong(song)
         return res.send({ message: `song: ${songId} has been removed from playlist: ${playlist.name}` })
-    } catch (e) {
-        return res.send(e)
+    } catch (e:any) {
+        return res.send({ message: e.message })
     }
 })
 
@@ -96,7 +93,7 @@ playlistRouter.delete('/delete', async (req, res) => {
         await db.playlist.destroy({ where: { id: playlistId } })
 
         return res.send({ message: `playlist with id: ${playlistId} has been deleted` })
-    } catch (e) {
-        return res.send(e)
+    } catch (e:any) {
+        return res.send({ message: e.message })
     }
 })
