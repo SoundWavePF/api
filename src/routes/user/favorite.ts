@@ -49,7 +49,7 @@ favoriteRouter.post('/add/:idSong', async (req, res) => {
 })
 
 
-favoriteRouter.delete('/remove/:idSong', async (req, res) => {
+favoriteRouter.post('/remove/:idSong', async (req, res) => {
     const { idSong } = req.params;
     const { email } = req.body
 
