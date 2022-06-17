@@ -81,14 +81,20 @@ adminRouter.post('/accept', async(req,res)=>{
     const { adminEmail, userEmail } = req.body;
     try {
         const admin = await db.user.findOne({where: {email: adminEmail}});
-        if(admin.rol=== 'admin') {
+        if (admin.rol === 'admin') {
             const user = await db.user.findOne({where: {email: userEmail}});
-            if(user.rol=== 'artist'){
+            if (user.rol === 'artist') {
                 return res.send({message: 'User is already an artist'});
             }
             user.rol = 'artist';
             user.requested_artist = false;
             await user.save();
+            await db.artist.create({
+                name: user.name,
+                image_small: user.image_avatar,
+                image_medium: user.image_avatar,
+                image_large: user.image_avatar,
+            })
             return res.send({message: 'User accepted'});
         }
         return res.send({message: 'You are not an admin'});
