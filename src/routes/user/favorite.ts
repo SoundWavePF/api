@@ -15,12 +15,12 @@ favoriteRouter.post('/', async(req,res)=>{
         if (user === null) {
             return res.send(`No user with email: ${email}`)
         }
-        return res.send(user)
-        // return res.send({
-        //     // "id": user.id,
-        //     "username": user.username,
-        //     "liked_songs": user.songs
-        // })
+        // return res.send(user)
+        return res.send({
+            "id": user.id,
+            "username": user.username,
+            "liked_songs": user.songs
+        })
     } catch (e) {
         return res.send(e)
     }
@@ -33,11 +33,13 @@ favoriteRouter.post('/add/:idSong', async (req, res) => {
 
     try {
         const song = await db.song.findOne({
-            where: { id: idSong }
+            where: { dz_Id: idSong }
         })
         const user = await db.user.findOne({
             where: { email: email }
         })
+      
+        
         user.addSong(song)
         return res.send({ message: `user: ${email} liked song: ${idSong}` })
     } catch (e) {
