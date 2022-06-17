@@ -15,7 +15,7 @@ playlistRouter.post('/', async(req, res)=>{
         })
         return res.send(userPlaylist)
     } catch (e:any) {
-        return res.send(e.message)
+        return res.send({message: e.message})
     }
 
 })
@@ -28,26 +28,10 @@ playlistRouter.get('/all', async(_req, res)=>{
         })
         return res.send(playlistOnDb)
     } catch (e:any) {
-        return res.send(e.message)
+        return res.send({message: e.message})
     }
 
 })
-
-playlistRouter.post('/:playlistId', async(req, res)=>{
-    const { playlistId } = req.params;
-    try{
-        const playlistOnDb = await db.playlist.findOne({
-            attributes :{exclude: ['userId']},
-            where: {id: playlistId},
-            include: [{model: db.user, attributes: {exclude: ['email', 'password']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId']}}]
-        })
-        return res.send(playlistOnDb)
-    } catch (e:any) {
-        return res.send(e.message)
-    }
-
-})
-
 playlistRouter.post('/create', async(req, res)=>{
     const { email, playlistName } = req.body;
 
@@ -60,9 +44,11 @@ playlistRouter.post('/create', async(req, res)=>{
 
         return res.send({ message: `playlist: ${playlistName} created by user: ${email}` })
     } catch (e:any) {
-        return res.send(e.message)
+        return res.send({message: e.message})
     }
 })
+
+
 
 playlistRouter.post('/add', async (req, res) => {
     const { playlistId, songId } = req.body;
@@ -71,9 +57,9 @@ playlistRouter.post('/add', async (req, res) => {
         const song = await db.song.findOne({ where: { dz_Id: songId } })
         playlist.addSong(song)
         return res.send({ message: `song: ${song.title} has been added to playlist: ${playlist.name}` })
-    } catch (e) {
+    } catch (e:any) {
         // console.log(e)
-        return res.send(e)
+        return res.send({message: e.message})
     }
 })
 
@@ -99,4 +85,19 @@ playlistRouter.delete('/delete', async (req, res) => {
     } catch (e) {
         return res.send(e)
     }
+})
+
+playlistRouter.post('/:playlistId', async(req, res)=>{
+    const { playlistId } = req.params;
+    try{
+        const playlistOnDb = await db.playlist.findOne({
+            attributes :{exclude: ['userId']},
+            where: {id: playlistId},
+            include: [{model: db.user, attributes: {exclude: ['email', 'password']}}, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId']}}]
+        })
+        return res.send(playlistOnDb)
+    } catch (e:any) {
+        return res.send({message: e.message})
+    }
+
 })
