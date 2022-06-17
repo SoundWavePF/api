@@ -6,6 +6,8 @@ export const playlistRouter = Router();
 playlistRouter.post('/', async(req, res)=>{
     try{
         const { email } = req.body;
+        console.log( req.body);
+        
         const userPlaylist = await db.playlist.findAll({
             attributes :{exclude: ['userId']},
             where: {email: email}
@@ -65,7 +67,7 @@ playlistRouter.post('/add', async (req, res) => {
     const { playlistId, songId } = req.body;
     try {
         const playlist = await db.playlist.findOne({ where: { id: playlistId } })
-        const song = await db.song.findOne({ where: { id: songId } })
+        const song = await db.song.findOne({ where: { dz_Id: songId } })
         playlist.addSong(song)
         return res.send({ message: `song: ${song.title} has been added to playlist: ${playlist.name}` })
     } catch (e) {
