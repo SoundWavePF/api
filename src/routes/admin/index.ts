@@ -4,9 +4,9 @@ import db from '../../models/db';
 export const adminRouter = Router();
 
 adminRouter.post('/stats', async (req, res) => {
-    const {adminId} = req.body;
+    const {adminEmail} = req.body;
     try {
-        const admin = await db.user.findOne({where: {id: adminId}});
+        const admin = await db.user.findOne({where: {email: adminEmail}});
         if(admin.rol==='admin'){
             const songStats = await db.sequelize.query(`SELECT COUNT(*) as totalSongs FROM songs`, {type: db.sequelize.QueryTypes.SELECT});
             const songsPlayCount = await db.sequelize.query(`SELECT SUM(reproductions) as totalPlayCount FROM songs`, {type: db.sequelize.QueryTypes.SELECT});
@@ -26,9 +26,9 @@ adminRouter.post('/stats', async (req, res) => {
 })
 
 adminRouter.post('/users', async(req,res)=>{
-    const { adminId } = req.body;
+    const { adminEmail } = req.body;
     try {
-        const admin = await db.user.findOne({where: {id: adminId}});
+        const admin = await db.user.findOne({where: {email: adminEmail}});
         if(admin.rol=== 'admin') {
             const users = await db.user.findAll({attributes: {exclude: ['password']}});
             return res.send(users);
@@ -40,11 +40,11 @@ adminRouter.post('/users', async(req,res)=>{
 })
 
 adminRouter.post('/update', async(req,res)=>{
-    const { adminId, userId, field, newData } = req.body;
+    const { adminEmail, userEmail, field, newData } = req.body;
     try {
-        const admin = await db.user.findOne({where: {id: adminId}});
+        const admin = await db.user.findOne({where: {email: adminEmail}});
         if(admin.rol=== 'admin') {
-            const user = await db.user.findOne({where: {id: userId}});
+            const user = await db.user.findOne({where: {email: userEmail}});
             if(field === 'email'){
                 user.email = newData;
                 await user.save();
@@ -78,11 +78,11 @@ adminRouter.post('/update', async(req,res)=>{
 })
 
 adminRouter.post('/accept', async(req,res)=>{
-    const { adminId, userId } = req.body;
+    const { adminEmail, userEmail } = req.body;
     try {
-        const admin = await db.user.findOne({where: {id: adminId}});
+        const admin = await db.user.findOne({where: {email: adminEmail}});
         if(admin.rol=== 'admin') {
-            const user = await db.user.findOne({where: {id: userId}});
+            const user = await db.user.findOne({where: {email: userEmail}});
             if(user.rol=== 'artist'){
                 return res.send({message: 'User is already an artist'});
             }
@@ -98,11 +98,11 @@ adminRouter.post('/accept', async(req,res)=>{
 })
 
 adminRouter.post('deactivate', async(req,res)=>{
-    const { adminId, userId } = req.body;
+    const { adminEmail, userEmail } = req.body;
     try {
-        const admin = await db.user.findOne({where: {id: adminId}});
+        const admin = await db.user.findOne({where: {email: adminEmail}});
         if (admin.rol === 'admin') {
-            const user = await db.user.findOne({where: {id: userId}});
+            const user = await db.user.findOne({where: {email: userEmail}});
             if (user.rol === 'admin') {
                 return res.send({message: 'You cannot delete an admin'});
             }
