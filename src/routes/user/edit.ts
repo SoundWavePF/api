@@ -26,7 +26,7 @@ updateRouter.post('/', async (req, res) => {
             if (isValidPassword) {
                 user.password = newData;
                 await user.save();
-                return res.send({message: 'Password updated'});body changed to email
+                return res.send({message: 'Password updated'});//body changed to email
             }
         }
         if(field === 'username'){
