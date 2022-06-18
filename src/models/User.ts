@@ -10,6 +10,7 @@ interface UserAttributes {
     email: string;
     rol: string;
     image_avatar: string;
+    history: string[];
     requested_artist: boolean;
     deactivated: boolean;
 }
@@ -23,6 +24,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         email!: string;
         rol!: string;
         image_avatar!: string;
+        history!: string[];
         requested_artist!: boolean;
         deactivated!: boolean;
         static associate(models: any) {
@@ -55,6 +57,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
         },
         image_avatar: {
             type: DataTypes.STRING,
+        },
+        history: {
+            type: DataTypes.RANGE(DataTypes.STRING),
         },
         requested_artist: {
             type: DataTypes.BOOLEAN,
