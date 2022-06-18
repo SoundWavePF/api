@@ -124,3 +124,17 @@ adminRouter.post('deactivate', async(req,res)=>{
         return res.send({error: e.message})
     }
 })
+
+adminRouter.post('/validate', async(req,res)=>{
+    const { userEmail } = req.body;
+    try {
+        const user = await db.user.findOne({where: {email: userEmail}});
+        if(user.rol === 'admin'){
+            return res.send({isAdmin: true});
+        } else {
+            return res.send({isAdmin: false});
+        }
+    } catch (e:any) {
+        return res.send({error: e.message})
+    }
+})
