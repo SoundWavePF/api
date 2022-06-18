@@ -1,13 +1,14 @@
 import { Router } from 'express';
 // import { seederRouter } from "./seeder/seeder";
 import send from "./send/send";
-import {searchRouter, artistRouter, albumRouter, genreRouter, topRouter} from "./search";
-import {favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter} from './user';
+import { searchRouter, artistRouter, albumRouter, genreRouter, topRouter } from "./search";
+import { favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter } from './user';
 import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
 import chargeTables from "./charge/chargeTables";
-import {adminRouter} from "./admin";
+import { adminRouter } from "./admin";
+import user from './user/user';
 
 export const routes = Router();
 
@@ -32,3 +33,4 @@ routes.use('/update', updateRouter)
 routes.use('/admin', adminRouter)
 routes.use('/requestArtistStatus', artistRequestRouter)
 routes.use('/deactivate', deactivateRouter)
+routes.use('/user', user)
