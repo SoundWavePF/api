@@ -8,7 +8,7 @@ albumRouter.get('/all', async(_req, res)=>{
     try{
         const albumsOnDb:AlbumResult = await db.album.findAll({
             attributes :{exclude: ['artistId', 'genreId']},
-            include: [{model: db.artist, attributes: {exclude: ['userId']}}, db.genre, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId', 'userId']}}]
+            include: [{model: db.artist, attributes: {exclude: ['userId']}}, db.genre, {model: db.song, attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId', 'artistId', 'genreId', 'userId']}, include: [{model: db.album, attributes: ['name']}, {model:db.artist, attributes: ['name']}]}]
         })
         return res.send(albumsOnDb)
     } catch (e:any) {

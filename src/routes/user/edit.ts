@@ -7,11 +7,11 @@ export const artistRequestRouter = Router();
 export const deactivateRouter = Router();
 
 updateRouter.post('/', async (req, res) => {
-    const { id, field, oldData, newData } = req.body;
+    const { email, field, oldData, newData } = req.body;
     try {
         const user = await db.user.findOne({
             where: {
-                id: id
+                email:email
             }
         });
         if(field === 'email'){
@@ -26,7 +26,7 @@ updateRouter.post('/', async (req, res) => {
             if (isValidPassword) {
                 user.password = newData;
                 await user.save();
-                return res.send({message: 'Password updated'});
+                return res.send({message: 'Password updated'});//body changed to email
             }
         }
         if(field === 'username'){
@@ -48,11 +48,11 @@ updateRouter.post('/', async (req, res) => {
 })
 
 artistRequestRouter.post('/', async (req, res) => {
-    const { id } = req.body;
+    const { email } = req.body;
     try {
         const user = await db.user.findOne({
             where: {
-                id: id
+               email:email
             }
         });
         if(user.rol === 'artist'){
@@ -70,9 +70,9 @@ artistRequestRouter.post('/', async (req, res) => {
 })
 
 deactivateRouter.post('/', async (req, res) => {
-    const { id } = req.body;
+    const { email } = req.body;
     try {
-        const user = await db.user.findOne({where: {id: id}});
+        const user = await db.user.findOne({where: {email: email}});
         if(user.deactivated !== true){
             user.deactivated = true;
             await user.save();
