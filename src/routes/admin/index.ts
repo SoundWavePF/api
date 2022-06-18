@@ -103,7 +103,7 @@ adminRouter.post('/accept', async(req,res)=>{
     }
 })
 
-adminRouter.post('deactivate', async(req,res)=>{
+adminRouter.post('/deactivate', async(req,res)=>{
     const { adminEmail, userEmail } = req.body;
     try {
         const admin = await db.user.findOne({where: {email: adminEmail}});
