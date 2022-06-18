@@ -30,6 +30,8 @@ favoriteRouter.post('/', async(req,res)=>{
 favoriteRouter.post('/add/:idSong', async (req, res) => {
     const { idSong } = req.params;
     const { email } = req.body
+    console.log(email)
+    console.log(idSong)
 
     try {
         const song = await db.song.findOne({

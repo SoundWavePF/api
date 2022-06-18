@@ -12,10 +12,10 @@ loginRouter.use(passport.session());
 
 
 loginRouter.post('/userRegister', async (req, res) => {
-    console.log(req.body)
+    console.log(req.body.email)
     const { name, username, email, image } = req.body;
     try {
-        db.user.findOrCreate({
+        const user = await db.user.findOrCreate({
             where: { email: email },
             defaults: {
                 name: name,
@@ -24,7 +24,7 @@ loginRouter.post('/userRegister', async (req, res) => {
                 image_avatar: image
             }
         })
-        res.send('hola')
+        res.send(user)
     } catch (err) {
         console.log(err)
     }
