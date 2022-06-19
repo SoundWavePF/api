@@ -1,24 +1,23 @@
 import {Router} from "express";
 import db from "../../models/db";
+import moment from "moment";
 
 export const playRouter = Router();
 
 playRouter.post('/', async (req, res) => {
-    const { songId, userEmail } = req.query;
+    const { songId, userEmail } = req.body;
     try{
         const song = await db.song.findOne({where: {id: songId}, include: [{model: db.artist, attributes: ['name']}, {model: db.album, attributes: ['name']}]});
+        // const artist = await db.artist.findOne({where: {name: song.artists[0].name}});
+        // const song = await db.song.findOne({where: {id: songId}});
         const user = await db.user.findOne({where: {email: userEmail}});
-        const historyArray = user.history.map((song:any)=>song.id)
-        if(historyArray.includes(songId)){
-            let index = historyArray.indexOf(songId);
-            const firstSlice = user.history.slice(0, index);
-            const secondSlice = user.history.slice(index + 1);
-            user.history = [...firstSlice, ...secondSlice];
+        let [playedSong, created] = await db.played.findOrCreate({where: {songId: song.id}, defaults: {songId: song.id, date_played: moment().format("YYYY-MM-DD HH:mm:ss")}});
+        if (created === false) {
+            user.removePlayed(playedSong);
         }
-        user.history.push(song);
-        song.reproductions = song.reproductions + 1;
-        await song.save();
-        await user.save();
+        user.addPlayed(playedSong);
+        song.reproductions += 1;
+        song.save();
         return res.send({message: 'Song added to history'});
     } catch (e:any) {
         return res.send({message: e.message});
