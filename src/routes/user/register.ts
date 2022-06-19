@@ -4,7 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const localStrategy = require('passport-local').Strategy;
 import db from '../../models/db';
-const { User } = db;
+// const { db.user } = db;
 
 export const registerRouter = Router();
 
@@ -19,10 +19,10 @@ passport.use('register', new localStrategy({
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     try{
-        const lookingForUser = await User.findOne({where: {username}})
-        const lookingForEmail = await User.findOne({where: {email}})
+        const lookingForUser = await db.user.findOne({where: {username}})
+        const lookingForEmail = await db.user.findOne({where: {email}})
         if(lookingForUser && lookingForEmail){
-            return done(null, false, {message: 'User already exists'})
+            return done(null, false, {message: 'db.user already exists'})
         }
         if(lookingForUser){
             return done(null, false, {message: 'Username is already taken'})
@@ -30,7 +30,7 @@ passport.use('register', new localStrategy({
         if(lookingForEmail){
             return done(null, false, {message: 'Email already exists'})
         }
-        const createNewUser = await User.create({
+        const createNewUser = await db.user.create({
             username,
             email,
             password: hashedPassword
@@ -43,7 +43,10 @@ passport.use('register', new localStrategy({
 }))
 
 registerRouter.post('/', passport.authenticate('register', {session: false}), async (req:any, res:any) => {
-    const token = jwt.sign({username: req.user.username}, 'secret');
+    const {email} = req.user;
+    const user = await db.user.findOne({where: {email}})
+    console.log(user)
+    const token = jwt.sign({id: user.id, username: user.id, email: user.email}, 'secret');
     res.send({
             message: 'success',
             token: token

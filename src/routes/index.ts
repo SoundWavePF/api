@@ -3,7 +3,7 @@ import { Router } from 'express';
 import send from "./send/send";
 
 import {searchRouter, artistRouter, albumRouter, genreRouter, topRouter} from "./search";
-import {favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter} from './user';
+import {favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter, playRouter, historyRouter} from './user';
 import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
@@ -39,4 +39,5 @@ routes.use('/info', infoRouter)
 routes.use('/artistpanel/album', artistAlbumRouter)
 routes.use('/artistpanel/song', artistSongRouter)
 routes.use('/artistpanel/profile', artistProfileRouter)
-
+routes.use('/play', playRouter)
+routes.use('/history', historyRouter)
