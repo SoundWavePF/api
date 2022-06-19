@@ -13,7 +13,7 @@ searchRouter.get('/', async (req, res) => {
     try {
 
         const song = await db.song.findAll({
-            attributes: ['type', 'id', 'image_small', 'preview', 'name'],
+            attributes: ['type', 'id', 'image_small', 'preview', 'name', 'reproductions', 'duration'],
             where: {
                 name: {
                     [Op.iLike]: `${all}%`
@@ -31,6 +31,8 @@ searchRouter.get('/', async (req, res) => {
                 preview: e.preview,
                 image_small: e.image_small,
                 type: e.type,
+                reproductions: e.reproductions,
+                duration: e.duration,
                 artists: e.artists.map((e: any) => {
                     return {
                         id: e.id,
