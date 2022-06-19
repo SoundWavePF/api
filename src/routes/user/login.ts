@@ -10,6 +10,27 @@ export const loginRouter = Router();
 loginRouter.use(passport.initialize());
 loginRouter.use(passport.session());
 
+
+loginRouter.post('/userRegister', async (req, res) => {
+    console.log(req.body.email)
+    const { name, username, email, image } = req.body;
+    try {
+        const user = await db.user.findOrCreate({
+            where: { email: email },
+            defaults: {
+                name: name,
+                username: username,
+                email: email,
+                image_avatar: image
+            }
+        })
+        res.send(user)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
 passport.use('login', new localStrategy({
         usernameField: 'email',
         passwordField: 'password',

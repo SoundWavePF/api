@@ -103,7 +103,7 @@ adminRouter.post('/accept', async(req,res)=>{
     }
 })
 
-adminRouter.post('deactivate', async(req,res)=>{
+adminRouter.post('/deactivate', async(req,res)=>{
     const { adminEmail, userEmail } = req.body;
     try {
         const admin = await db.user.findOne({where: {email: adminEmail}});
@@ -120,6 +120,20 @@ adminRouter.post('deactivate', async(req,res)=>{
             return res.send({message: 'User deleted'});
         }
         return res.send({message: 'You are not an admin'});
+    } catch (e:any) {
+        return res.send({error: e.message})
+    }
+})
+
+adminRouter.post('/validate', async(req,res)=>{
+    const { userEmail } = req.body;
+    try {
+        const user = await db.user.findOne({where: {email: userEmail}});
+        if(user.rol === 'admin'){
+            return res.send({isAdmin: true});
+        } else {
+            return res.send({isAdmin: false});
+        }
     } catch (e:any) {
         return res.send({error: e.message})
     }
