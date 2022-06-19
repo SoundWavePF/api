@@ -8,6 +8,7 @@ interface UserAttributes {
     name: string;
     username: string;
     email: string;
+    password: string;
     rol: string;
     image_avatar: string;
     requested_artist: boolean;
@@ -21,6 +22,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         name!: string;
         username!: string;
         email!: string;
+        password!: string;
         rol!: string;
         image_avatar!: string;
         requested_artist!: boolean;
@@ -51,6 +53,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        password: {
+            type: DataTypes.STRING,
         },
         rol: {
             type: DataTypes.ENUM('user', 'artist', 'admin'),
