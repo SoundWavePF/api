@@ -21,7 +21,7 @@ searchRouter.get('/', async (req, res) => {
             },
             include: [
                 { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
-                { model: db.album, attributes: ['name'] }
+                { model: db.album, attributes: ['name', 'id'] }
             ]
         })
         song.map((e: any) => {
@@ -84,9 +84,9 @@ searchRouter.get('/', async (req, res) => {
         })
 
         const obj = {
-            songData: songSearch.slice(0, 3),
-            albumData: albumSearch.slice(0, 3),
-            artistData: artistSearch.slice(0, 3),
+            songData: songSearch.slice(0, 10),
+            albumData: albumSearch.slice(0, 10),
+            artistData: artistSearch.slice(0, 10),
         }
         res.send(obj)
     } catch (err) {
