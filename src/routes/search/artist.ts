@@ -25,15 +25,15 @@ artistRouter.get('/:artistId', async (req, res) => {
             include: [{ model: db.album }, {
                 model: db.song, include: [
                     { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
-                    { model: db.album, attributes: ['name'] }
+                    { model: db.album, attributes: ['name', 'id'] }
                 ]
             }]
         })
         return res.send(artist)
-        include: [
-            { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
-            { model: db.album, attributes: ['name'] }
-        ]
+        // include: [
+        //     { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
+        //     { model: db.album, attributes: ['name'] }
+        // ]
     } catch (e) {
         return res.send({ message: e })
     }
