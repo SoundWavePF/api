@@ -3,7 +3,7 @@ import db from "../../models/db";
 
 export const artistDescriptionRouter = Router();
 
-artistDescriptionRouter.post('/description', async (req, res) => {
+artistDescriptionRouter.post('/', async (req, res) => {
     const {email, description} = req.body;
     try {
         const user = await db.user.findOne({where: {email: email}});
