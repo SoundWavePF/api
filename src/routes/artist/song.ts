@@ -4,16 +4,16 @@ import db from "../../models/db";
 export const artistSongRouter = Router();
 
 artistSongRouter.post('/create', async (req, res) => {
-    const { userEmail, songName, image_small, image_medium, image_big, duration, preview } = req.body;
+    const { userEmail, songName, image, duration, preview } = req.body;
     try {
         const user = await db.user.findOne({where: {email: userEmail}});
         const artist = await db.artist.findOne({where: {userId: user.id}});
         const song = await db.song.create({
             name: songName,
             preview: preview,
-            image_small: image_small,
-            image_medium: image_medium,
-            image_big: image_big,
+            image_small: image,
+            image_medium: image,
+            image_big: image,
             duration: duration,
         })
         await artist.addSong(song);
