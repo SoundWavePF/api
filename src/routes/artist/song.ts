@@ -44,11 +44,11 @@ artistSongRouter.post('/update', async (req, res) => {
         const user = await db.user.findOne({where: {email: email}});
         const song = await db.song.findOne({where: {id: songId}});
         await song.update({
-            name: songName,
-            image_small: image_small,
-            image_medium: image_medium,
-            image_big: image_big,
-            duration: duration,
+            name: songName || song.name,
+            image_small: image_small || song.image_small,
+            image_medium: image_medium || song.image_medium,
+            image_big: image_big || song.image_big,
+            duration: duration || song.duration,
         })
         return res.send({message: 'Song updated'});
         } catch (e:any) {
