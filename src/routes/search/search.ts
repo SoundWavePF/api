@@ -21,7 +21,7 @@ searchRouter.get('/', async (req, res) => {
             },
             include: [
                 { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
-                { model: db.album, attributes: ['name'] }
+                { model: db.album, attributes: ['name', 'id'] }
             ]
         })
         song.map((e: any) => {
