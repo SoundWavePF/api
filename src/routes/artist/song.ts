@@ -39,16 +39,13 @@ artistSongRouter.post('/delete', async (req, res) => {
 })
 
 artistSongRouter.post('/update', async (req, res) => {
-    const {email, songId, songName, image_small, image_medium, image_big, duration} = req.body;
+    const {email, songId, songName, albumId} = req.body;
     try {
         const user = await db.user.findOne({where: {email: email}});
         const song = await db.song.findOne({where: {id: songId}});
         await song.update({
             name: songName,
-            image_small: image_small,
-            image_medium: image_medium,
-            image_big: image_big,
-            duration: duration,
+            albumId: albumId,
         })
         return res.send({message: 'Song updated'});
         } catch (e:any) {

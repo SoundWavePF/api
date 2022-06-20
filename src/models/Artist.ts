@@ -7,6 +7,7 @@ interface ArtistAttributes {
     id: string;
     dz_Id: number;
     name: string;
+    description: string;
     image_small: string;
     image_medium: string;
     image_big: string;
@@ -19,6 +20,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         id!: string; //uid
         dz_Id!: number;
         name!: string;
+        description!: string;
         image_small!: string;
         image_medium!: string;
         image_big!: string;
@@ -45,6 +47,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        description: {
+            type: DataTypes.TEXT,
         },
         image_small: {
             type: DataTypes.STRING,

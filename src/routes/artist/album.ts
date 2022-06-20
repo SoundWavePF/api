@@ -46,11 +46,11 @@ artistAlbumRouter.post('/update', async (req, res) => {
         const album = await db.album.findOne({where: {id: albumId}});
         const genre = await db.genre.findOne({where: {id: genreId}});
         await album.update({
-            name: albumName,
-            release_date: albumReleaseDate,
-            image_small: image_small,
-            image_medium: image_medium,
-            image_big: image_big,
+            name: albumName || album.name,
+            release_date: albumReleaseDate || album.release_date,
+            image_small: image_small || album.image_small,
+            image_medium: image_medium || album.image_medium,
+            image_big: image_big || album.image_big,
         })
         return res.send({message: 'Album updated'});
     } catch (e:any) {
