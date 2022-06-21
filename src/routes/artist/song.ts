@@ -15,6 +15,7 @@ artistSongRouter.post('/create', async (req, res) => {
             image_medium: image,
             image_big: image,
             duration: duration,
+            type: "track"
         })
         await artist.addSong(song);
         return res.send({message: 'Song created'});
