@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import {Router} from 'express';
 import db from '../../models/db';
 import bcrypt from 'bcrypt';
 
@@ -23,9 +23,8 @@ updateRouter.post('/', async (req, res) => {
         }
         if(field === 'password'){
             const isValidPassword = await bcrypt.compare(oldData, user.password);
-            const hashedPassword = await bcrypt.hash(newData, 10);
             if (isValidPassword) {
-                user.password = hashedPassword;
+                user.password = await bcrypt.hash(newData, 10);
                 await user.save();
                 return res.send({message: 'Password updated'});//body changed to email
             }
