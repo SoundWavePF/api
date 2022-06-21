@@ -1,7 +1,6 @@
 import { Router } from 'express';
 // import { seederRouter } from "./seeder/seeder";
 import send from "./send/send";
-
 import {searchRouter, artistRouter, albumRouter, genreRouter, topRouter} from "./search";
 import {favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter, playRouter, historyRouter} from './user';
 import link from "./link/link";
@@ -10,6 +9,7 @@ import charge from "./charge/charge";
 import chargeTables from "./charge/chargeTables";
 import {adminRouter} from "./admin";
 import {artistSongRouter, artistAlbumRouter, artistProfileRouter, artistDescriptionRouter} from "./artist";
+import {artistAsUserRouter} from "./seeder/loader";
 
 
 export const routes = Router();
@@ -42,3 +42,4 @@ routes.use('/artistpanel/profile', artistProfileRouter)
 routes.use('/play', playRouter)
 routes.use('/history', historyRouter)
 routes.use('/artistpanel/description', artistDescriptionRouter)
+routes.use('/asuser', artistAsUserRouter)
