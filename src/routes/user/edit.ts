@@ -23,8 +23,9 @@ updateRouter.post('/', async (req, res) => {
         }
         if(field === 'password'){
             const isValidPassword = await bcrypt.compare(oldData, user.password);
+            const hashedPassword = await bcrypt.hash(newData, 10);
             if (isValidPassword) {
-                user.password = newData;
+                user.password = hashedPassword;
                 await user.save();
                 return res.send({message: 'Password updated'});//body changed to email
             }
