@@ -35,6 +35,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
             artist.belongsToMany(models.song, {
                 through: 'contributors'
             })
+            artist.hasMany(models.donation)
         }
     }
     artist.init({
