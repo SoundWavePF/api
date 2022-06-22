@@ -56,7 +56,9 @@ playlistRouter.post('/add', async (req, res) => {
         const playlist = await db.playlist.findOne({ where: { id: playlistId } })
         const song = await db.song.findOne({ where: { id: songId } })
         playlist.addSong(song)
-        return res.send({ message: `song: ${song.title} has been added to playlist: ${playlist.name}` })
+        song.added_to_playlists += 1;
+        song.save();
+        return res.send({ message: `song: ${song.name} has been added to playlist: ${playlist.name}` })
     } catch (e:any) {
         // console.log(e)
         return res.send({message: e.message})
@@ -69,6 +71,8 @@ playlistRouter.post('/remove', async (req, res) => {
         const playlist = await db.playlist.findOne({ where: { id: playlistId } })
         const song = await db.song.findOne({ where: { id: songId } })
         playlist.removeSong(song)
+        song.added_to_favorites -= 1;
+        song.save();
         return res.send({ message: `song: ${songId} has been removed from playlist: ${playlist.name}` })
     } catch (e) {
         return res.send(e)
@@ -79,8 +83,13 @@ playlistRouter.post('/remove', async (req, res) => {
 playlistRouter.post('/delete', async (req, res) => {
     const { playlistId } = req.body;
     try {
-        await db.playlist.destroy({ where: { id: playlistId } })
-
+        const playlist = await db.playlist.findOne({ where: { id: playlistId }, include: [{model: db.song}] })
+        await Promise.all(playlist.songs.map(async (song:any)=>{
+            const songToDelete = await db.song.findOne({ where: { id: song.id } })
+            songToDelete.added_to_playlists -= 1;
+            songToDelete.save();
+        }));
+        playlist.destroy();
         return res.send({ message: `playlist with id: ${playlistId} has been deleted` })
     } catch (e) {
         return res.send(e)

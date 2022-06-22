@@ -29,7 +29,10 @@ artistAlbumRouter.post('/delete', async (req, res) => {
     const { albumId, email } = req.body;
     try {
         const user = await db.user.findOne({where: {email: email}});
-        const album = await db.album.findOne({where: {id: albumId}});
+        const album = await db.album.findOne({where: {id: albumId}, include: [{model: db.song}]});
+        await Promise.all(album.songs.map(async (song: any) => {
+            await song.destroy();
+        }))
         const artist = await db.artist.findOne({where: {userId: user.id}});
         await artist.removeAlbum(album);
         await album.destroy();

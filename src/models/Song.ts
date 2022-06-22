@@ -13,6 +13,8 @@ interface SongAttributes {
   image_medium: string;
   image_big: string;
   reproductions: number;
+  added_to_favorites: number;
+  added_to_playlists: number;
   duration: number;
   type: string;
 }
@@ -28,6 +30,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     image_medium!: string;
     image_big!: string;
     reproductions!: number;
+    added_to_favorites!: number;
+    added_to_playlists!: number;
     duration!: number;
     type!: string;
     static associate(models: any) {
@@ -62,18 +66,27 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     image_small: {
       type: DataTypes.STRING,
-      allowNull: false
+      defaultValue: 'https://img.freepik.com/free-photo/vintage-cassette-tape-orange-background_23-2148695246.jpg'
     },
     image_medium: {
       type: DataTypes.STRING,
-      allowNull: false
+      defaultValue: 'https://img.freepik.com/free-photo/vintage-cassette-tape-orange-background_23-2148695246.jpg'
     },
     image_big: {
       type: DataTypes.STRING,
-      allowNull: false
+      defaultValue: 'https://img.freepik.com/free-photo/vintage-cassette-tape-orange-background_23-2148695246.jpg'
     },
     reproductions: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    added_to_favorites: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    added_to_playlists: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
     },
     duration: {
       type: DataTypes.INTEGER,
@@ -81,7 +94,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false
+      defaultValue: 'track'
     },
   }, {
     sequelize,
