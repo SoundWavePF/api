@@ -7,7 +7,7 @@ import axios from "axios";
 server.use(express.json())
 //if reload is false, it will not reload the database
 //if reload is true, it will reload the database
-let reload = false;
+let reload = true;
 
 db.sequelize.sync({ force: reload }).then(() => {
 // db.sequelize.sync().then(() => {
@@ -17,6 +17,11 @@ db.sequelize.sync({ force: reload }).then(() => {
             console.log('Creating DB...')
             await axios.get(`http://localhost:3001/charge/one`)
             await axios.get(`http://localhost:3001/charge/two`)
+            console.log('DB created')
+            await axios.get(`http://localhost:3001/asuser`)
+            console.log('artist are now linked to a user in the DB')
+            await axios.get(`http://localhost:3001/albumPatcher`)
+            console.log('album are now patched with an artist in the DB')
         }
         console.log('DB created')
     })
