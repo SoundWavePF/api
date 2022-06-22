@@ -53,12 +53,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         },
         image_small: {
             type: DataTypes.STRING,
+            defaultValue: 'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
         },
         image_medium: {
             type: DataTypes.STRING,
+            defaultValue: 'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
         },
         image_big: {
             type: DataTypes.STRING,
+            defaultValue: 'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
         },
         type: {
             type: DataTypes.STRING,
