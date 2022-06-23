@@ -6,6 +6,7 @@ import { Model } from 'sequelize';
 interface ArtistAttributes {
     id: string;
     dz_Id: number;
+    stripe_Id: string;
     name: string;
     description: string;
     image_small: string;
@@ -19,6 +20,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         implements ArtistAttributes {
         id!: string; //uid
         dz_Id!: number;
+        stripe_Id!: string;
         name!: string;
         description!: string;
         image_small!: string;
@@ -33,6 +35,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
             artist.belongsToMany(models.song, {
                 through: 'contributors'
             })
+            artist.hasMany(models.donation)
         }
     }
     artist.init({
@@ -43,6 +46,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
         },
         dz_Id: {
             type: DataTypes.INTEGER,
+        },
+        stripe_Id: {
+            type: DataTypes.STRING,
         },
         name: {
             type: DataTypes.STRING,

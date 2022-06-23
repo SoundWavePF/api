@@ -25,16 +25,13 @@ import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
 import chargeTables from "./charge/chargeTables";
-import { adminRouter } from "./admin";
-import {
-	artistSongRouter,
-	artistAlbumRouter,
-	artistProfileRouter,
-	artistDescriptionRouter,
-	artistStatsRouter,
-} from "./artist";
-import { artistAsUserRouter } from "./seeder/loader";
-import { albumPatcher } from "./seeder/albumPatcher";
+import {adminRouter} from "./admin";
+import {artistSongRouter, artistAlbumRouter, artistProfileRouter, artistDescriptionRouter, artistStatsRouter} from "./artist";
+import {artistAsUserRouter} from "./seeder/loader";
+import {albumPatcher} from "./seeder/albumPatcher";
+import {artistdescriptionRouter} from "./seeder/artistdescription";
+import {orderRouter, webhookRouter, linkPaymentRouter} from "./payments";
+
 
 export const routes = Router();
 
@@ -49,24 +46,28 @@ routes.use("/charge", charge);
 routes.use("/chargedb", chargeTables);
 // routes.use('/chargeAlbum', chargeAlbum)
 // routes.use('/chargeGenre', chargeGenre)
-routes.use("/artist", artistRouter);
-routes.use("/album", albumRouter);
-routes.use("/genre", genreRouter);
-routes.use("/top", topRouter);
-routes.use("/register", registerRouter);
-routes.use("/login", loginRouter);
-routes.use("/update", updateRouter);
-routes.use("/admin", adminRouter);
-routes.use("/requestArtistStatus", artistRequestRouter);
-routes.use("/deactivate", deactivateRouter);
-routes.use("/info", infoRouter);
-routes.use("/artistpanel/album", artistAlbumRouter);
-routes.use("/artistpanel/song", artistSongRouter);
-routes.use("/artistpanel/profile", artistProfileRouter);
-routes.use("/play", playRouter);
-routes.use("/history", historyRouter);
-routes.use("/artistpanel/description", artistDescriptionRouter);
-routes.use("/asuser", artistAsUserRouter);
-routes.use("/song", songRouter);
-routes.use("/artistpanel/stats", artistStatsRouter);
-routes.use("/albumPatcher", albumPatcher);
+routes.use('/artist', artistRouter)
+routes.use('/album', albumRouter)
+routes.use('/genre', genreRouter)
+routes.use('/top', topRouter)
+routes.use('/register', registerRouter)
+routes.use('/login', loginRouter)
+routes.use('/update', updateRouter)
+routes.use('/admin', adminRouter)
+routes.use('/requestArtistStatus', artistRequestRouter)
+routes.use('/deactivate', deactivateRouter)
+routes.use('/info', infoRouter)
+routes.use('/artistpanel/album', artistAlbumRouter)
+routes.use('/artistpanel/song', artistSongRouter)
+routes.use('/artistpanel/profile', artistProfileRouter)
+routes.use('/play', playRouter)
+routes.use('/history', historyRouter)
+routes.use('/artistpanel/description', artistDescriptionRouter)
+routes.use('/asuser', artistAsUserRouter)
+routes.use('/song', songRouter)
+routes.use('/artistpanel/stats', artistStatsRouter)
+routes.use('/albumPatcher', albumPatcher)
+routes.use('/order', orderRouter)
+routes.use('/webhook', webhookRouter)
+routes.use('/linkPayment', linkPaymentRouter)
+routes.use('/descriptionPatcher', artistdescriptionRouter)
