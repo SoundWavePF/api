@@ -135,8 +135,8 @@ playlistRouter.get("/:playlistId", async (req, res) => {
                         ],
                     },
                     include: [
-                        { model: db.album, attributes: ["name"] },
-                        { model: db.artist, attributes: ["name"] },
+                        { model: db.album, attributes: ["name", "id"] },
+                        { model: db.artist, attributes: ["name", "id"] },
                     ],
                 },
             ],
