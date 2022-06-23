@@ -11,6 +11,7 @@ import {adminRouter} from "./admin";
 import {artistSongRouter, artistAlbumRouter, artistProfileRouter, artistDescriptionRouter, artistStatsRouter} from "./artist";
 import {artistAsUserRouter} from "./seeder/loader";
 import {albumPatcher} from "./seeder/albumPatcher";
+import {artistdescriptionRouter} from "./seeder/artistdescription";
 import {orderRouter, webhookRouter, linkPaymentRouter} from "./payments";
 
 export const routes = Router();
@@ -50,3 +51,4 @@ routes.use('/albumPatcher', albumPatcher)
 routes.use('/order', orderRouter)
 routes.use('/webhook', webhookRouter)
 routes.use('/linkPayment', linkPaymentRouter)
+routes.use('/descriptionPatcher', artistdescriptionRouter)
