@@ -21,7 +21,7 @@ db.sequelize.sync({ force: reload }).then(() => {
             console.log('Linking albums to main artist...')
             await axios.get(`http://localhost:3001/albumPatcher`)
             console.log('patching artist description...')
-            await axios.get(`http://localhost:3001/artistdescription`)
+            await axios.get(`http://localhost:3001/descriptionPatcher`)
         }
         console.log('DB created')
     })
