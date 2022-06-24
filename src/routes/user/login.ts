@@ -24,6 +24,8 @@ loginRouter.post('/userRegister', async (req, res) => {
                 image_avatar: image
             }
         })
+        user.deactivated = false;
+        user.save();
         res.send(user)
     } catch (err) {
         console.log(err)
