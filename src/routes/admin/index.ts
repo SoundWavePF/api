@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import db from '../../models/db';
+import bcrypt from 'bcrypt';
 
 export const adminRouter = Router();
 
@@ -56,7 +57,7 @@ adminRouter.post('/update', async(req,res)=>{
                 return res.send({message: 'Email updated'});
             }
             if(field === 'password'){
-                user.password = newData;
+                user.password = await bcrypt.hash(newData, 10);
                 await user.save();
                 return res.send({message: 'Password updated'});
             }
