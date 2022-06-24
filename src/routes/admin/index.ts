@@ -121,9 +121,17 @@ adminRouter.post('/deactivate', async(req,res)=>{
             if(user.deactivated===true){
                 return res.send({message: 'User is already deactivated'});
             }
+            const playlist = await db.playlist.findAll({where: {userId: user.id}});
+            for(let i = 0; i < playlist.length; i++){
+                await playlist[i].destroy();
+            }
+            const favorite = await db.favorite.findAll({where: {userId: user.id}});
+            for(let i = 0; i < favorite.length; i++){
+                await favorite[i].destroy();
+            }
             user.deactivated = true;
             await user.save();
-            return res.send({message: 'User deleted'});
+            return res.send({message: 'User deactivated'});
         }
         return res.send({message: 'You are not an admin'});
     } catch (e:any) {
