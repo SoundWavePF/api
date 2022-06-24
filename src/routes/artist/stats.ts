@@ -23,6 +23,7 @@ artistStatsRouter.post('/', async (req, res) => {
         let totalFavoriteCount = songsGetter.reduce((acc:any, song:any) => acc + song.added_to_favorites, 0);
         let totalPlaylistCount = songsGetter.reduce((acc:any, album:any) => acc + album.added_to_playlists, 0);
         let artistInfo = {
+            id: artist.id,
             name: artist.name,
             description: artist.description,
             image_small: artist.image_small,
