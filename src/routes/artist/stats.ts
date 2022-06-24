@@ -24,6 +24,7 @@ artistStatsRouter.post('/', async (req, res) => {
         let totalPlaylistCount = songsGetter.reduce((acc:any, album:any) => acc + album.added_to_playlists, 0);
         let artistInfo = {
             id: artist.id,
+            stripe_Id: artist.stripe_Id,
             name: artist.name,
             description: artist.description,
             image_small: artist.image_small,
