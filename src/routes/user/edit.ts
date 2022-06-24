@@ -74,6 +74,14 @@ deactivateRouter.post('/', async (req, res) => {
     try {
         const user = await db.user.findOne({where: {email: email}});
         if(user.deactivated !== true){
+            const playlist = await db.playlist.findAll({where: {userId: user.id}});
+            for(let i = 0; i < playlist.length; i++){
+                await playlist[i].destroy();
+            }
+            const favorite = await db.favorite.findAll({where: {userId: user.id}});
+            for(let i = 0; i < favorite.length; i++){
+                await favorite[i].destroy();
+            }
             user.deactivated = true;
             await user.save();
             return res.send({message: 'Account deactivated'});

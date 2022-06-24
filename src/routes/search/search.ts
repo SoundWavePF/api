@@ -20,11 +20,12 @@ searchRouter.get('/', async (req, res) => {
                 }
             },
             include: [
-                { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
+                { model: db.artist, attributes: ['id', 'dz_Id', 'name'], include: [{model: db.user, attributes: ['deactivated']}]  },
                 { model: db.album, attributes: ['name', 'id'] }
             ]
         })
         song.map((e: any) => {
+            let available = true;
             const obj = {
                 id: e.id,
                 name: e.name,
@@ -37,12 +38,18 @@ searchRouter.get('/', async (req, res) => {
                     return {
                         id: e.id,
                         dz_Id: e.dz_Id,
-                        name: e.name
+                        name: e.name,
+                        deactivated: e.user.deactivated
                     }
                 }),
                 album: e.album
             }
-            songSearch.push(obj)
+            if(obj.artists.find((e: any) => e.deactivated === true)){
+                available = false;
+            }
+            if(available) {
+                songSearch.push(obj)
+            }
         })
 
         const album = await db.album.findAll({
@@ -52,16 +59,28 @@ searchRouter.get('/', async (req, res) => {
                     [Op.iLike]: `${all}%`
                 }
             },
+            include: [{ model: db.artist, attributes: ['id', 'dz_Id', 'name'], include: [{model: db.user, attributes: ['deactivated']}]}]
         })
         album.map((e: any) => {
+            let available = true;
             const obj = {
                 id: e.id,
                 name: e.name,
                 preview: e.preview,
                 image_small: e.image_small,
                 type: e.type,
+                artists: e.artists.map((e: any) => {
+                    return {
+                        deactivated: e.user.deactivated
+                    }
+                })
             }
+            if(obj.artists.find((e: any) => e.deactivated === true)){
+                available = false;
+            }
+            if(available) {
             albumSearch.push(obj)
+            }
         })
 
         const artist = await db.artist.findAll({
@@ -71,16 +90,24 @@ searchRouter.get('/', async (req, res) => {
                     [Op.iLike]: `${all}%`
                 }
             },
+            include: [{ model: db.user, attributes: ['deactivated']}]
         })
         artist.map((e: any) => {
+            let available = true;
             const obj = {
                 id: e.id,
                 name: e.name,
                 preview: e.preview,
                 image_small: e.image_small,
                 type: e.type,
+                deactivated: e.user.deactivated
             }
+            if(obj.deactivated === true){
+                available = false;
+            }
+            if(available) {
             artistSearch.push(obj)
+            }
         })
 
         const obj = {
@@ -100,11 +127,12 @@ searchRouter.get('/all', async (_req, res) => {
     let songSearch!: SongDatum[];
     try {
         albumSearch = await db.album.findAll({
+
             // attributes :{exclude: ['ArtistId', 'GenreId']},
-            // include: [
-            //     db.artist,
+            include: [
+                { model: db.artist, attributes: ['id', 'dz_Id', 'name'], include: [{model: db.user, attributes: ['deactivated']}]}
             //     db.song
-            // ]
+            ]
         })
     }
     catch (e) {
@@ -113,11 +141,11 @@ searchRouter.get('/all', async (_req, res) => {
     try {
         artistSearch = await db.artist.findAll({
             // attributes: {exclude: ['userId']},
-            // include: [
-            //     db.User,
+            include: [{
+                model: db.user, attributes: ['deactivated']}
             //     db.song,
             //     db.album
-            // ]
+            ]
         })
     } catch (e) {
         return res.send({ message: e })
@@ -126,7 +154,7 @@ searchRouter.get('/all', async (_req, res) => {
         songSearch = await db.song.findAll({
             attributes: { exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference'] },
             include: [
-                { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
+                { model: db.artist, attributes: ['id', 'dz_Id', 'name'], include: [{model: db.user, attributes: ['deactivated']}]  },
                 { model: db.album, attributes: ['name'] }
                 // db.User,
                 // db.playlist
