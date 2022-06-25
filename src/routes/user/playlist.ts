@@ -146,3 +146,32 @@ playlistRouter.get("/:playlistId", async (req, res) => {
         return res.send({ message: e.message });
     }
 });
+
+playlistRouter.post("/update", async (req, res) => {
+    const { playlistId, field, newPlaylistName, newSongOrder, email } = req.body;
+    console.log(req.body)
+    try {
+        const user = await db.user.findOne({ where: { email: email } });
+        const playlist = await db.playlist.findOne({
+            where: { id: playlistId },
+        });
+        if (field === "name") {
+            playlist.name = newPlaylistName;
+        } else if (field === "songOrder") {
+            await Promise.all(playlist.songs.map((song: any) => {
+                playlist.removeSong(song);
+            }));
+            await Promise.all(newSongOrder.map(async (songId: any) => {
+                const song = await db.song.findOne({ where: { id: songId } });
+                playlist.addSong(song);
+            }));
+            return res.send(playlist);
+        }
+        playlist.save();
+        return res.send({
+            message: `playlist with id: ${playlistId} has been updated`,
+        });
+    } catch (e: any) {
+        return res.send({ message: e.message });
+    }
+});
