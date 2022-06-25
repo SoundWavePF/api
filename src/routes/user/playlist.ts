@@ -154,6 +154,7 @@ playlistRouter.post("/update", async (req, res) => {
         const user = await db.user.findOne({ where: { email: email } });
         const playlist = await db.playlist.findOne({
             where: { id: playlistId },
+            include: [{ model: db.song }],
         });
         if (field === "name") {
             playlist.name = newPlaylistName;
