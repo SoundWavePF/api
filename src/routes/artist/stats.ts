@@ -13,7 +13,7 @@ artistStatsRouter.post('/', async (req, res) => {
         if (user.rol !== 'artist') {
             return res.send({message: 'User is not an artist'});
         }
-        const artist = await db.artist.findOne({where: {userId: user.id}, include: [{model: db.song, attributes: {exclude: ['artistId']}, include: [{model:db.artist, attributes:['name']}, {model:db.album, attributes:['name']}]}]});
+        const artist = await db.artist.findOne({where: {userId: user.id}, include: [{model: db.song, attributes: {exclude: ['artistId']}, include: [{model:db.artist, attributes:['id','name']}, {model:db.album, attributes:['id','name']}]}]});
         if (!artist) {
             return res.send({message: 'Artist not found'});
         }
