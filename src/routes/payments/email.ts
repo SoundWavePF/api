@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 emailRouter.get('/donation', async (req, res) => {
     let date = moment().format("YYYY-MM-DD");
-    const {artist, donatorEmail, amount, orderId} = req.query;
+    const {artist, donatorEmail, amount, orderId} = req.body;
     const mailOptions = {
         from: process.env.EMAIL_USER, // sender address
         to: donatorEmail, // list of receivers
