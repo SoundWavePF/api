@@ -12,13 +12,14 @@ artistAlbumRouter.post('/create', async (req, res) => {
         const genre = await db.genre.findOne({where: {id: genreId}});
         const album = await db.album.create({
             name: albumName,
+            artist: artist.name,
             release_date: albumReleaseDate,
             image_small: image,
             image_medium: image,
             image_big: image,
         })
         await artist.addAlbum(album);
-        await album.setGenre(genre);
+        await genre.addAlbum(album);
         return res.send({message: 'Album created'});
     } catch (e:any) {
         return res.send({message: e.message});
