@@ -3,6 +3,7 @@ import {Router} from "express";
 import db from "../../models/db";
 var nodemailer = require('nodemailer');
 export const emailRouter = Router();
+import moment from 'moment';
 
 //create nodemailer transporter for gmail account
 const transporter = nodemailer.createTransport({
@@ -18,7 +19,8 @@ const transporter = nodemailer.createTransport({
 });
 
 emailRouter.get('/donation', async (req, res) => {
-    const {artist, donatorEmail, amount, date, orderId} = req.query;
+    let date = moment().format("YYYY-MM-DD");
+    const {artist, donatorEmail, amount, orderId} = req.query;
     const mailOptions = {
         from: process.env.EMAIL_USER, // sender address
         to: donatorEmail, // list of receivers
