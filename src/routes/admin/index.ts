@@ -22,7 +22,10 @@ adminRouter.post('/stats', async (req, res) => {
             const genreStats = await db.sequelize.query(`SELECT COUNT(*) as totalGenres FROM genres`, {type: db.sequelize.QueryTypes.SELECT});
             const playlistStats = await db.sequelize.query(`SELECT COUNT(*) as totalPlaylists FROM playlists`, {type: db.sequelize.QueryTypes.SELECT});
             const deactivatedUsers = await db.sequelize.query(`SELECT COUNT(*) as totalDeactivatedUsers FROM users WHERE deactivated=true`, {type: db.sequelize.QueryTypes.SELECT});
-            regularUsers -= deactivatedUsers
+            // regularUsers -= deactivatedUsers
+            if(Number(regularUsers[0].totalRegularUsers)>0){
+                regularUsers = Number(regularUsers[0].totalRegularUsers) - Number(deactivatedUsers[0].totalDeactivatedUsers);
+            }
             return res.send({...songStats[0], ...adminUsers[0], ...regularUsers[0], ...totalUsers[0], ...albumStats[0], ...artistStats[0], ...genreStats[0], ...playlistStats[0], ...songsPlayCount[0], ...deactivatedUsers[0]});
         }
         return res.send({message: 'You are not an admin'});
