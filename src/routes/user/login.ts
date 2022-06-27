@@ -15,7 +15,7 @@ loginRouter.post('/userRegister', async (req, res) => {
     console.log(req.body.email)
     const { name, username, email, image } = req.body;
     try {
-        const user = await db.user.findOrCreate({
+        const [user, created] = await db.user.findOrCreate({
             where: { email: email },
             defaults: {
                 name: name,
@@ -24,6 +24,10 @@ loginRouter.post('/userRegister', async (req, res) => {
                 image_avatar: image
             }
         })
+        if(created === false) {
+            user.deactivated = false;
+            user.save();
+        }
         res.send(user)
     } catch (err) {
         console.log(err)

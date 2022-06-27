@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import db from '../../models/db';
+import bcrypt from 'bcrypt';
 
 export const adminRouter = Router();
 
@@ -21,7 +22,10 @@ adminRouter.post('/stats', async (req, res) => {
             const genreStats = await db.sequelize.query(`SELECT COUNT(*) as totalGenres FROM genres`, {type: db.sequelize.QueryTypes.SELECT});
             const playlistStats = await db.sequelize.query(`SELECT COUNT(*) as totalPlaylists FROM playlists`, {type: db.sequelize.QueryTypes.SELECT});
             const deactivatedUsers = await db.sequelize.query(`SELECT COUNT(*) as totalDeactivatedUsers FROM users WHERE deactivated=true`, {type: db.sequelize.QueryTypes.SELECT});
-            regularUsers -= deactivatedUsers
+            // regularUsers -= deactivatedUsers
+            if(Number(regularUsers[0].totalRegularUsers)>0){
+                regularUsers = Number(regularUsers[0].totalRegularUsers) - Number(deactivatedUsers[0].totalDeactivatedUsers);
+            }
             return res.send({...songStats[0], ...adminUsers[0], ...regularUsers[0], ...totalUsers[0], ...albumStats[0], ...artistStats[0], ...genreStats[0], ...playlistStats[0], ...songsPlayCount[0], ...deactivatedUsers[0]});
         }
         return res.send({message: 'You are not an admin'});
@@ -56,7 +60,7 @@ adminRouter.post('/update', async(req,res)=>{
                 return res.send({message: 'Email updated'});
             }
             if(field === 'password'){
-                user.password = newData;
+                user.password = await bcrypt.hash(newData, 10);
                 await user.save();
                 return res.send({message: 'Password updated'});
             }
@@ -94,12 +98,15 @@ adminRouter.post('/accept', async(req,res)=>{
             user.rol = 'artist';
             user.requested_artist = false;
             await user.save();
-            await db.artist.create({
+            const userAsArtist = await db.artist.create({
                 name: user.name,
+                description: 'No Description',
                 image_small: user.image_avatar,
                 image_medium: user.image_avatar,
+                type: 'artist',
                 image_large: user.image_avatar,
             })
+            await user.setArtist(userAsArtist);
             return res.send({message: 'User accepted'});
         }
         return res.send({message: 'You are not an admin'});
@@ -120,9 +127,17 @@ adminRouter.post('/deactivate', async(req,res)=>{
             if(user.deactivated===true){
                 return res.send({message: 'User is already deactivated'});
             }
+            const playlist = await db.playlist.findAll({where: {userId: user.id}});
+            for(let i = 0; i < playlist.length; i++){
+                await playlist[i].destroy();
+            }
+            const favorite = await db.favorite.findAll({where: {userId: user.id}});
+            for(let i = 0; i < favorite.length; i++){
+                await favorite[i].destroy();
+            }
             user.deactivated = true;
             await user.save();
-            return res.send({message: 'User deleted'});
+            return res.send({message: 'User deactivated'});
         }
         return res.send({message: 'You are not an admin'});
     } catch (e:any) {
