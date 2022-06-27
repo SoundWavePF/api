@@ -95,12 +95,15 @@ adminRouter.post('/accept', async(req,res)=>{
             user.rol = 'artist';
             user.requested_artist = false;
             await user.save();
-            await db.artist.create({
+            const userAsArtist = await db.artist.create({
                 name: user.name,
+                description: 'No Description',
                 image_small: user.image_avatar,
                 image_medium: user.image_avatar,
+                type: 'artist',
                 image_large: user.image_avatar,
             })
+            await user.setArtist(userAsArtist);
             return res.send({message: 'User accepted'});
         }
         return res.send({message: 'You are not an admin'});
