@@ -17,7 +17,7 @@ artistSongRouter.post('/create', async (req, res) => {
             image_small: image,
             image_medium: image,
             image_big: image,
-            duration: duration,
+            duration: Math.floor(duration),
             type: "track"
         })
         const album = await db.album.create({
