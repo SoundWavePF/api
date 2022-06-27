@@ -65,7 +65,6 @@ orderRouter.get('/success', async (req, res) => {
         donatorEmail: donation.user.email,
         artist: donation.artist.name,
         amount: donation.amount,
-        date: donation.createdAt.split(' ')[0],
         orderId: donation.id,
     });
     return res.redirect(`${process.env.CLIENT_URL}/artist/${donation.artistId}`);
