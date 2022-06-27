@@ -5,7 +5,7 @@ import {artistRouter} from "../search";
 export const artistProfileRouter = Router();
 
 artistProfileRouter.post('/update', async (req, res) => {
-    const {email, name, description, image_small, image_medium, image_big} = req.body;
+    const {email, name, description, image} = req.body;
     try {
         if(!email){
             return res.send({message: 'Email is required'});
@@ -21,9 +21,9 @@ artistProfileRouter.post('/update', async (req, res) => {
         await artist.update({
             name: name || artist.name,
             description: description || artist.description,
-            image_small: image_small || artist.image_small,
-            image_medium: image_medium || artist.image_medium,
-            image_big: image_big || artist.image_big,
+            image_small: image || artist.image_small,
+            image_medium: image || artist.image_medium,
+            image_big: image || artist.image_big,
         })
         return res.send({message: 'Artist updated'});
     } catch (e:any) {
