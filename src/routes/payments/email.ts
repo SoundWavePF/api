@@ -8,16 +8,21 @@ export const emailRouter = Router();
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
+        type: 'OAuth2',
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        pass: process.env.EMAIL_PASS,
+        clientId: process.env.OAUTH_CLIENTID,
+        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN
     }
 });
 
-emailRouter.get('/', async (_req, res) => {
+emailRouter.get('/donation', async (req, res) => {
+    const {artist, donatorEmail, amount, date, orderId} = req.query;
     const mailOptions = {
         from: process.env.EMAIL_USER, // sender address
-        to: 'jochoaalv@gmail.com', // list of receivers
-        subject: 'Test Email SoundWave', // Subject line
+        to: donatorEmail, // list of receivers
+        subject: 'Donation Received', // Subject line
         html: `
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -140,7 +145,7 @@ table, td { color: #000000; } a { color: #0000ee; text-decoration: underline; } 
   <tr>
     <td style="padding-right: 0px;padding-left: 0px;" align="center">
       <a href="https://unlayer.com" target="_blank">
-      <img align="center" border="0" src="https://i.imgur.com/J1P1amo.png" alt="Logo" title="Logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 24%;max-width: 139.2px;" width="139.2" class="v-src-width v-src-max-width"/>
+      <img align="center" border="0" src="https://i.imgur.com/J1P1amo.png" alt="🎵" title="🎵" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 24%;max-width: 139.2px;" width="139.2" class="v-src-width v-src-max-width"/>
       </a>
     </td>
   </tr>
@@ -227,7 +232,7 @@ table, td { color: #000000; } a { color: #0000ee; text-decoration: underline; } 
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 10px 40px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="color: #000000; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; font-family: Rubik, sans-serif;">Order Number: 02088</span></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; font-family: Rubik, sans-serif;">Order Number: ${orderId}</span></p>
   </div>
 
       </td>
@@ -241,10 +246,9 @@ table, td { color: #000000; } a { color: #0000ee; text-decoration: underline; } 
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 15px 40px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="line-height: 180%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Delivered-to: <strong>Wilbert Keffort </strong></span></p>
-<p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Email: <strong>wilbert@zmail.com </strong></span></p>
-<p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Phone:<strong> 101 617 4444 </strong></span></p>
-<p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Address: <strong>99 El ABCD San Francisco, CA. United States&nbsp;</strong></span></p>
+    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Artist: <strong>${artist}</strong></span></p>
+    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Amount: <strong>${amount}</strong></span></p>
+    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Date:<strong>${date}</strong></span></p>
   </div>
 
       </td>
