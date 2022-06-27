@@ -2,6 +2,7 @@ require('dotenv').config();
 import {Router} from "express";
 import db from "../../models/db";
 const stripe = require('stripe')('sk_test_51LBmZHGiBadTHkTWdrJaHQgt9mudyPqVXlvlYs1Y8caeB71sIftSKujkSHvLw6GAoDMwlGwC1OdtccKRSkEB3eZT00bw2hCjdT');
+import axios from "axios";
 
 export const orderRouter = Router();
 
@@ -57,9 +58,16 @@ orderRouter.get('/success', async (req, res) => {
     console.log('body', req.body)
     console.log('query', req.query)
     const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
-    const donation = await db.donation.findOne({where: {id: session.id}});
+    const donation = await db.donation.findOne({where: {id: session.id}, attributes:['id', 'amount', 'createdAt'], include: [{model: db.artist, attributes: ['name']}, {model: db.user, attributes: ['email']}]});
     donation.status = 'success';
     await donation.save();
+    axios.post(`${process.env.API_URL}/email/donation`, {
+        donatorEmail: donation.user.email,
+        artist: donation.artist.name,
+        amount: donation.amount,
+        date: donation.createdAt.split(' ')[0],
+        orderId: donation.id,
+    });
     return res.redirect(`${process.env.CLIENT_URL}/artist/${donation.artistId}`);
 })
 
