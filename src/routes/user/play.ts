@@ -7,7 +7,7 @@ export const playRouter = Router();
 playRouter.post('/', async (req, res) => {
     const { songId, userEmail } = req.body;
     try{
-        const song = await db.song.findOne({where: {id: songId}, include: [{model: db.artist, attributes: ['name']}, {model: db.album, attributes: ['name']}]});
+        const song = await db.song.findOne({where: {id: songId}, include: [{model: db.artist, attributes: ['id','name']}, {model: db.album, attributes: ['id','name']}]});
         // const artist = await db.artist.findOne({where: {name: song.artists[0].name}});
         // const song = await db.song.findOne({where: {id: songId}});
         if(userEmail !== undefined) {
