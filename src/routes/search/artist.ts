@@ -26,7 +26,7 @@ artistRouter.get('/:artistId', async (req, res) => {
                     { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
                     { model: db.album, attributes: ['name', 'id'] }
                 ]
-            }]
+            },{model: db.donation, where:{status: 'success'}, include: [{ model: db.user, attributes: { exclude: ['password', 'email'] } }]}]
         })
         return res.send(artist)
         // include: [
