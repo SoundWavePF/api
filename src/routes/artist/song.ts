@@ -14,9 +14,9 @@ artistSongRouter.post('/create', async (req, res) => {
         const song = await db.song.create({
             name: songName,
             preview: preview,
-            image_small: image,
-            image_medium: image,
-            image_big: image,
+            // image_small: image,
+            // image_medium: image,
+            // image_big: image,
             duration: Math.floor(duration),
             type: "track"
         })
@@ -24,9 +24,9 @@ artistSongRouter.post('/create', async (req, res) => {
             name: `${songName} - Single`,
             artist: artist.name,
             release_date: new Date().toISOString().split('T')[0],
-            image_small: image,
-            image_medium: image,
-            image_big: image,
+            // image_small: image,
+            // image_medium: image,
+            // image_big: image,
         })
         await artist.addSong(song);
         await artist.addAlbum(album);
