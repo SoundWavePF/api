@@ -49,6 +49,7 @@ artistSongRouter.post('/create', async (req, res) => {
                 image_medium: album.image_medium,
                 image_big: album.image_big,
             })
+            return res.send({message: 'Song created'});
         }
         await artist.addSong(song);
         await artist.addAlbum(album);
