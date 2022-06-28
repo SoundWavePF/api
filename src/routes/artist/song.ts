@@ -119,3 +119,40 @@ artistSongRouter.post('/update', async (req, res) => {
         return res.send({message: e.message});
     }
 })
+
+artistSongRouter.post('/createAlbum', async (req, res) => {
+    const { userEmail, songs, albumName } = req.body;
+    //songs = [{songName, duration, preview}]
+    if(!userEmail || !songs || !albumName) {
+        return res.send({message: 'Missing parameters'});
+    }
+    try {
+        const user = await db.user.findOne({where: {email: userEmail}});
+        const artist = await db.artist.findOne({where: {userId: user.id}});
+        const albumsCreated = await db.create({
+            name: albumName,
+            artist: artist.name,
+            release_date: new Date().toISOString().split('T')[0],
+        })
+        await Promise.all(songs.map(async (song:any) => {
+            const songCreated = await db.song.create({
+                name: song.songName,
+                preview: song.preview,
+                duration: Math.floor(song.duration),
+                type: "track"
+            })
+            await artist.addSong(songCreated);
+            await albumsCreated.addSong(songCreated);
+            await songCreated.setAlbum(albumsCreated);
+            await songCreated.update({
+                image_small: albumsCreated.image_small,
+                image_medium: albumsCreated.image_medium,
+                image_big: albumsCreated.image_big,
+            })
+        }))
+        return res.send({message: 'Songs created with album'});
+    } catch (e:any) {
+        return res.send({message: e.message});
+    }
+
+})
