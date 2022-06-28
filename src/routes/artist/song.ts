@@ -21,6 +21,7 @@ artistSongRouter.post('/create', async (req, res) => {
         let album;
         if (albumName) {
             album = await db.album.findOrCreate({
+                where: {name: albumName},
                 name: albumName,
                 artist: artist.name,
                 release_date: new Date().toISOString().split('T')[0],
@@ -29,6 +30,7 @@ artistSongRouter.post('/create', async (req, res) => {
             album = await db.album.findOne({where: {id: albumId}});
         } else {
             album = await db.album.findOrCreate({
+                where: {name: albumName},
                 name: `${songName} - Single`,
                 artist: artist.name,
                 release_date: new Date().toISOString().split('T')[0],
