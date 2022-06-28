@@ -29,7 +29,7 @@ artistRouter.get('/:artistId', async (req, res) => {
             },
                 // {model: db.donation, where:{status: 'success'}, include: [{ model: db.user, attributes: { exclude: ['password', 'email'] } }]}
             ]})
-        const donations = await db.donation.findAll({where: {artistId}, include: [{model: db.user}]});
+        const donations = await db.donation.findAll({where: {artistId}, order:[['createdAt', 'DESC']], include: [{model: db.user}]});
         let onlySuccess = donations.filter((donation:any) => donation.status === 'success');
         let artistWithDonations = { ...artist.dataValues, donations: onlySuccess }
         return res.send(artistWithDonations)
