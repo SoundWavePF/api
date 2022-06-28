@@ -19,8 +19,9 @@ artistSongRouter.post('/create', async (req, res) => {
             type: "track"
         })
         let album;
+        let createdAlbum;
         if (albumName) {
-            album = await db.album.findOrCreate({
+            [album, createdAlbum] = await db.album.findOrCreate({
                 where: {name: albumName},
                 name: albumName,
                 artist: artist.name,
@@ -29,7 +30,7 @@ artistSongRouter.post('/create', async (req, res) => {
         } else if (albumId) {
             album = await db.album.findOne({where: {id: albumId}});
         } else {
-            album = await db.album.findOrCreate({
+            [album, createdAlbum] = await db.album.findOrCreate({
                 where: {name: albumName},
                 name: `${songName} - Single`,
                 artist: artist.name,
@@ -37,6 +38,16 @@ artistSongRouter.post('/create', async (req, res) => {
                 // image_small: image,
                 // image_medium: image,
                 // image_big: image,
+            })
+        }
+        if (createdAlbum) {
+            await artist.addSong(song);
+            await artist.addAlbum(album);
+            await song.setAlbum(album);
+            await song.update({
+                image_small: album.image_small,
+                image_medium: album.image_medium,
+                image_big: album.image_big,
             })
         }
         await artist.addSong(song);
