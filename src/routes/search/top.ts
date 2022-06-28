@@ -25,17 +25,18 @@ topRouter.get('/10', async(_req, res)=>{
 
 topRouter.get('/discover', async(_req, res)=>{
     try {
-        const songs = await db.song.findAll({
-            attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference']},
-            include: [{model:db.artist, attributes: {exclude: ['image_small', 'image_medium', 'image_big', 'userId']}}, {model: db.album, attributes: ['name']}]
-        })
-        let sorted = songs.filter((song: Song) => song.reproductions < 150)
-        let shuffled = shuffle(sorted)
-        return res.send(shuffled.slice(20,30))
-        // const newAlbums = await db.album.findAll({order:[['release_date', 'DESC']], include: [{model: db.song, include: [{model: db.artist, attributes: ['id', 'name']}, {model: db.album, attributes: ['id','name']}]}]})
-        // const songsGetter = newAlbums.slice(0,100).map((album:any)=>album.songs[Math.floor(Math.random() * album.songs.length)]).flat(100).slice(1).filter((song:Song)=>song.reproductions < 150).sort((a:Song, b:Song)=>a.reproductions - b.reproductions).slice(0,20);
-        //
-        // return res.send(songsGetter)
+        // const songs = await db.song.findAll({
+        //     attributes: {exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference']},
+        //     include: [{model:db.artist, attributes: {exclude: ['image_small', 'image_medium', 'image_big', 'userId']}}, {model: db.album, attributes: ['id', 'name', 'release_date']}]
+        // })
+        // let sorted = songs.filter((song: Song) => song.reproductions < 150)
+        // let shuffled = shuffle(sorted)
+        // return res.send(shuffled.slice(20,30))
+
+        const newAlbums = await db.album.findAll({order:[['release_date', 'DESC']], include: [{model: db.song, include: [{model: db.artist, attributes: ['id', 'name']}, {model: db.album, attributes: ['id','name']}]}]})
+        const songsGetter = newAlbums.slice(0,100).map((album:any)=>album.songs[Math.floor(Math.random() * album.songs.length)]).flat(100).filter((song:Song)=>song).filter((song:Song)=>song.reproductions < 150).sort((a:Song, b:Song)=>a.reproductions - b.reproductions).slice(0,20);
+        const shuffled = shuffle(songsGetter)
+        return res.send(shuffled)
     } catch (e:any) {
         return res.send({message: e.message})
     }
