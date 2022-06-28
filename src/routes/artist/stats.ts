@@ -36,7 +36,7 @@ artistStatsRouter.post('/', async (req, res) => {
             songs: songsInArtist,
             n_albums: albumsGetter.length,
             albums: albumsGetter,
-            donations: donations,
+            donations: donations || [],
             totalPlayCount: totalPlayCount,
             totalFavoriteCount: totalFavoriteCount,
             totalPlaylistCount: totalPlaylistCount,
