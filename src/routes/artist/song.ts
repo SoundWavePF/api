@@ -4,8 +4,9 @@ import db from "../../models/db";
 export const artistSongRouter = Router();
 
 artistSongRouter.post('/create', async (req, res) => {
-    const { userEmail, songName, image, duration, preview } = req.body;
-    if(!userEmail || !songName || !image || !duration || !preview) {
+    const { userEmail, songName, duration, preview, albumId, albumName } = req.body;
+
+    if(!userEmail || !songName || !duration || !preview) {
         return res.send({message: 'Missing parameters'});
     }
     try {
@@ -14,20 +15,28 @@ artistSongRouter.post('/create', async (req, res) => {
         const song = await db.song.create({
             name: songName,
             preview: preview,
-            // image_small: image,
-            // image_medium: image,
-            // image_big: image,
             duration: Math.floor(duration),
             type: "track"
         })
-        const album = await db.album.create({
-            name: `${songName} - Single`,
-            artist: artist.name,
-            release_date: new Date().toISOString().split('T')[0],
-            // image_small: image,
-            // image_medium: image,
-            // image_big: image,
-        })
+        let album;
+        if (albumName) {
+            album = await db.album.create({
+                name: albumName,
+                artist: artist.name,
+                release_date: new Date().toISOString().split('T')[0],
+            })
+        } else if (albumId) {
+            album = await db.album.findOne({where: {id: albumId}});
+        } else {
+            album = await db.album.create({
+                name: `${songName} - Single`,
+                artist: artist.name,
+                release_date: new Date().toISOString().split('T')[0],
+                // image_small: image,
+                // image_medium: image,
+                // image_big: image,
+            })
+        }
         await artist.addSong(song);
         await artist.addAlbum(album);
         await song.setAlbum(album);
