@@ -155,7 +155,7 @@ searchRouter.get('/all', async (_req, res) => {
             attributes: { exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference'] },
             include: [
                 { model: db.artist, attributes: ['id', 'dz_Id', 'name'], include: [{model: db.user, attributes: ['deactivated']}]  },
-                { model: db.album, attributes: ['name'] }
+                { model: db.album, attributes: ['id', 'name'] }
                 // db.User,
                 // db.playlist
             ]
