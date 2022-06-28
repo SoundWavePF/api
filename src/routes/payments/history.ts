@@ -10,7 +10,7 @@ donationHistoryRouter.get('/:artistId', async (req, res) => {
         if(!artist){
             return res.status(404).send({message: 'Artist not found'})
         }
-        const donations = await db.donation.findAll({where: {artistId}, include: [{model: db.user}]});
+        const donations = await db.donation.findAll({where: {artistId}, order:[['createdAt', 'DESC']], include: [{model: db.user}]});
         let onlySuccess = donations.filter((donation:any) => donation.status === 'success');
 
         return res.send(onlySuccess);
@@ -26,7 +26,7 @@ donationHistoryRouter.post('/', async (req, res) => {
         if(!user){
             return res.status(404).send({message: 'User not found'})
         }
-        const donations = await db.donation.findAll({where: {userId: user.id}, include: [{model: db.artist}]});
+        const donations = await db.donation.findAll({where: {userId: user.id}, order:[['createdAt', 'DESC']], include: [{model: db.artist}]});
         let onlySuccess = donations.filter((donation:any) => donation.status === 'success');
 
         return res.send(onlySuccess);
