@@ -36,7 +36,7 @@ topRouter.get('/discover', async(_req, res)=>{
         const songsGetter = newAlbums.slice(0,100).map((album:any)=>album.songs[Math.floor(Math.random() * album.songs.length)]).flat(100).slice(1).filter((song:Song)=>song.reproductions < 150).sort((a:Song, b:Song)=>a.reproductions - b.reproductions).slice(0,20);
 
         return res.send(songsGetter)
-    } catch (e) {
-        return res.send({message: e})
+    } catch (e:any) {
+        return res.send({message: e.message})
     }
 })
