@@ -122,7 +122,7 @@ playlistRouter.get("/:playlistId", async (req, res) => {
             include: [
                 {
                     model: db.user,
-                    attributes: { exclude: ["email", "password"] },
+                    attributes: { exclude: ["password"] },
                 },
                 {
                     model: db.song,
