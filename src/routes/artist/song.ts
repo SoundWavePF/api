@@ -143,7 +143,6 @@ artistSongRouter.post('/createAlbum', async (req, res) => {
                 duration: Math.floor(song.duration),
                 type: "track"
             })
-            await songCreated.addArtist(artist);
             await albumsCreated.addSong(songCreated);
             await songCreated.setAlbum(albumsCreated);
             await songCreated.update({
@@ -152,6 +151,7 @@ artistSongRouter.post('/createAlbum', async (req, res) => {
                 image_big: albumsCreated.image_big,
             })
         }))
+        await artist.addAlbum(albumsCreated);
         return res.send({message: 'Songs created with album'});
     } catch (e:any) {
         return res.send({message: e.message});
