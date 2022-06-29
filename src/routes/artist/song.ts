@@ -143,7 +143,7 @@ artistSongRouter.post('/createAlbum', async (req, res) => {
                 duration: Math.floor(song.duration),
                 type: "track"
             })
-            await song.addArtist(artist);
+            await songCreated.addArtist(artist);
             await albumsCreated.addSong(songCreated);
             await songCreated.setAlbum(albumsCreated);
             await songCreated.update({
