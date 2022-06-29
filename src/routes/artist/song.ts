@@ -86,6 +86,8 @@ artistSongRouter.post('/delete', async (req, res) => {
         } else {
             await songD.destroy();
         }
+        const played = await db.played.findOne({where: {songId: songId}});
+        played.destroy();
         return res.send({message: 'Song deleted'});
     } catch (e:any) {
         return res.send({message: e.message});
@@ -141,7 +143,7 @@ artistSongRouter.post('/createAlbum', async (req, res) => {
                 duration: Math.floor(song.duration),
                 type: "track"
             })
-            await artist.addSong(songCreated);
+            await song.addArtist(artist);
             await albumsCreated.addSong(songCreated);
             await songCreated.setAlbum(albumsCreated);
             await songCreated.update({
