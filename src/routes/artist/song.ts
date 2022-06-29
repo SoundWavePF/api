@@ -75,9 +75,9 @@ artistSongRouter.post('/delete', async (req, res) => {
         const user = await db.user.findOne({where: {email: email}});
         const songD = await db.song.findOne({where: {id: songId}, include: [{model: db.album, include: [{model: db.artist}]}]});
         const artist = await db.artist.findOne({where: {userId: user.id}});
-        if(songD.album.artist.id !== artist.id) {
-            return res.send({message: 'You are not the artist of this song'});
-        }
+        // if(songD.album.artist.id !== artist.id) {
+        //     return res.send({message: 'You are not the artist of this song'});
+        // }
         await artist.removeSong(songD);
         if(songD.album.name.includes("- Single")){
             await songD.destroy();
@@ -102,9 +102,9 @@ artistSongRouter.post('/update', async (req, res) => {
         const artist = await db.artist.findOne({where: {userId: user.id}});
         const song = await db.song.findOne({where: {id: songId}});
         const albumOld = await db.album.findOne({where: {id: song.albumId}});
-        if(albumOld.artist !== artist.name){
-            return res.send({message: 'You are not the artist of this song'});
-        }
+        // if(albumOld.artist !== artist.name){
+        //     return res.send({message: 'You are not the artist of this song'});
+        // }
         albumOld.removeSong(song);
         const albumNew = await db.album.findOne({where: {id: albumId}});
         albumNew.addSong(song);
