@@ -27,7 +27,7 @@ historyRouter.post('/', async (req, res) => {
             id: user.id,
             username: user.username,
             email: user.email,
-            history: history.reverse()
+            history: history.slice(0,20).reverse()
         }
         return res.send(obj);
     } catch (e:any) {
