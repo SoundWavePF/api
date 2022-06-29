@@ -129,7 +129,7 @@ artistSongRouter.post('/createAlbum', async (req, res) => {
     try {
         const user = await db.user.findOne({where: {email: userEmail}});
         const artist = await db.artist.findOne({where: {userId: user.id}});
-        const albumsCreated = await db.create({
+        const albumsCreated = await db.album.create({
             name: albumName,
             artist: artist.name,
             release_date: new Date().toISOString().split('T')[0],
