@@ -78,6 +78,8 @@ artistSongRouter.post('/delete', async (req, res) => {
         // if(songD.album.artist.id !== artist.id) {
         //     return res.send({message: 'You are not the artist of this song'});
         // }
+        const played = await db.played.findOne({where: {songId: songId}});
+        await played.destroy();
         await artist.removeSong(songD);
         if(songD.album.name.includes("- Single")){
             await songD.destroy();
@@ -86,8 +88,6 @@ artistSongRouter.post('/delete', async (req, res) => {
         } else {
             await songD.destroy();
         }
-        const played = await db.played.findOne({where: {songId: songId}});
-        played.destroy();
         return res.send({message: 'Song deleted'});
     } catch (e:any) {
         return res.send({message: e.message});
