@@ -4,7 +4,7 @@ import db from "../../models/db";
 export const artistSongRouter = Router();
 
 artistSongRouter.post('/create', async (req, res) => {
-    const { userEmail, songName, duration, preview, albumId, albumName } = req.body;
+    const { userEmail, songName, duration, preview, albumId } = req.body;
 
     if(!userEmail || !songName || !duration || !preview) {
         return res.send({message: 'Missing parameters'});
@@ -20,18 +20,18 @@ artistSongRouter.post('/create', async (req, res) => {
         })
         let album;
         let createdAlbum;
-        if (albumName) {
-            [album, createdAlbum] = await db.album.findOrCreate({
-                where: {name: albumName},
-                name: albumName,
-                artist: artist.name,
-                release_date: new Date().toISOString().split('T')[0],
-            })
-        } else if (albumId) {
+        // if (albumName) {
+        //     [album, createdAlbum] = await db.album.findOrCreate({
+        //         where: {name: albumName},
+        //         name: albumName,
+        //         artist: artist.name,
+        //         release_date: new Date().toISOString().split('T')[0],
+        //     })
+        // } else
+            if (albumId) {
             album = await db.album.findOne({where: {id: albumId}});
         } else {
-            [album, createdAlbum] = await db.album.findOrCreate({
-                where: {name: albumName},
+            album = await db.album.create({
                 name: `${songName} - Single`,
                 artist: artist.name,
                 release_date: new Date().toISOString().split('T')[0],
