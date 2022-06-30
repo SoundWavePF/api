@@ -57,15 +57,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         },
         image_small: {
             type: DataTypes.STRING,
-            defaultValue: 'https://t3.ftcdn.net/jpg/02/35/30/46/360_F_235304699_bRPtGREh0e5AmIDsckx5UjiWKAZdB2oc.jpg'
+            defaultValue: 'https://res.cloudinary.com/dbi1xhzps/image/upload/v1656554222/___u3gyvm.png'
         },
         image_medium: {
             type: DataTypes.STRING,
-            defaultValue: 'https://t3.ftcdn.net/jpg/02/35/30/46/360_F_235304699_bRPtGREh0e5AmIDsckx5UjiWKAZdB2oc.jpg'
+            defaultValue: 'https://res.cloudinary.com/dbi1xhzps/image/upload/v1656554222/___u3gyvm.png'
         },
         image_big: {
             type: DataTypes.STRING,
-            defaultValue: 'https://t3.ftcdn.net/jpg/02/35/30/46/360_F_235304699_bRPtGREh0e5AmIDsckx5UjiWKAZdB2oc.jpg'
+            defaultValue: 'https://res.cloudinary.com/dbi1xhzps/image/upload/v1656554222/___u3gyvm.png'
         },
         type: {
             type: DataTypes.STRING,
