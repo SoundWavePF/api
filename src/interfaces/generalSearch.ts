@@ -1,81 +1,46 @@
 export interface SearchResult {
     songData:   SongDatum[];
-    albumData:  AlbumDatum[];
-    artistData: ArtistDatum[];
+    albumData:  Datum[];
+    artistData: Datum[];
 }
 
-export interface AlbumDatum {
+export interface Datum {
     id:           string;
-    dz_Id:        string;
-    name:         string;
-    release_date: Date;
-    image_small:  string;
-    image_medium: string;
-    image_big:    string;
-    type:         AlbumDatumType;
-}
-
-export enum AlbumDatumType {
-    Album = "album",
-}
-
-export interface ArtistDatum {
-    id:           string;
-    dz_Id:        number;
     name:         string;
     image_small:  string;
-    image_medium: string;
-    image_big:    string;
-    type:         ArtistDatumType;
+    type:         string;
+    artists?:     AlbumDatumArtist[];
+    deactivated?: boolean;
 }
 
-export enum ArtistDatumType {
-    Artist = "artist",
+interface AlbumDatumArtist {
+    deactivated: boolean;
 }
 
 export interface SongDatum {
     id:            string;
-    dz_Id:         number;
-    title:         string;
-    artist:        string;
+    name:          string;
     preview:       string;
     image_small:   string;
-    image_medium:  string;
-    image_big:     string;
+    type:          Type;
     reproductions: number;
     duration:      number;
-    genre:         Genre;
-    album:         string;
-    type:          SongDatumType;
-    Artists:       Artist[];
+    artists:       SongDatumArtist[];
+    album:         Album;
 }
 
-export interface Artist {
-    id:           string;
-    dz_Id:        number;
-    name:         string;
-    type:         ArtistDatumType;
-    Contributors: Contributors;
+interface Album {
+    name: string;
+    id:   string;
 }
 
-export interface Contributors {
-    createdAt: Date;
-    updatedAt: Date;
-    ArtistId:  string;
-    SongId:    string;
+interface SongDatumArtist {
+    id:          string;
+    dz_Id:       number;
+    name:        string;
+    deactivated: boolean;
 }
 
-export enum Genre {
-    Dance = "Dance",
-    Electro = "Electro",
-    LatinMusic = "Latin Music",
-    Pop = "Pop",
-    RB = "R&B",
-    RapHipHop = "Rap/Hip Hop",
-    Reggaeton = "Reggaeton",
-    Rock = "Rock",
-}
-
-export enum SongDatumType {
+enum Type {
     Track = "track",
 }

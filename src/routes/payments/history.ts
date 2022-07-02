@@ -1,5 +1,6 @@
 import {Router} from "express";
 import db from "../../models/db";
+import {DonationsUserHistory, DonationsArtistHistory} from "../../interfaces";
 
 export const donationHistoryRouter = Router();
 
@@ -10,8 +11,8 @@ donationHistoryRouter.get('/:artistId', async (req, res) => {
         if(!artist){
             return res.status(404).send({message: 'Artist not found'})
         }
-        const donations = await db.donation.findAll({where: {artistId}, order:[['createdAt', 'DESC']], include: [{model: db.user}]});
-        let onlySuccess = donations.filter((donation:any) => donation.status === 'success');
+        const donations = await db.donation.findAll({where: {artistId}, order:[['createdAt', 'DESC']], include: [{model: db.user, attributes: {exclude: ['password']}}]});
+        let onlySuccess = donations.filter((donation:DonationsArtistHistory) => donation.status === 'success');
 
         return res.send(onlySuccess);
     } catch (e:any) {
@@ -27,7 +28,7 @@ donationHistoryRouter.post('/', async (req, res) => {
             return res.status(404).send({message: 'User not found'})
         }
         const donations = await db.donation.findAll({where: {userId: user.id}, order:[['createdAt', 'DESC']], include: [{model: db.artist}]});
-        let onlySuccess = donations.filter((donation:any) => donation.status === 'success');
+        let onlySuccess = donations.filter((donation:DonationsUserHistory) => donation.status === 'success');
 
         return res.send(onlySuccess);
     } catch (e:any) {

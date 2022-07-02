@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import { Op } from 'sequelize'
 import db from '../../models/db'
-import { SearchResult, SongDatum, AlbumDatum, ArtistDatum } from "../../interfaces";
+import { SearchResult, Datum, SongDatum } from "../../interfaces";
 
 export const searchRouter = Router();
 
 searchRouter.get('/', async (req, res) => {
     const { all } = req.query;
-    let albumSearch: any[] = []
-    let artistSearch: any[] = []
-    let songSearch: any[] = []
+    let albumSearch: Datum[] = []
+    let artistSearch: Datum[] = []
+    let songSearch: SongDatum[] = []
     try {
 
         const song = await db.song.findAll({
@@ -110,7 +110,7 @@ searchRouter.get('/', async (req, res) => {
             }
         })
 
-        const obj = {
+        const obj: SearchResult = {
             songData: songSearch.slice(0, 10),
             albumData: albumSearch.slice(0, 10),
             artistData: artistSearch.slice(0, 10),
@@ -122,16 +122,13 @@ searchRouter.get('/', async (req, res) => {
 })
 
 searchRouter.get('/all', async (_req, res) => {
-    let albumSearch!: AlbumDatum[];
-    let artistSearch!: ArtistDatum[];
+    let albumSearch!: Datum[];
+    let artistSearch!: Datum[];
     let songSearch!: SongDatum[];
     try {
         albumSearch = await db.album.findAll({
-
-            // attributes :{exclude: ['ArtistId', 'GenreId']},
             include: [
                 { model: db.artist, attributes: ['id', 'dz_Id', 'name'], include: [{model: db.user, attributes: ['deactivated']}]}
-            //     db.song
             ]
         })
     }
@@ -140,13 +137,7 @@ searchRouter.get('/all', async (_req, res) => {
     }
     try {
         artistSearch = await db.artist.findAll({
-            // attributes: {exclude: ['userId']},
-            include: [{
-                model: db.user, attributes: ['deactivated']}
-            //     db.song,
-            //     db.album
-            ]
-        })
+            include: [{model: db.user, attributes: ['deactivated']}]})
     } catch (e) {
         return res.send({ message: e })
     }
@@ -156,22 +147,15 @@ searchRouter.get('/all', async (_req, res) => {
             include: [
                 { model: db.artist, attributes: ['id', 'dz_Id', 'name'], include: [{model: db.user, attributes: ['deactivated']}]  },
                 { model: db.album, attributes: ['id', 'name'] }
-                // db.User,
-                // db.playlist
-            ]
-        })
+            ]})
     } catch (e) {
         return res.send({ message: e })
     }
-    // const playlistSearch = await db.playlist.findAll({
-    //     // include: db.song
-    // })
 
-    const obj = {
+    const obj: SearchResult = {
         songData: songSearch.slice(0, 20),
         albumData: albumSearch.slice(0, 20),
         artistData: artistSearch.slice(0, 20),
-        // playlistData: playlistSearch
     }
 
     return res.send(obj)

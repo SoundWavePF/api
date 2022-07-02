@@ -65,7 +65,6 @@ playlistRouter.post("/add", async (req, res) => {
             message: `song: ${song.name} has been added to playlist: ${playlist.name}`,
         });
     } catch (e: any) {
-        // console.log(e)
         return res.send({ message: e.message });
     }
 });

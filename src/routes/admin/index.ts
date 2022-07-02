@@ -22,7 +22,6 @@ adminRouter.post('/stats', async (req, res) => {
             const genreStats = await db.sequelize.query(`SELECT COUNT(*) as totalGenres FROM genres`, {type: db.sequelize.QueryTypes.SELECT});
             const playlistStats = await db.sequelize.query(`SELECT COUNT(*) as totalPlaylists FROM playlists`, {type: db.sequelize.QueryTypes.SELECT});
             const deactivatedUsers = await db.sequelize.query(`SELECT COUNT(*) as totalDeactivatedUsers FROM users WHERE deactivated=true`, {type: db.sequelize.QueryTypes.SELECT});
-            // regularUsers -= deactivatedUsers
             if(Number(regularUsers[0].totalRegularUsers)>0){
                 regularUsers = Number(regularUsers[0].totalRegularUsers) - Number(deactivatedUsers[0].totalDeactivatedUsers);
             }

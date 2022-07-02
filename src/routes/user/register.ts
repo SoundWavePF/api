@@ -4,7 +4,6 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const localStrategy = require('passport-local').Strategy;
 import db from '../../models/db';
-// const { db.user } = db;
 
 export const registerRouter = Router();
 
@@ -35,7 +34,6 @@ passport.use('register', new localStrategy({
             email,
             password: hashedPassword
         })
-        // localStorage.setItem()
         return done(null, createNewUser, {message: 'success'})
     } catch (e: any) {
         return done(null, false, {message: e.message})

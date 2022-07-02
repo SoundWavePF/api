@@ -1,7 +1,7 @@
 require('dotenv').config();
 import {Router} from "express";
 import db from "../../models/db";
-const stripe = require('stripe')('sk_test_51LBmZHGiBadTHkTWdrJaHQgt9mudyPqVXlvlYs1Y8caeB71sIftSKujkSHvLw6GAoDMwlGwC1OdtccKRSkEB3eZT00bw2hCjdT');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export const linkPaymentRouter = Router();
 

@@ -1,5 +1,6 @@
 import {Router} from "express";
 import db from "../../models/db";
+import {AlbuminStats, SongInStats} from "../../interfaces";
 
 export const artistStatsRouter = Router();
 
@@ -18,12 +19,12 @@ artistStatsRouter.post('/', async (req, res) => {
             return res.send({message: 'Artist not found'});
         }
         const albumsGetter = await db.album.findAll({where: {artist: artist.name}, include: [{model: db.song, attributes: {exclude: ['albumId']}}]});
-        const songsGetter = albumsGetter.map((album:any)=>album.songs).flat(100).map((song:any)=>song.id);
-        const songsInArtist = artist.songs.filter((song:any)=>songsGetter.includes(song.id));
+        const songsGetter = albumsGetter.map((album:AlbuminStats)=>album.songs).flat(100).map((song:SongInStats)=>song.id);
+        const songsInArtist = artist.songs.filter((song:SongInStats)=>songsGetter.includes(song.id));
         const donations = await db.donation.findAll({where: {artistId: artist.id, status: 'success'}, order:[['createdAt', 'DESC']],include: [{model: db.user, attributes: {exclude: ['password', 'email']}}]});
-        let totalPlayCount = songsInArtist.reduce((acc:any, song:any) => acc + song.reproductions, 0);
-        let totalFavoriteCount = songsInArtist.reduce((acc:any, song:any) => acc + song.added_to_favorites, 0);
-        let totalPlaylistCount = songsInArtist.reduce((acc:any, album:any) => acc + album.added_to_playlists, 0);
+        let totalPlayCount = songsInArtist.reduce((acc:number, song:SongInStats) => acc + song.reproductions, 0);
+        let totalFavoriteCount = songsInArtist.reduce((acc:number, song:SongInStats) => acc + song.added_to_favorites, 0);
+        let totalPlaylistCount = songsInArtist.reduce((acc:number, song:SongInStats) => acc + song.added_to_playlists, 0);
         let artistInfo = {
             id: artist.id,
             stripe_Id: artist.stripe_Id,
