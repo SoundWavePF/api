@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const localStrategy = require('passport-local').Strategy;
-// const { db.user } = db;
 
 export const loginRouter = Router();
 loginRouter.use(passport.initialize());
@@ -81,34 +80,3 @@ loginRouter.post('/', async (req:any, res:any, next: any) => {
         }
     })(req, res, next)
 })
-
-// loginRouter.get('/', async (_req, res) => {
-//     res.render('login');
-// });
-//
-// loginRouter.post('/', passport.authenticate('local', {
-//     successRedirect: 'https://www.google.com/',
-//     failureRedirect: '/login'
-// }));
-
-// loginRouter.post('/', async (req, res) => {
-//     const { email, password } = req.body;
-//     if(!email || !password){
-//         return res.send({error: 'All fields are required'})
-//     }
-//     try {
-//         const user = await db.user.findOne({
-//             where: {email}
-//         })
-//         if(!user){
-//             return res.send({error: `db.user with email ${email} not found`})
-//         }
-//         const isValidPassword = await bcrypt.compare(password, user.password);
-//         if(!isValidPassword){
-//             return res.send({error: 'Invalid password'})
-//         }
-//         return res.send({status: 'success'})
-//     } catch (e: any) {
-//         return res.send({error: e.message})
-//     }
-// })

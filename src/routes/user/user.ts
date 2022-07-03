@@ -4,7 +4,6 @@ const app = Router()
 const { user } = db;
 
 app.post('/', async (req, res) => {
-    // let favoriteArr: number[] = [];
     const { email } = req.body;
     console.log(email)
     try {
@@ -19,9 +18,7 @@ app.post('/', async (req, res) => {
             image: userDb.image_avatar,
             rol: userDb.rol,
             favorite: favoriteArr,
-            // playlist: playlistArr, // queda pendiente lo de la playlist
         }
-        // console.log(favoriteArr)
         res.send(userSend)
     } catch (err) {
         console.log(err)

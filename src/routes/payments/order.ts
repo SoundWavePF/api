@@ -304,7 +304,7 @@ table, td { color: #000000; } a { color: #0000ee; text-decoration: underline; } 
         
   <div style="line-height: 180%; text-align: left; word-wrap: break-word;">
     <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Artist: <strong>${donation.artist.name}</strong></span></p>
-    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Amount: <strong>${donation.amount}</strong></span></p>
+    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Amount: $<strong>${donation.amount}</strong></span></p>
     <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Date: <strong>${date}</strong></span></p>
   </div>
 

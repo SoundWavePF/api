@@ -1,26 +1,7 @@
 import { Router } from "express";
-// import { seederRouter } from "./seeder/seeder";
 import send from "./send/send";
-import {
-	searchRouter,
-	artistRouter,
-	albumRouter,
-	genreRouter,
-	topRouter,
-	songRouter,
-} from "./search";
-import {
-	favoriteRouter,
-	playlistRouter,
-	registerRouter,
-	loginRouter,
-	updateRouter,
-	artistRequestRouter,
-	deactivateRouter,
-	infoRouter,
-	playRouter,
-	historyRouter,
-} from "./user";
+import {searchRouter, artistRouter, albumRouter, genreRouter, topRouter, songRouter,} from "./search";
+import {favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter, playRouter, historyRouter,} from "./user";
 import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
@@ -30,13 +11,10 @@ import {artistSongRouter, artistAlbumRouter, artistProfileRouter, artistDescript
 import {artistAsUserRouter} from "./seeder/loader";
 import {albumPatcher} from "./seeder/albumPatcher";
 import {artistdescriptionRouter} from "./seeder/artistdescription";
-import {orderRouter, webhookRouter, linkPaymentRouter, donationHistoryRouter} from "./payments";
-import {emailRouter} from "./payments/email";
-
+import {orderRouter, linkPaymentRouter, donationHistoryRouter} from "./payments";
 
 export const routes = Router();
 
-// routes.use('/seeder', seederRouter)
 routes.use("/send", send);
 routes.use("/search", searchRouter);
 routes.use("/favorite", favoriteRouter);
@@ -45,8 +23,6 @@ routes.use("/link", link);
 routes.use("/chargeJson", chargeJson);
 routes.use("/charge", charge);
 routes.use("/chargedb", chargeTables);
-// routes.use('/chargeAlbum', chargeAlbum)
-// routes.use('/chargeGenre', chargeGenre)
 routes.use('/artist', artistRouter)
 routes.use('/album', albumRouter)
 routes.use('/genre', genreRouter)
@@ -69,8 +45,6 @@ routes.use('/song', songRouter)
 routes.use('/artistpanel/stats', artistStatsRouter)
 routes.use('/albumPatcher', albumPatcher)
 routes.use('/order', orderRouter)
-routes.use('/webhook', webhookRouter)
 routes.use('/linkPayment', linkPaymentRouter)
 routes.use('/descriptionPatcher', artistdescriptionRouter)
-routes.use('/email', emailRouter)
 routes.use('/order/history', donationHistoryRouter)

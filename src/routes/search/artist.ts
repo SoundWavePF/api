@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import db from '../../models/db'
-import { Song } from '../../interfaces'
+import { Song, DonationsArtistHistory } from '../../interfaces'
 
 export const artistRouter = Router();
 
@@ -11,8 +11,8 @@ artistRouter.get('/all', async (_req, res) => {
             include: [{ model: db.album, attributes: { exclude: ['artistId', 'genreId'] } }, { model: db.song, attributes: { exclude: ['artist_id_reference', 'genre_id_reference', 'album_id_reference', 'albumId'] }, include: [{ model: db.album, attributes: ['name'] }, { model: db.artist, attributes: ['name'] }, { model: db.user, attributes: { exclude: ['password', 'email'] } }] }]
         })
         return res.send(artistsOnDb)
-    } catch (e) {
-        return res.send({ message: e })
+    } catch (e:any) {
+        return res.send({ message: e.message })
     }
 })
 
@@ -26,19 +26,13 @@ artistRouter.get('/:artistId', async (req, res) => {
                     { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
                     { model: db.album, attributes: ['name', 'id'] }
                 ]
-            },
-                // {model: db.donation, where:{status: 'success'}, include: [{ model: db.user, attributes: { exclude: ['password', 'email'] } }]}
-            ]})
+            }]})
         const donations = await db.donation.findAll({where: {artistId}, order:[['createdAt', 'DESC']], include: [{model: db.user}]});
-        let onlySuccess = donations.filter((donation:any) => donation.status === 'success');
+        let onlySuccess = donations.filter((donation:DonationsArtistHistory) => donation.status === 'success');
         let artistWithDonations = { ...artist.dataValues, donations: onlySuccess }
         return res.send(artistWithDonations)
-        // include: [
-        //     { model: db.artist, attributes: ['id', 'dz_Id', 'name'] },
-        //     { model: db.album, attributes: ['name'] }
-        // ]
-    } catch (e) {
-        return res.send({ message: e })
+    } catch (e:any) {
+        return res.send({ message: e.message })
     }
 })
 
@@ -61,8 +55,8 @@ artistRouter.get('/:artistId/top', async (req, res) => {
         else {
             return res.send(artistTopSongs)
         }
-    } catch (e) {
-        return res.send({ message: e })
+    } catch (e: any) {
+        return res.send({ message: e.message })
     }
 
 

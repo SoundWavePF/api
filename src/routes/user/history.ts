@@ -1,5 +1,6 @@
 import {Router} from "express";
 import db from "../../models/db";
+import {DonationsUserHistory} from "../../interfaces";
 
 export const historyRouter = Router();
 
@@ -10,7 +11,7 @@ historyRouter.post('/', async (req, res) => {
         if(email === undefined) {
             return res.send({message: 'Email is required'});
         }
-        let history:any[] = [];
+        let history:DonationsUserHistory[] = [];
         const user = await db.user.findOne({where: {email: email}, include: [{model: db.played}]});
         if(!user) {
             return res.send({message: 'User not found'});
@@ -19,10 +20,6 @@ historyRouter.post('/', async (req, res) => {
             const song = await db.song.findOne({where: {id: played.songId}, include: [{model: db.artist, attributes: ['id', 'name']}, {model: db.album, attributes: ['id', 'name']}]});
             history.push(song);
         }
-        // await Promise.all(user.playeds.map(async(played:any) => {
-        //     const song = await db.song.findOne({where: {id: played.songId}, include: [{model: db.album, attributes:['id', 'name']}, {model: db.artist, attributes:['id','name']}]});
-        //     history.push(song);
-        // }))
         const obj = {
             id: user.id,
             username: user.username,

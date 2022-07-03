@@ -1,6 +1,5 @@
 import {Router} from "express";
 import db from "../../models/db";
-import {artistRouter} from "../search";
 
 export const artistProfileRouter = Router();
 

@@ -1,5 +1,6 @@
 import {Router} from "express";
 import db from "../../models/db";
+import {ArtistInAlbum} from "../../interfaces";
 
 export const artistSongRouter = Router();
 
@@ -20,24 +21,13 @@ artistSongRouter.post('/create', async (req, res) => {
         })
         let album;
         let createdAlbum;
-        // if (albumName) {
-        //     [album, createdAlbum] = await db.album.findOrCreate({
-        //         where: {name: albumName},
-        //         name: albumName,
-        //         artist: artist.name,
-        //         release_date: new Date().toISOString().split('T')[0],
-        //     })
-        // } else
-            if (albumId) {
+        if (albumId) {
             album = await db.album.findOne({where: {id: albumId}});
         } else {
             album = await db.album.create({
                 name: `${songName} - Single`,
                 artist: artist.name,
                 release_date: new Date().toISOString().split('T')[0],
-                // image_small: image,
-                // image_medium: image,
-                // image_big: image,
             })
         }
         if (createdAlbum) {
@@ -73,13 +63,25 @@ artistSongRouter.post('/delete', async (req, res) => {
     }
     try {
         const user = await db.user.findOne({where: {email: email}});
+        if(!user) {
+            return res.send({message: 'User not found'});
+        }
         const songD = await db.song.findOne({where: {id: songId}, include: [{model: db.album, include: [{model: db.artist}]}]});
+        if(!songD) {
+            return res.send({message: 'Song not found'});
+        }
         const artist = await db.artist.findOne({where: {userId: user.id}});
-        // if(songD.album.artist.id !== artist.id) {
-        //     return res.send({message: 'You are not the artist of this song'});
-        // }
+        if(!artist) {
+            return res.send({message: 'Artist not found'});
+        }
+        let artistChecker = songD.album.artists.filter((artistInAlbum: ArtistInAlbum) => artistInAlbum.id === artist.id);
+        if(artistChecker.length === 0) {
+            return res.send({message: 'You are not the artist of this song'});
+        }
         const played = await db.played.findOne({where: {songId: songId}});
-        await played.destroy();
+        if(played) {
+            await played.destroy();
+        }
         await artist.removeSong(songD);
         if(songD.album.name.includes("- Single")){
             await songD.destroy();
@@ -101,12 +103,22 @@ artistSongRouter.post('/update', async (req, res) => {
             return res.send({message: 'Missing parameters'});
         }
         const user = await db.user.findOne({where: {email: email}});
+        if(!user) {
+            return res.send({message: 'User not found'});
+        }
         const artist = await db.artist.findOne({where: {userId: user.id}});
+        if(!artist) {
+            return res.send({message: 'Artist not found'});
+        }
         const song = await db.song.findOne({where: {id: songId}});
-        const albumOld = await db.album.findOne({where: {id: song.albumId}});
-        // if(albumOld.artist !== artist.name){
-        //     return res.send({message: 'You are not the artist of this song'});
-        // }
+        if(!song) {
+            return res.send({message: 'Song not found'});
+        }
+        const albumOld = await db.album.findOne({where: {id: song.albumId}, include: [{model: db.artist}]});
+        const artistInAlbum = albumOld.artists.filter((artistInAlbum: ArtistInAlbum) => artistInAlbum.id === artist.id);
+        if(artistInAlbum.length === 0) {
+            return res.send({message: 'You are not the artist of this song'});
+        }
         albumOld.removeSong(song);
         const albumNew = await db.album.findOne({where: {id: albumId}});
         albumNew.addSong(song);
@@ -124,7 +136,6 @@ artistSongRouter.post('/update', async (req, res) => {
 
 artistSongRouter.post('/createAlbum', async (req, res) => {
     const { userEmail, songs, albumName } = req.body;
-    //songs = [{songName, duration, preview}]
     if(!userEmail || !songs || !albumName) {
         return res.send({message: 'Missing parameters'});
     }

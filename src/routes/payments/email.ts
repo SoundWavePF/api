@@ -5,7 +5,6 @@ var nodemailer = require('nodemailer');
 export const emailRouter = Router();
 import moment from 'moment';
 
-//create nodemailer transporter for gmail account
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -22,9 +21,9 @@ emailRouter.get('/donation', async (req, res) => {
     let date = moment().format("YYYY-MM-DD");
     const {artist, donatorEmail, amount, orderId} = req.body;
     const mailOptions = {
-        from: process.env.EMAIL_USER, // sender address
-        to: donatorEmail, // list of receivers
-        subject: 'Donation Received', // Subject line
+        from: process.env.EMAIL_USER,
+        to: donatorEmail,
+        subject: 'Donation Received',
         html: `
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
