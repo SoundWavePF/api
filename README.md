@@ -5,11 +5,19 @@
 Create your `.env` file with this template
 
 ```
-DB_USER="user"
-DB_PASSWORD="password"
-DB_HOST="host"
-DB_NAME="database"
-PORT="port"
+API_URL=yourBackEnd
+CLIENT_URL=yourFrontEnd
+DB_HOST=dbhost
+DB_NAME=dbname
+DB_PASSWORD=dbpassword
+DB_PORT=dbport
+DB_USER=dbuser
+EMAIL_PASSWORD=password
+EMAIL_USER=email
+OAUTH_CLIENTID=googleOauthClientId
+OAUTH_CLIENT_SECRET=googleOauthSecret
+OAUTH_REFRESH_TOKEN=googleRefreshToken
+STRIPE_SECRET_KEY=stripeKey
 ```
 ### Install dependencies
 Run `npm install` to install all modules listed as dependencies in package.json
