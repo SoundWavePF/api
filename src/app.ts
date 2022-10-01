@@ -1,10 +1,12 @@
 import express from 'express';
 import {routes} from './routes'
 // const cookieParser = require('cookie-parser');
+import cors from "cors";
 const session = require('express-session');
 
 export const server = express();
 
+server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
 // server.use(cookieParser('secret'));
