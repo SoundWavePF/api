@@ -17,7 +17,7 @@ function getRandomInt(max:number) {
 }
 
 app.get('/one', async (_req, res) => {
-    albumApi.map(async (element: any) => {
+    albumApi.slice(0, 5).map(async (element: any) => {
         await album.findOrCreate({
             where: { dz_Id: element.id },
             defaults: {
@@ -31,7 +31,7 @@ app.get('/one', async (_req, res) => {
             }
         })
     })
-    songApiAux.map(async (element: any) => {
+    songApiAux.slice(0, 100).map(async (element: any) => {
         await song.findOrCreate({
             where: { dz_Id: element.id },
             defaults: {
@@ -48,7 +48,7 @@ app.get('/one', async (_req, res) => {
         })
     })
 
-    songGenreApi.map(async (song: any) => {
+    songGenreApi.slice(0,5).map(async (song: any) => {
         await songGenre.findOrCreate({
             where: { idSong: song.idSong, idGenre: song.idGenre },
             defaults: {
@@ -57,7 +57,7 @@ app.get('/one', async (_req, res) => {
             }
         })
     })
-    genreApi.map(async (element: any) => {
+    genreApi.slice(0,5).map(async (element: any) => {
         await genre.findOrCreate({
             where: { dz_Id: element.id },
             defaults: {
@@ -94,7 +94,7 @@ app.get('/one', async (_req, res) => {
 })
 
 app.get('/two', async (_req, res) => {
-    artistApi.map(async (element: any) => {
+    artistApi.slice(0,30).map(async (element: any) => {
         await artist.findOrCreate({
             where: { dz_Id: element.id },
             defaults: {
@@ -108,7 +108,7 @@ app.get('/two', async (_req, res) => {
         })
     })
 
-    artist_Song.map(async (element: any) => {
+    artist_Song.slice(0,30).map(async (element: any) => {
         await artistSong.findOrCreate({
             where: { idSong: element.idSong, idArtist: element.idArtist },
             defaults: {
@@ -118,7 +118,7 @@ app.get('/two', async (_req, res) => {
         })
     })
 
-    albumApi.map(async (element: any) => {
+    albumApi.slice(0,5).map(async (element: any) => {
         const albumId = element.id
         element.genres.map(async (element: any) => {
             await albumGenre.findOrCreate({
@@ -130,7 +130,7 @@ app.get('/two', async (_req, res) => {
             })
         })
     })
-    albumApi.map(async (element: any) => {
+    albumApi.slice(0,5).map(async (element: any) => {
         const genreId = element.id
         element.artists.map(async (e: any) => {
             await artistAlbum.findOrCreate({
