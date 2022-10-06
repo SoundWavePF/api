@@ -11,7 +11,7 @@ server.use(express.json())
 let reload = false;
 
 db.sequelize.sync({ force: reload }).then(() => {
-    server.listen(Number(process.env.PORT), 'localhost', async() => {
+    server.listen(process.env.PORT, async() => {
         console.log(`Listening in port ${process.env.PORT}`)
 
         if(reload){
