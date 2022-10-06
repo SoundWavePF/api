@@ -12,7 +12,7 @@ artistdescriptionRouter.get('/', async (_req, res) => {
         try{
             artistDb = await db.artist.findOne({where: {dz_Id: artist.id}});
             if(!artistDb) {
-                return console.log('not found');
+                return console.log(`${artist.name} not found in DB`);
             }
             let page = await wiki.page(artistDb.name);
             let summary = await page.summary();

@@ -8,8 +8,10 @@ export const albumPatcher = Router();
 albumPatcher.get('/', async (_req, res) => {
     await Promise.all(albumJson.map(async(album) => {
         const albumAux = await db.album.findOne({where: {dz_Id: album.id}})
-        albumAux.artist = album.artist.name
-        albumAux.save()
+        if(albumAux){
+            albumAux.artist = album.artist.name
+            albumAux.save()
+        }
     }))
     return res.send({message: 'Albums patched'})
 })

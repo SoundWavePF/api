@@ -87,7 +87,9 @@ app.get('/one', async (_req, res) => {
     song_Album.map(async (element: any) => {
         const songDb = await song.findOne({ where: { dz_Id: element.idSong } })
         const albumDb = await album.findOne({ where: { dz_Id: element.idAlbum } })
-        albumDb.addSong(songDb)
+        if(songDb && albumDb) {
+            albumDb.addSong(songDb)
+        };
     })
 
     res.send('Charger Successfully One')
@@ -149,7 +151,9 @@ app.get('/two', async (_req, res) => {
     song_Album.map(async (element: any) => {
         const songDb = await song.findOne({ where: { dz_Id: element.idSong } })
         const albumDb = await album.findOne({ where: { dz_Id: element.idAlbum } })
-        albumDb.addSong(songDb)
+        if(songDb && albumDb){
+            albumDb.addSong(songDb);
+        }
     })
 
     // song artist
@@ -157,7 +161,9 @@ app.get('/two', async (_req, res) => {
     artistSongDb.map(async (element: any) => {
         const songDb = await song.findOne({ where: { dz_Id: element.idSong } })
         const artistDb = await artist.findOne({ where: { dz_Id: element.idArtist } })
-        songDb.addArtist(artistDb)
+        if(songDb && artistDb){
+            songDb.addArtist(artistDb);
+        }
     })
 
 
