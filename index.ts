@@ -8,7 +8,7 @@ server.use(express.json())
 
 //if reload is false, it will not reload the database
 //if reload is true, it will reload the database
-let reload = true;
+let reload = false;
 
 db.sequelize.sync({ force: reload }).then(() => {
     server.listen(Number(process.env.PORT), 'localhost', async() => {
