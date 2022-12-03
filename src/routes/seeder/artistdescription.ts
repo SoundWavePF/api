@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import db from '../../models/db';
 import artistApi from '../charge/artistApi.json';
-const wiki = require('wikipedia');
+import wiki from 'wikipedia';
 
 export const artistdescriptionRouter = Router();
 
@@ -39,7 +39,7 @@ artistdescriptionRouter.get('/', async (_req, res) => {
         } catch(err){
             artistDb.description = 'No description found';
             await artistDb.save();
-            return console.log(`${artistDb.name} description updated`);
+            return console.log(`No description found for ${artistDb.name}`);
         }
     });
     return res.send('done');

@@ -2,19 +2,28 @@ import express from 'express';
 import {routes} from './routes'
 // const cookieParser = require('cookie-parser');
 import cors from "cors";
-const session = require('cookie-session');
+import passport from 'passport';
+// const session = require('cookie-session');
+// import session from 'express-session'
 
+// TODO: REMOVE UNUSED IMPORTS
 export const server = express();
 
-// server.use(cors());
+server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
+server.use(passport.initialize());
+
+require('./config/passport');
+require('./config/passport-google');
+
 // server.use(cookieParser('secret'));
-server.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
-}));
+// server.use(session({
+//     secret: process.env.SESSION_SECRET!,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false }
+// }));
 server.set('views', __dirname + '/views');
 server.set("view engine", "ejs");
 server.use((_req, res, next) => {

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import send from "./send/send";
 import {searchRouter, artistRouter, albumRouter, genreRouter, topRouter, songRouter,} from "./search";
-import {favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter, playRouter, historyRouter,} from "./user";
+import {favoriteRouter, playlistRouter, registerRouter, loginRouter, authRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter, playRouter, historyRouter} from "./user";
 import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
@@ -48,3 +48,4 @@ routes.use('/order', orderRouter)
 routes.use('/linkPayment', linkPaymentRouter)
 routes.use('/descriptionPatcher', artistdescriptionRouter)
 routes.use('/order/history', donationHistoryRouter)
+routes.use('/auth', authRouter);

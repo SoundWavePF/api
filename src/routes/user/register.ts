@@ -43,7 +43,6 @@ passport.use('register', new localStrategy({
 registerRouter.post('/', passport.authenticate('register', {session: false}), async (req:any, res:any) => {
     const {email} = req.user;
     const user = await db.user.findOne({where: {email}})
-    console.log(user)
     const token = jwt.sign({id: user.id, username: user.id, email: user.email}, 'secret');
     res.send({
             message: 'success',

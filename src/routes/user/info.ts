@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import db from '../../models/db';
+import passport from 'passport';
 
 export const infoRouter = Router();
 
@@ -11,4 +12,8 @@ infoRouter.post('/', async (req, res) => {
     } catch(err){
         return res.status(500).send({message: 'Error'})
     }
+})
+
+infoRouter.get('/verify', passport.authenticate('jwt', {session: false}), (req, res) => {
+    res.send(req.user)
 })

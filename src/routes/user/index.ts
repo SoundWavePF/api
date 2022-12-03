@@ -6,3 +6,4 @@ export * from './edit';
 export * from './info';
 export * from './play';
 export * from './history';
+export * from './signup';
