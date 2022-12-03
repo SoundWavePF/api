@@ -5,3 +5,5 @@ export * from './albumResult';
 export * from './ArtistInAlbum';
 export * from './albumInStats';
 export * from './donationHistory';
+export * from './dbError';
+export * from './userOnDb';

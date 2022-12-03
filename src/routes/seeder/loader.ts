@@ -1,6 +1,7 @@
 import {Router} from "express";
 import db from "../../models/db";
 const bcrypt = require('bcrypt');
+import axios from "axios";
 
 const cleanEmail = (text: string) => {
     let desired = text.replace(/[^\w\s]/gi, '')
@@ -19,7 +20,7 @@ export const artistAsUserRouter = Router();
 artistAsUserRouter.get('/', async (_req, res) => {
     const artists = await db.artist.findAll();
     artists.map(async(artist:any) => {
-        const hashedPassword = await bcrypt.hash('password', 10);
+        const hashedPassword = await bcrypt.hash(process.env.GENERATED_ARTISTS_PASSWORD, 10);
         const [user, created] = await db.user.findOrCreate(
             {where: {email: cleanEmail(artist.name)}, defaults: {
             email: cleanEmail(artist.name),
@@ -33,5 +34,14 @@ artistAsUserRouter.get('/', async (_req, res) => {
             await artist.setUser(user);
         }
     })
+    const {data} = await axios.post(`${process.env.API_URL}/auth/signup`, {
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD
+    })
+    if(data.success){
+        const admin = await db.user.findOne({where: {email: process.env.ADMIN_EMAIL }})
+        admin.rol = 'admin';
+        await admin.save();
+    }
     return res.send({message: 'Artists as users created'});
 })
