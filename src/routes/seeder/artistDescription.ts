@@ -3,10 +3,10 @@ import db from '../../models/db';
 import artistApi from '../charge/artistApi.json';
 import wiki from 'wikipedia';
 
-export const artistdescriptionRouter = Router();
+export const artistDescriptionPatcher = Router();
 
 
-artistdescriptionRouter.get('/', async (_req, res) => {
+artistDescriptionPatcher.get('/', async (_req, res) => {
     artistApi.map(async (artist) => {
         let artistDb;
         try{

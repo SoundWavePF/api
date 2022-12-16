@@ -10,7 +10,7 @@ import songApi from "./songApi.json";
 const songApiAux: any = songApi
 
 import db from '../../models/db'
-const { ArtistId, Artist, Song, ArtistSong, SongGenre } = db;
+const { ArtistSong, SongGenre } = db;
 const app = Router()
 
 app.get('/twoAlbum', async (_req, res) => {
@@ -73,7 +73,6 @@ app.get('/albumJson', async (_req, res) => {
 
     const idAlbumRequest = [...new Set(idSongIdAlbum.map((element: any) => element.idAlbum))]
     let arrAlbum = [];
-    // for (let i = 0; i < idAlbumRequest.length; i++) {
     for (let i = 0; i < 3; i++) {
         const id = idAlbumRequest[i]
         const album = await axios.get(`https://api.deezer.com/album/${id}`)
@@ -91,15 +90,12 @@ app.get('/albumJson', async (_req, res) => {
         arrAlbum.push(obj)
     }
 
-    // res.send(idAlbumRequest)
     res.send(arrAlbum)
-    // res.send('art')
 })
 app.get('/songApi', async (_req, res) => {
 
     const idSongRequest = [...new Set(idSongIdAlbum.map((element: any) => element.idSong))]
     let arrSong = [];
-    // for (let i = 0; i < idSongRequest.length; i++) {
     for (let i = 0; i < 3; i++) {
         const id = idSongRequest[i]
         const song = await axios.get(`https://api.deezer.com/track/${id}`)
@@ -117,10 +113,8 @@ app.get('/songApi', async (_req, res) => {
         }
         arrSong.push(obj)
     }
-
-    // res.send(idAlbumRequest)
     res.send(arrSong)
-    // res.send('art')
+
 })
 app.get('/genreApi', async (_req, res) => {
     let idGenreRequest: any[] = []
@@ -128,7 +122,6 @@ app.get('/genreApi', async (_req, res) => {
     const genreRequest = [...new Set(idGenreRequest)]
     let arrGenre = [];
     for (let i = 0; i < genreRequest.length; i++) {
-        // for (let i = 0; i < 3; i++) {
         const id = genreRequest[i]
         const genre = await axios.get(`https://api.deezer.com/genre/${id}`)
         const obj = {
@@ -142,9 +135,7 @@ app.get('/genreApi', async (_req, res) => {
         arrGenre.push(obj)
     }
 
-    // res.send(idAlbumRequest)
     res.send(arrGenre)
-    // res.send('art')
 })
 app.get('/artistApi', async (_req, res) => {
     let idArtistRequest: any[] = []
@@ -153,7 +144,6 @@ app.get('/artistApi', async (_req, res) => {
     const artistRequest = [...new Set(idArtistRequest)]
     console.log(artistRequest.length)
     let arrArtist = [];
-    // for (let i = 0; i < artistRequest.length; i++) {
     for (let i = 0; i < 3; i++) {
         const id = artistRequest[i]
         const artist = await axios.get(`https://api.deezer.com/artist/${id}`)
@@ -168,23 +158,17 @@ app.get('/artistApi', async (_req, res) => {
         arrArtist.push(obj)
     }
 
-    // res.send(idAlbumRequest)
     res.send(arrArtist)
-    // res.send('art')
 })
 app.get('/artistSong', async (_req, res) => {
 
     const artistSong = await ArtistSong.findAll()
-    // res.send(idAlbumRequest)
     res.send(artistSong)
-    // res.send('art')
 })
 app.get('/songGenre', async (_req, res) => {
 
     const songGenre = await SongGenre.findAll()
-    // res.send(idAlbumRequest)
     res.send(songGenre)
-    // res.send('art')
 })
 
 
