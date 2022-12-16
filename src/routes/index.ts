@@ -1,16 +1,14 @@
 import { Router } from "express";
 import send from "./send/send";
 import {searchRouter, artistRouter, albumRouter, genreRouter, topRouter, songRouter,} from "./search";
-import {favoriteRouter, playlistRouter, registerRouter, loginRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter, playRouter, historyRouter,} from "./user";
+import {favoriteRouter, playlistRouter, authRouter, updateRouter, artistRequestRouter, deactivateRouter, infoRouter, playRouter, historyRouter} from "./user";
 import link from "./link/link";
 import chargeJson from "./charge/chargeJson";
 import charge from "./charge/charge";
 import chargeTables from "./charge/chargeTables";
 import {adminRouter} from "./admin";
 import {artistSongRouter, artistAlbumRouter, artistProfileRouter, artistDescriptionRouter, artistStatsRouter} from "./artist";
-import {artistAsUserRouter} from "./seeder/loader";
-import {albumPatcher} from "./seeder/albumPatcher";
-import {artistdescriptionRouter} from "./seeder/artistdescription";
+import { albumPatcher, artistDescriptionPatcher, artistAsUserRouter } from "./seeder";
 import {orderRouter, linkPaymentRouter, donationHistoryRouter} from "./payments";
 
 export const routes = Router();
@@ -27,8 +25,6 @@ routes.use('/artist', artistRouter)
 routes.use('/album', albumRouter)
 routes.use('/genre', genreRouter)
 routes.use('/top', topRouter)
-routes.use('/register', registerRouter)
-routes.use('/login', loginRouter)
 routes.use('/update', updateRouter)
 routes.use('/admin', adminRouter)
 routes.use('/requestArtistStatus', artistRequestRouter)
@@ -46,5 +42,6 @@ routes.use('/artistpanel/stats', artistStatsRouter)
 routes.use('/albumPatcher', albumPatcher)
 routes.use('/order', orderRouter)
 routes.use('/linkPayment', linkPaymentRouter)
-routes.use('/descriptionPatcher', artistdescriptionRouter)
+routes.use('/descriptionPatcher', artistDescriptionPatcher)
 routes.use('/order/history', donationHistoryRouter)
+routes.use('/auth', authRouter);

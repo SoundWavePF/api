@@ -6,7 +6,6 @@ export const playlistRouter = Router();
 playlistRouter.post("/", async (req, res) => {
     try {
         const { email } = req.body;
-        console.log(req.body);
         const user = await db.user.findOne({ where: { email: email } });
 
         const userPlaylist = await db.playlist.findAll({

@@ -327,7 +327,7 @@ table, td { color: #000000; } a { color: #0000ee; text-decoration: underline; } 
 
 </html>
 
-    `// plain text body
+    `
     };
     transporter.sendMail(mailOptions, function (err:any, info:any) {
         if(err)
